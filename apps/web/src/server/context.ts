@@ -2,10 +2,10 @@ import type { Context } from "@kenpathlabs/api/context";
 
 import { ENV } from "@/env";
 
-import { auth, db } from "./services";
+import { db, readSession } from "./services";
 
 export async function createContext(req: Request): Promise<Context> {
-  const session = await auth.api.getSession({ headers: req.headers });
+  const session = await readSession(req.headers);
   return { db, session, now: serverNow(req) };
 }
 

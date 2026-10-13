@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { ensureAnonymousSession } from "@/lib/auth-client";
+import { authClient, ensureAnonymousSession } from "@/lib/auth-client";
 
 import Loader from "./loader";
 
 // Holds the app until a session exists, so the first game queries are never UNAUTHORIZED.
-// `hasSession` comes from the server, so returning visitors skip a get-session round trip.
+// `hasSession` comes from the server, so returning visitors skip a get-session round trip before rendering.
 export default function AnonymousSession({
   hasSession,
   children,
@@ -18,6 +18,12 @@ export default function AnonymousSession({
 }) {
   const [ready, setReady] = useState(hasSession);
   const [attempt, setAttempt] = useState(0);
+
+  // Extends the session cookie (see readSession). Not awaited, so it never holds up the queries.
+  // A failure is harmless: the next load tries again.
+  useEffect(() => {
+    if (hasSession) authClient.getSession().catch(() => {});
+  }, [hasSession]);
 
   useEffect(() => {
     if (ready) return;

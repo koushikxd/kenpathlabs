@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import "../index.css";
 import Header from "@/components/header";
 import Providers from "@/components/providers";
-import { auth } from "@/server/services";
+import { readSession } from "@/server/services";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +27,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await readSession(await headers());
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
