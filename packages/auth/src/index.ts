@@ -3,6 +3,8 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { anonymous, username } from "better-auth/plugins";
 
+import { mergeAnonymousProgress } from "./merge";
+
 export type AuthConfig = {
   BETTER_AUTH_URL: string;
   BETTER_AUTH_SECRET: string;
@@ -16,6 +18,12 @@ export function createAuth(env: AuthConfig, database: Database) {
     emailAndPassword: { enabled: true },
     secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
-    plugins: [anonymous(), username()],
+    plugins: [
+      anonymous({
+        onLinkAccount: ({ anonymousUser, newUser }) =>
+          mergeAnonymousProgress(database, anonymousUser.user.id, newUser.user.id),
+      }),
+      username(),
+    ],
   });
 }

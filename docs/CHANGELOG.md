@@ -14,6 +14,19 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #10 Merge anonymous progress on sign-up and sign-in
+
+Shipped: `mergeAnonymousProgress(db, fromUserId, toUserId)` in `packages/auth/src/merge.ts`, wired as `anonymous({ onLinkAccount })` in `createAuth`. Every day the anonymous user played that the target account has not played moves across: its attempts, its `round` entries (`ref` starting `"<day>:"`) and its `perfect` and `streak` entries (`ref` equal to `"<day>"`). Everything else goes with the anonymous user when Better-Auth deletes it (cascade).
+
+Decisions:
+
+- Better-Auth 1.7.3 runs `onLinkAccount` from an after-hook on paths starting `/sign-in`, `/sign-up` or `/callback`, only when the response sets a new session and the request carried an anonymous one. For us that is `/sign-up/email`, `/sign-in/email` and `/sign-in/username`. It deletes the anonymous user only after the callback returns, so a failed merge keeps the anonymous user and loses nothing. Whether the new session cookie still reaches the client in that case is not verified.
+- Sign-up uses the same path as sign-in: a new account has no attempts, so every day moves.
+- One interactive transaction. No unique conflict is possible on a moved day, because the target has no attempts that day and point entries only come from attempts. Anonymous users never get `seed` entries.
+- Race accepted: if the account answers a round on another device mid-merge, the moved attempt hits `(userId, day, roundId)`, the transaction rolls back and the anonymous user is kept. No serializable isolation.
+- Starting a new anonymous session after sign-out is client behaviour, left to the UI issues.
+- Verified manually (no answer procedure or Playwright yet): `curl` against `/api/auth` plus `psql` inserts. Sign-up after playing today moved all attempts and entries. Sign-in with the anonymous user having played today and yesterday, for an account that had played today, moved only yesterday's attempts and `round`, `perfect` and `streak` entries. In both cases no rows referenced the anonymous id afterwards. Automated coverage lands with the Playwright suite.
+
 ## #9 Seed 20 bot players
 
 Shipped: `pnpm db:seed:players` (`packages/db/src/seed-players.ts`) creates 20 bot users and one `seed` point entry each for the current season. Bot ids are `bot-<username>`, emails `<username>@bots.invalid`, `isBot = true`, `displayUsername` equals `username`, and there is no `account` row, so no login path exists. The entry has `reason: "seed"`, `ref` set to the season number and `createdAt` now, so it falls inside the season window.
