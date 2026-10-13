@@ -14,6 +14,42 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #16 Today: status header and activity graph
+
+Shipped:
+
+- `ActivityGraph({ graph: GraphCell[] })` and `ActivityGraphSkeleton` (`components/activity-graph.tsx`). It takes only the graph, so #19 (`me.get.graph`) and #20 (`profile.byUsername.graph`) pass theirs straight in. `GraphCell` is imported as a type from `@kenpathlabs/api/game/history`.
+- `TodayStatus({ streak, freezes, season })` and `TodayStatusSkeleton` (`components/today-status.tsx`): one bordered row of three stats in a `<dl>`.
+- The Today page (`(dock)/page.tsx`) is a client component on `game.today`: skeleton while pending (faded in after 500ms), the inline error block `Could not load today.` on error (the query cache already toasts with a retry), and on success the status row, then the graph, then a commented slot where #17's round card or done state goes. It has a visually hidden `<h1>Today</h1>`, since the dock already names the screen.
+
+Decisions:
+
+- Graph layout: `grid-flow-col grid-rows-7 grid-cols-20`, so each column is a week, Monday on top (the first cell is always a Monday), and the height is always 7 rows whatever the cell count (134 to 140). The last column is partial, no filler cells. `gap-[3px]` is the one arbitrary value: 2px blurs 15px cells together, 4px wastes width.
+- Shades: `correct` 0 is `bg-muted`, 1 to 5 are `bg-brand/20`, `/40`, `/60`, `/80`, `bg-brand`. A frozen day is `bg-frozen`. The last cell (always today) has a 1px foreground outline. Cells and legend swatches are `rounded-xs` (2px): `rounded-sm` is 6px, which turned 15px cells into circles, and DESIGN keeps circles for controls.
+- Each cell has one label used as both `title` and `sr-only` text: `Mon 12 Oct: 3 of 5 correct`, `Tue 13 Oct: frozen`, `Today, ` on the last cell. Dates are `toLocaleDateString("en-GB", { timeZone: "UTC", weekday: "short", day: "numeric", month: "short" })` on `${day}T00:00:00Z`, so the device's zone cannot shift the day. en-GB abbreviates September as `Sept`.
+- The data cannot tell a missed day from a played 0/5 day (both `correct: 0`), so both say `0 of 5 correct` and share the 0 shade. The visible summary, `Played n of the last N days · f frozen`, counts "played" as `correct > 0`.
+- The legend (`Less`, six swatches, `More`, then `Frozen`) is `aria-hidden`: with only the swatches hidden it read as "LessMore", and every cell already names its own state.
+- The freeze cap `2` is a literal (`MAX_FREEZES` in `today-status.tsx`). The api's constant is not exported, and the cap is a product rule.
+- The skeleton keeps icons, labels, the graph heading and the legend, and swaps only the values (`Skeleton h-7 w-8`), the cells (140 muted, one `animate-pulse` on the `<ol>`) and the summary line, so nothing moves when data lands.
+- The verification history is a one-off `psql` insert, not a committed script. Run with `-v uid=<user id>` (take the id from an in-page `fetch('/api/auth/get-session')`): 60 past days, `g % 6` correct per day, days 46, 37, 36, 20, 19, 18 and 9 missed, which gives every shade, frozen cells and a reset.
+
+  ```sql
+  INSERT INTO "Attempt" (id, "userId", day, "roundId", "statementId", correct)
+  SELECT gen_random_uuid()::text, :'uid',
+         to_char((now() AT TIME ZONE 'Asia/Kolkata')::date - g, 'YYYY-MM-DD'),
+         r.id, s.id, (r.position % 5) < (g % 6)
+  FROM generate_series(1, 60) g
+  CROSS JOIN LATERAL (SELECT id, position FROM "Round" ORDER BY position LIMIT 5) r
+  CROSS JOIN LATERAL (SELECT id FROM "Statement" WHERE "roundId" = r.id ORDER BY id LIMIT 1) s
+  WHERE g NOT IN (46, 37, 36, 20, 19, 18, 9);
+  ```
+
+- Verified with `playwright-cli` (Helium) against `next dev` at 393x851. With the seeded user, the header showed 16 / `1/2` / 1, equal to an in-page `fetch` of `game.today`. The grid had 136 cells, equal to `graph.length`, 6 `bg-frozen` cells equal to the `frozen: true` count, exactly one outlined cell (the last), cells 15.2px wide. The accessibility tree listed every cell label from `Mon 1 Jun` to `Today, Wed 14 Oct` and the summary `Played 45 of the last 136 days · 6 frozen`, and the region resolves to the name "Last 20 weeks". With `game.today` held back 4s, the skeleton's graph `<ol>` was 124.42px tall, the same as loaded, and the status row (82px) and graph section (208.42px) matched too. A forced 500 showed the error block. On a phone-width screen the existing query-error toast covers the dock; left for the UI polish issues.
+
+Deviations:
+
+- Screenshots are dark only, not the issue's light and dark, because the app is dark only by product owner decision (#1).
+
 ## #15 App shell: dock, layout, accent
 
 Shipped:
