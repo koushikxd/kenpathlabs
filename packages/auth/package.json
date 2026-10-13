@@ -1,0 +1,24 @@
+{
+  "name": "@kenpathlabs/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@kenpathlabs/db": "workspace:*",
+    "better-auth": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@kenpathlabs/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

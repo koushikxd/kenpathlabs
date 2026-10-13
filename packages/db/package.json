@@ -1,0 +1,34 @@
+{
+  "name": "@kenpathlabs/db",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "db:start": "docker compose up -d",
+    "db:watch": "docker compose up",
+    "db:stop": "docker compose stop",
+    "db:down": "docker compose down"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.3",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@kenpathlabs/config": "workspace:*",
+    "prisma": "6.19.3",
+    "typescript": "catalog:",
+    "varlock": "catalog:"
+  }
+}

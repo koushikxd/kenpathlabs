@@ -1,0 +1,26 @@
+{
+  "name": "@kenpathlabs/api",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@kenpathlabs/auth": "workspace:*",
+    "@kenpathlabs/db": "workspace:*",
+    "@trpc/client": "catalog:",
+    "@trpc/server": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@kenpathlabs/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
