@@ -406,8 +406,9 @@ Focus is `focus-visible:border-ring focus-visible:ring-1 ring-ring/50`, press is
 `active:not-aria-[haspopup]:translate-y-px`, disabled is `opacity-50 pointer-events-none`.
 Icons are sized automatically; mark leading and trailing icons with
 `data-icon="inline-start"` / `data-icon="inline-end"` so the button tightens that side's
-padding. To render a button as a link or a menu trigger, pass `render={<Link href="…" />}`
-(Base UI's render prop, not `asChild`).
+padding. To render a button as a menu trigger, pass `render={…}` (Base UI's render prop,
+not `asChild`). A link styled as a button is `<Link className={buttonVariants(…)}>`: the
+render form gives the `<a>` `role="button"`.
 
 **Input** 32px, `rounded-md`, transparent background, `border-input`, `text-sm`. A search
 field is an `Input` with `className="pl-7.5"` and an absolutely positioned
@@ -424,7 +425,8 @@ not with `p-*`. Prefer a bordered `<ul>`, a `rounded-xl border` section, or a
 
 **Badge** 20px, `rounded-md`, `text-xs font-medium`. `secondary` for a neutral state
 ("Archived"), `outline` for a qualifier ("Paused", "Owner"), `destructive` for a failure,
-and `bg-success-muted text-success-foreground` for a positive state. Hover only applies
+`bg-success-muted text-success-foreground` for a positive state, and `brand`
+(`bg-brand/15 text-brand`) for the one standout rank, `da goat`. Hover only applies
 to link badges.
 
 **Dialog** / **AlertDialog** `rounded-2xl`, `p-6`, `gap-5`, `sm:max-w-sm`, ringed, with a

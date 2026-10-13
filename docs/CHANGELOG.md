@@ -14,6 +14,31 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #18 Board screen
+
+Shipped:
+
+- The Board page (`(dock)/board/page.tsx`), a client component on `board.season`: header `Season n` with `{time} left · Top 10 keep their badge when the season ends`, the ranked list, and a pinned slot.
+- `components/player-tags.tsx`: `RANK_LABEL` (`goat` → `da goat`, `10x` → `10x dev`), `RankBadge({ badge })` (renders nothing for `null`) and `BotTag`. #19 and #20 use them for the profile header and season awards.
+- `components/board-list.tsx`: `BoardRow({ row, isMe })`, `BoardList({ rows, myRank })`, `BoardListSkeleton`.
+- A `brand` variant on `Badge` (`packages/ui`), `bg-brand/15 text-brand`, documented in DESIGN.md. `cn` is not tailwind-merge, so a `className="bg-brand/15"` on the default variant would ship beside `bg-primary`.
+- A placeholder `app/u/[username]/page.tsx`. `typedRoutes` rejects a `Link` to `/u/${username}` until the route exists. #20 replaces it.
+
+Decisions:
+
+- Time left is `endsAt - serverTime`, so the test clock and a wrong device clock both work. Format: two units at most, floored (`4d 21h`, `5h 12m`, `12m`, `under a minute`). It does not tick: minute precision on a screen that refetches on focus is enough.
+- `da goat` uses the `brand` badge, `10x dev` uses `secondary`, so nine brand chips do not flood the board. `bot` is `outline`.
+- The pinned slot is `sticky` at `bottom-[calc(5rem+env(safe-area-inset-bottom))]`, the last child of `<main>`, ringed on `bg-popover` because it floats. While scrolling it sits 12px above the dock. At the end of the scroll it rests in place, so the dock layout's padding contract holds and the last row is never covered.
+- The pinned slot always shows the caller's row when they rank, even when that row is also visible in the list. The list row is also highlighted (`bg-brand/5`, `aria-current="true"`).
+- Anonymous: `Claim your account to get ranked.` with a `Sign up` button to `/me`. Signed in with no points this season: `No points this season yet. Play today’s rounds to get on the board.` with `Play` to `/`.
+- The whole row is the link (no row actions), with an inset focus ring. A row whose `username` is `null` (only possible for an account made outside our form) renders unlinked, without the `@` line.
+- Link-styled buttons are `<Link className={buttonVariants(…)}>`, not `<Button render={<Link />}>`. The render form logs a Base UI error unless `nativeButton={false}` is set, and with it the `<a>` gets `role="button"`, so screen readers announce a link as a button. Found in #20, applied to every link button in #18 to #20. DESIGN.md's Button paragraph now says so.
+- Verified with `playwright-cli` (Helium) against `next dev` (`ALLOW_TEST_CLOCK=true`) at 393x851, after `pnpm db:seed:players`. Anonymous: 22 rows (20 bots and 2 earlier test accounts), every bot tagged `bot`, `da goat` only on rank 1, `10x dev` on ranks 2 to 10 only, the claim prompt pinned with its link to `/me`, `4d 21h left` at 21:25Z on 13 Oct (season ends 18:30Z on 18 Oct). Signed up in-page and answered 5 rounds (2/5): pinned row and highlighted list row both `22 · Board Tester · 25`, equal to `board.season.me`. With a 500-point `seed` entry added by `psql`, the same user was rank 1 `da goat` at 525 in both places, and Priya Raman dropped to `10x dev`. A fresh sign-up with no answers showed the no-points line. Scrolled to the end, the last row ended 21px above the pinned slot, and the slot 28px above the dock. With `rows: []` the empty state showed above the pinned slot. With the query held 4s, the skeleton list was 505px tall and the loaded list's first 8 rows 503px plus its 2px border. A forced 500 showed `Could not load the board.` after React Query's retries. Clicking Priya Raman's row went to `/u/priya.ships`. Screenshots: anonymous top and end, ranked outside the top 10, da goat, signed in with no points, empty, loading, error.
+
+Deviations:
+
+- Screenshots are dark only, not the issue's light and dark, because the app is dark only by product owner decision (#1).
+
 ## #17 Today: round card, reveal and done state
 
 Shipped:
