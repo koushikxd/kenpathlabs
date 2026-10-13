@@ -11,7 +11,13 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       {children}
       <ReactQueryDevtools />
-      <Toaster richColors theme="dark" />
+      {/* At the top on phones, where it clears the dock; sonner adds no safe-area inset itself. */}
+      <Toaster
+        richColors
+        theme="dark"
+        position="top-center"
+        mobileOffset={{ top: "calc(1rem + env(safe-area-inset-top))" }}
+      />
     </QueryClientProvider>
   );
 }

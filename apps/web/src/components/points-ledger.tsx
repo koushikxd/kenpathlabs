@@ -43,7 +43,7 @@ export function PointsLedger({ ledger }: { ledger: Entry[] }) {
         </ul>
       ) : (
         <p className="rounded-xl border border-border px-3 py-3 text-xs text-pretty text-muted-foreground">
-          No points yet. Answer today’s rounds to earn your first.
+          No points yet. Answer today’s rounds to earn points.
         </p>
       )}
     </section>

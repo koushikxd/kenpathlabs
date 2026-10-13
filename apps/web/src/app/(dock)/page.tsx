@@ -22,17 +22,14 @@ export default function TodayPage() {
     <>
       <h1 className="sr-only">Today</h1>
       {today.isPending && (
-        <div
-          className="flex animate-in flex-col gap-5 duration-500 ease-out fade-in fill-mode-both"
-          style={{ animationDelay: "500ms" }}
-        >
+        <>
           <TodayStatusSkeleton />
           <ActivityGraphSkeleton />
-        </div>
+        </>
       )}
       {today.isError && (
         <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-xs text-destructive">
-          Could not load today.
+          Could not load today’s rounds.
         </p>
       )}
       {today.isSuccess && (

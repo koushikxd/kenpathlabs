@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
 import "../index.css";
-import Providers from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "Hallucinated",
@@ -21,9 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body>
-        <Providers>{children}</Providers>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

@@ -97,11 +97,14 @@ export function AccountForms() {
             password: value("password"),
           })
         : await signIn({ email: value("email"), password: value("password") });
-      // On success the queries reset and Me re-renders signed in, unmounting this form.
-      if (error) setErrors(toErrors(error.code, mode));
+      // On success the queries reset and Me re-renders signed in once me.get lands, unmounting this
+      // form. It stays pending until then, so it cannot be sent twice.
+      if (error) {
+        setErrors(toErrors(error.code, mode));
+        setPending(false);
+      }
     } catch {
       setErrors({ form: "Could not reach the server. Check your connection and try again." });
-    } finally {
       setPending(false);
     }
   }
@@ -175,7 +178,7 @@ export function AccountForms() {
           type="button"
           onClick={switchMode}
           disabled={pending}
-          className="rounded-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+          className="tap-target rounded-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
         >
           {isSignUp ? "Sign in" : "Sign up"}
         </button>

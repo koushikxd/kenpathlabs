@@ -8,9 +8,10 @@ import { toast } from "sonner";
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {
-      toast.error(error.message, {
+      // Not error.message: on a dropped connection that is the browser's "Failed to fetch".
+      toast.error("Could not load. Check your connection.", {
         action: {
-          label: "retry",
+          label: "Retry",
           onClick: () => {
             query.invalidate();
           },

@@ -41,7 +41,7 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
               href={source}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-sm underline-offset-4 hover:text-foreground hover:underline"
+              className="tap-target inline-flex items-center gap-1 rounded-sm underline-offset-4 hover:text-foreground hover:underline"
             >
               Source
               <ExternalLink aria-hidden className="size-3" />
@@ -54,7 +54,7 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
               ) : (
                 <X aria-hidden className="size-3.5 text-destructive" />
               )}
-              Your pick
+              Your answer
             </span>
           )}
         </div>
@@ -108,10 +108,10 @@ export function RoundCard({
         {!result && "Tap the statement you think is fake."}
         {result?.correct && (
           <>
-            Caught it · <span className="font-medium text-brand">+{result.points} points</span>
+            Correct · <span className="font-medium text-brand">+{result.points} points</span>
           </>
         )}
-        {result && !result.correct && "Missed it · 0 points"}
+        {result && !result.correct && "Wrong · 0 points"}
       </p>
       <ul className="flex flex-col gap-2">
         {round.statements.map((statement) => {

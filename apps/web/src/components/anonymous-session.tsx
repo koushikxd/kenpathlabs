@@ -28,13 +28,13 @@ export default function AnonymousSession({
     if (ready) return;
     void ensureAnonymousSession().then((ok) => {
       if (ok) return setReady(true);
-      toast.error("Could not start a session", {
+      toast.error("Could not connect. Check your connection.", {
         id: "anonymous-session",
         // Stays up: without it there is no way out of the loader.
         duration: Infinity,
         // A reload, not another sign-in: a failed response may still have set the cookie,
         // and Better-Auth rejects an anonymous sign-in from an anonymous session.
-        action: { label: "retry", onClick: () => location.reload() },
+        action: { label: "Retry", onClick: () => location.reload() },
       });
     });
   }, [ready]);

@@ -1,19 +1,19 @@
-import { headers } from "next/headers";
-
 import AnonymousSession from "@/components/anonymous-session";
 import Dock from "@/components/dock";
-import { readSession } from "@/server/services";
+import Providers from "@/components/providers";
+import { requestSession } from "@/server/services";
 
-// The session gate lives here, not in the root layout, so /u/<username> renders without a session
-// and a visitor opening a shared profile link does not create an anonymous user.
+// The session gate and the query client live here, not in the root layout, so /u/<username> renders
+// without a session, does not create an anonymous user, and ships no query or toast code.
+// The gate sits inside <main> so the dock is on screen while a first visit signs in.
 export default async function DockLayout({ children }: { children: React.ReactNode }) {
-  const session = await readSession(await headers());
+  const session = await requestSession();
   return (
-    <AnonymousSession hasSession={session !== null}>
+    <Providers>
       <main className="mx-auto flex w-full max-w-120 flex-col gap-5 px-4 pt-6 pb-[calc(6rem+env(safe-area-inset-bottom))]">
-        {children}
+        <AnonymousSession hasSession={session !== null}>{children}</AnonymousSession>
       </main>
       <Dock />
-    </AnonymousSession>
+    </Providers>
   );
 }

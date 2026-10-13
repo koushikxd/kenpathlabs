@@ -38,9 +38,9 @@ function Pinned({ board }: { board: Board }) {
     content = <BoardRow row={board.me} isMe />;
   } else {
     const [text, label, href] = board.isAnonymous
-      ? (["Claim your account to get ranked.", "Sign up", "/me"] as const)
+      ? (["Sign up to appear on the board.", "Sign up", "/me"] as const)
       : ([
-          "No points this season yet. Play today’s rounds to get on the board.",
+          "No points this season yet. Play today’s rounds to appear on the board.",
           "Play",
           "/",
         ] as const);
@@ -66,16 +66,13 @@ export default function BoardPage() {
   return (
     <>
       {board.isPending && (
-        <div
-          className="flex animate-in flex-col gap-5 duration-500 ease-out fade-in fill-mode-both"
-          style={{ animationDelay: "500ms" }}
-        >
+        <>
           <div className="flex flex-col gap-1">
             <Skeleton className="h-7 w-24 rounded-md" />
             <Skeleton className="h-4 w-64 rounded-md" />
           </div>
           <BoardListSkeleton />
-        </div>
+        </>
       )}
       {board.isError && (
         <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-xs text-destructive">

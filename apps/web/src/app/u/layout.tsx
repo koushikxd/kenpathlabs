@@ -8,7 +8,7 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
       {/* To the game, not history.back(): a shared link has no history in the app. */}
       <Link
         href="/"
-        className="inline-flex w-fit items-center gap-1.5 rounded-md py-1 text-xs text-muted-foreground hover:text-foreground"
+        className="tap-target inline-flex w-fit items-center gap-1.5 rounded-md py-1 text-xs text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft aria-hidden className="size-3.5" />
         Back to the game

@@ -2,7 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @source "../../../apps/**/*.{ts,tsx}";
-@source "../**/*.{ts,tsx}";
+/* Only the components apps/web imports (and what they import). Tailwind cannot follow imports,
+   and scanning all of components/ made the stylesheet four times larger. Add a component here
+   when you first use it. */
+@source "../components/{badge,button,empty,field,input,label,separator,skeleton,sonner,spinner}.tsx";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -150,5 +153,20 @@
     @apply font-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Grows a small control's hit area to at least 44x44 around its centre, without moving layout. */
+@utility tap-target {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    translate: -50% -50%;
   }
 }

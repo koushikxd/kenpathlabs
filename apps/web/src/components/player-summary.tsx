@@ -26,11 +26,16 @@ type Summary = Pick<
 const BADGES: { id: Badge; name: string; how: string; icon: LucideIcon }[] = [
   { id: "first-token", name: "First Token", how: "Answer your first round", icon: Coins },
   { id: "on-fire", name: "On Fire", how: "Reach a 7-day streak", icon: Flame },
-  { id: "perfect-week", name: "Perfect Week", how: "7 days in a row at 5/5", icon: CalendarCheck },
+  {
+    id: "perfect-week",
+    name: "Perfect Week",
+    how: "Get 5/5 for 7 days in a row",
+    icon: CalendarCheck,
+  },
   {
     id: "hallucination-hunter",
     name: "Hallucination Hunter",
-    how: "Catch 50 fakes",
+    how: "Find 50 fakes",
     icon: ScanEye,
   },
 ];

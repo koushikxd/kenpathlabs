@@ -14,6 +14,52 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #21 Phone pass: low-end Android, slow network, plain English
+
+Shipped:
+
+- Touch sizes in `@kenpathlabs/ui`. On a coarse pointer, `Button` is at least 44x44px (`pointer-coarse:min-h-11 min-w-11`). `Input` is 44px tall with 16px text, so phones do not zoom on focus. On a mouse, both keep their compact sizes.
+- A `tap-target` utility (`globals.css`). It centres a 44x44px `::after` hit area on a small inline control without moving layout. Used on the Me sign-in/sign-up switch, the round card `Source` link, the profile back link and the toast action button (`sonner.tsx`).
+- `requestSession()` (`server/services.ts`): `readSession(await headers())` wrapped in React `cache`, so each request reads the session once. The dock layout and the Me page share it.
+- `Providers` (query client and toaster) moved from the root layout to `(dock)/layout.tsx`. `AnonymousSession` now sits inside `<main>`, so the dock shows while a first visit signs in. `/u/*` ships no query or toast code. This supersedes #20's layout note.
+- Me is a server page that passes `guest` from the session to the client `MeScreen` (`components/me-screen.tsx`). The guest form is in the first HTML. A signed-in player gets a header skeleton the same size as the header.
+- The `globals.css` `@source` covers only the components the app imports. Add a component there when you first use it.
+
+Decisions:
+
+- The audit ran against `next build && next start` on Pixel 5 emulation, with 4x CPU throttling, Slow 4G (562.5ms RTT, 1.44Mbps down) and safe-area insets of 47px top and 34px bottom. Chrome for Testing, via a CDP script kept outside the repo. Numbers are one run per route. Before and after:
+
+  | Finding                         | Before                                                                            | After                                          |
+  | ------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------- |
+  | CSS (all routes)                | 202.7KB raw, 30KB gzip                                                            | 48.8KB raw, 9.1KB gzip                         |
+  | First paint, dock routes        | 1.77 to 1.80s                                                                     | 1.42 to 1.47s                                  |
+  | First paint, profile            | 1.80s                                                                             | 1.46s                                          |
+  | Profile JS                      | 182.8KB, 10 files                                                                 | 142KB, 9 files                                 |
+  | Me largest paint (guest)        | 3.59s                                                                             | 1.43s                                          |
+  | Today, Board, Me ready          | 3.44s, 3.30s, 3.52s                                                               | 3.31s, 3.17s, 3.47s                            |
+  | Layout shift (CLS), every route | 0                                                                                 | 0                                              |
+  | Controls under 44px             | Me 6, Me signed in 2, Board 1, profile 1, not found 2, reveal `Source` and `Next` | 0                                              |
+  | Input text                      | 12px                                                                              | 16px                                           |
+  | Toast                           | Bottom, over the dock and home indicator, 24px action                             | Top, under the safe area, 44px action hit area |
+  | Dock scrim                      | Ended 6px under the dock top, outside the safe area                               | Covers the safe area                           |
+  | Reveal animation frames         | 58 to 60 frames, one 66.7ms gap                                                   | 60 frames, longest gap 16.8ms                  |
+
+- The CSS was large because `@source "../**/*.{ts,tsx}"` scanned all of `packages/ui`, including dozens of components the app never imports. Tailwind cannot follow imports, so the list is explicit.
+- The 500ms skeleton delay (`animationDelay` plus a fade) is removed from Today and Board. On a slow phone it left the first paint empty apart from the dock. `DESIGN.md` is updated.
+- Me used to show a skeleton and then swap in the guest form 420px lower. CLS stayed at 0 because the content was replaced, not moved. The server `guest` flag removes the swap. After a sign-up or sign-in, the form stays pending until `me.get` returns and Me re-renders, so it cannot be sent twice.
+- The toast moved to `top-center` with a safe-area top offset. Sonner adds no inset of its own, and at the bottom it covered the dock.
+- Error toasts no longer show `error.message`. On a dropped connection that is "Failed to fetch". They now say "Could not load. Check your connection." and "Could not connect. Check your connection.", with the action "Retry".
+- Plain-English copy: "Correct" and "Wrong" (were "Caught it" and "Missed it"), "Your answer" (was "Your pick"), "New rounds in" (was "Next set in"), "Sign up to appear on the board." (was "Claim your account to get ranked."), "Get 5/5 for 7 days in a row", "Find 50 fakes", "...to earn points.", "Could not load today's rounds." Badge names are unchanged.
+- No sticky hover: Tailwind v4 already gates `hover:` behind `(hover: hover)`. Every animation runs on the compositor: glitch, spin, opacity and background-color, with no `compositeFailed` in the trace.
+- Not changed: `-webkit-tap-highlight-color`, `touch-action` and `user-select`. The issue did not ask for them, and they need a real phone to judge.
+
+Deviations:
+
+- First-load JS on Today (218KB), Board (215KB) and Me (229KB) is unchanged. It is React, Next, React Query, Better-Auth and tRPC, which these screens use. varlock injects about 12KB gzip of client runtime and a `Buffer` polyfill into every route. Its Next plugin has no options to turn that off, so it stays.
+- `/u/<unknown>` still paints nothing until JS runs (first paint 2.76s, was 3.13s). Next 16.3.5 renders a segment `notFound()` on the client: the 404 response has an empty body. I checked this with a throwaway route, so it is not specific to our page. Keeping the real 404 status (#20) means accepting this. The alternative is a 200 with `noindex`, which is the product owner's call.
+- Measured with emulation, not on a real phone. Safe areas, sticky hover and input zoom still need a check on a device.
+- Screenshots are dark only, because the app is dark only by product owner decision (#1).
+
 ## #20 Public profile page
 
 Shipped:

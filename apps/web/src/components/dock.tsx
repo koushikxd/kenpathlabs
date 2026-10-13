@@ -17,7 +17,7 @@ export default function Dock() {
     <>
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-x-0 bottom-0 h-24 bg-linear-to-t from-background from-40% to-transparent"
+        className="pointer-events-none fixed inset-x-0 bottom-0 h-[calc(6rem+env(safe-area-inset-bottom))] bg-linear-to-t from-background from-40% to-transparent"
       />
       <nav
         aria-label="Main"

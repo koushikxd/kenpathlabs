@@ -73,7 +73,7 @@ export function DayDone({
         </div>
       </dl>
       <p className="border-t pt-4 text-center text-xs text-muted-foreground">
-        Next set in <Countdown deadline={deadline} onElapsed={onNewDay} />
+        New rounds in <Countdown deadline={deadline} onElapsed={onNewDay} />
       </p>
     </section>
   );

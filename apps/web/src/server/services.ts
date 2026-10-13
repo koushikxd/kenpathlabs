@@ -1,5 +1,7 @@
 import { createAuth } from "@kenpathlabs/auth";
 import { type Database, createPrismaClient } from "@kenpathlabs/db";
+import { headers } from "next/headers";
+import { cache } from "react";
 
 import { ENV } from "@/env";
 
@@ -17,3 +19,6 @@ export const auth = createAuth(ENV, db);
 export function readSession(headers: Headers) {
   return auth.api.getSession({ headers, query: { disableRefresh: true } });
 }
+
+// One session read per request, shared by the dock layout and the Me page.
+export const requestSession = cache(async () => readSession(await headers()));

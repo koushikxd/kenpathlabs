@@ -91,13 +91,14 @@ components:
     active: { transform: translateY(1px) } # suppressed on aria-haspopup triggers
     focus: { border: "{colors.ring}", ring: "1px {colors.ring} at 50%" }
     disabled: { opacity: 0.5, pointerEvents: none }
+    touch: { minHeight: 44px, minWidth: 44px } # pointer-coarse:, every size
   input:
-    height: 32px
+    height: 32px # 44px on touch (pointer-coarse:h-11)
     rounded: "{rounded.md}"
     paddingInline: 10px
     border: "{colors.input}"
     backgroundColor: transparent
-    typography: "{typography.body-14}"
+    typography: "{typography.meta-12}" # 16px on touch (pointer-coarse:text-base), so phones do not zoom on focus
     focus: { border: "{colors.ring}", ring: "1px {colors.ring} at 50%" }
     disabled: { backgroundColor: "{colors.input} at 50%", opacity: 0.5 }
   card:
@@ -139,7 +140,6 @@ motion:
   easing-overlay-out: "cubic-bezier(0.4,0,1,1)"
   cascade-base: 130ms # first row
   cascade-step: 45ms # per row, capped at 8 rows
-  skeleton-delay: 500ms
   tooltip-open-delay: 400ms
   search-debounce: 180ms
 breakpoints:
@@ -321,6 +321,15 @@ on touch. The sidebar becomes a sheet below `md` (a JS breakpoint at 768px, not 
 query). Anything pinned to the bottom pads for the home indicator with
 `pb-[calc(1rem+env(safe-area-inset-bottom))]`.
 
+Touch: everything tappable is at least 44x44px on a coarse pointer. `Button` and `Input`
+grow to 44px with `pointer-coarse:`, and inputs switch to 16px text so the page does not
+zoom on focus. A small inline control (a text link, a toast action) keeps its size and
+takes the `tap-target` utility, which centres a 44x44px hit area on it without moving
+layout. Toasts sit at the top centre on phones, below the safe area, clear of the dock.
+
+`packages/ui/src/styles/globals.css` scans only the components the app imports (the
+`@source` list). Add a component there when you first use it, or its classes are missing.
+
 ## Elevation & Depth
 
 The system is close to shadowless. Hierarchy is tonal (page grey vs card white) plus a
@@ -361,9 +370,8 @@ The motion that has a purpose:
 - Lists cascade: `130 + Math.min(row, 8) * 45` ms, applied via inline `animationDelay`, so
   the first row lands at 130ms and a long page caps at 490ms. Skip the cascade while a
   search filter is active, because a re-render cascade reads as lag.
-- Skeletons are not delayed by a timer; they mount immediately with
-  `style={{ animationDelay: "500ms" }}` on their `animate-in` wrapper, so a fast fetch
-  resolves before anything is visible.
+- Skeletons show at once, with no delay or fade. On a slow phone a delayed skeleton left the
+  first paint empty.
 - Overlays open in `180ms` on `cubic-bezier(0.165,0.84,0.44,1)` and close faster, in
   `130ms` on `cubic-bezier(0.4,0,1,1)`, via `data-open:` / `data-closed:`.
 - Disclosures animate `grid-template-rows` between `0fr` and `1fr` with `duration-300
@@ -401,7 +409,8 @@ Import them, do not rebuild them. The specs that matter when composing:
 **Button** (`variant` × `size`, cva). Variants: `default` (solid `primary`), `outline`,
 `secondary`, `ghost`, `destructive` (tinted `bg-destructive/10 text-destructive`, not
 solid), `link`. Sizes: `xs` 24px, `sm` 28px, `default` 32px, `lg` 36px, and the square
-`icon-xs` 24px / `icon-sm` 28px / `icon` 32px / `icon-lg` 36px. All compact by design.
+`icon-xs` 24px / `icon-sm` 28px / `icon` 32px / `icon-lg` 36px. All compact by design,
+and at least 44x44px on touch.
 Focus is `focus-visible:border-ring focus-visible:ring-1 ring-ring/50`, press is
 `active:not-aria-[haspopup]:translate-y-px`, disabled is `opacity-50 pointer-events-none`.
 Icons are sized automatically; mark leading and trailing icons with
@@ -410,7 +419,8 @@ padding. To render a button as a menu trigger, pass `render={…}` (Base UI's re
 not `asChild`). A link styled as a button is `<Link className={buttonVariants(…)}>`: the
 render form gives the `<a>` `role="button"`.
 
-**Input** 32px, `rounded-md`, transparent background, `border-input`, `text-sm`. A search
+**Input** 32px, `rounded-md`, transparent background, `border-input`, `text-xs`; 44px and
+16px text on touch. A search
 field is an `Input` with `className="pl-7.5"` and an absolutely positioned
 `pointer-events-none size-3.5 text-muted-foreground` icon at `left-2.5 top-1/2
 -translate-y-1/2`, inside a `relative w-44 sm:w-56` wrapper. **Textarea** is `min-h-16`
