@@ -14,6 +14,32 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #19 Me screen with sign up, sign in and sign out
+
+Shipped:
+
+- The Me page (`(dock)/me/page.tsx`), a client component on `me.get`. Guest: `Guest` heading, `AccountForms`, then the summary and ledger, so a guest sees what they would keep. Signed in: `PlayerHeader`, `View profile` (to `/u/<username>`) and `Sign out`, then the summary and ledger.
+- `components/stat-row.tsx`: `StatRow({ label, stats })` and `MAX_FREEZES`, moved out of `today-status.tsx`. A stat without a `value` is a skeleton. Items are `flex-1 basis-0`, so three or four share the width. `TodayStatus` and `TodayStatusSkeleton` keep their signatures.
+- `components/player-summary.tsx`: `PlayerHeader({ name, username, isBot?, rankBadge })`, `PlayerSummary({ summary })` (stats, activity graph, badges, season awards) and `PlayerSummarySkeleton`. `Summary` is a `Pick` of `profile.byUsername` that `me.get` also satisfies. No hooks and no `"use client"`, so #20's server page can render it.
+- `components/points-ledger.tsx`: `PointsLedger({ ledger })`, titled `Recent points`.
+- `components/account-forms.tsx`: `AccountForms`, sign up and sign in in one component, switched by a text button under the form.
+- Removed `@tanstack/react-form` from `apps/web` (kept in #15 for this issue): two small forms need no form library.
+
+Decisions:
+
+- Badges: all four show, in spec order, in a 2-column grid, each with how to earn it. Icons: First Token `Coins`, On Fire `Flame`, Perfect Week `CalendarCheck`, Hallucination Hunter `ScanEye`. Earned gets a `bg-brand/15 text-brand` tile. Unearned gets a muted tile and name plus the words `Not yet`, so the state is not colour only. #20 shows the same list.
+- Stats: `points` (`Coins`), `day streak` (`Flame`), `longest` (`Medal`), `freezes` (`Snowflake`, `n/2`). Season awards read `Season n · da goat`, newest first, with an empty line when there are none. `SeasonAward.award` is a `string` column, so the label lookup asserts it is a rank badge.
+- Ledger reasons: `round` → `Correct answer`, `perfect` → `Perfect day`, `streak` → `Streak bonus`, `seed` → `Starting points`, anything else as is. Dates are `en-GB`, `day: "numeric", month: "short"`, in `Asia/Kolkata`, because the game day is IST. Rows are keyed `reason:ref`, which is unique per player.
+- Forms are a plain `<form>` read with `FormData`. Shape rules are native validation (`required`, `minLength`, `maxLength`, `pattern="[a-zA-Z0-9_.]+"`, `type="email"`), matching Better-Auth's username rules (3 to 30, `[a-zA-Z0-9_.]`) and password minimum (8). Server errors map by `error.code`: `USERNAME_IS_ALREADY_TAKEN` and the three username shape codes under Username, `USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL` and `INVALID_EMAIL` under Email, the password length codes under Password, `INVALID_EMAIL_OR_PASSWORD` as `Wrong email or password.`, anything else as `Could not sign up. Try again.` / `Could not sign in. Try again.`. A rejected promise (network) shows `Could not reach the server. Check your connection and try again.`
+- An existing email on sign-up returns 422 `USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL` (checked). `USER_ALREADY_EXISTS` was not seen, so it is not mapped.
+- Pending: the form's `<fieldset>` is disabled and the submit button shows a `Spinner`. On success nothing else runs: `signUp`/`signIn` reset the queries (#14), `me.get` refetches, and the page re-renders signed in without a reload. The reset shows the skeleton briefly; accepted.
+- Sign out is a `ghost` button with a `Spinner` while pending and a `Could not sign out.` toast on error.
+- Verified with `playwright-cli` (Helium) against `next dev` (`ALLOW_TEST_CLOCK=true`) at 393x851. The Today status row is still 82px after the `StatRow` move. A guest who answered one round correctly saw 10 points, First Token earned, and `Correct answer · 14 Oct · +10`, equal to `me.get`. Sign-up with username `priya.ships` showed the taken message under Username with `aria-invalid` on that input only. Sign-up with `priya.ships@bots.invalid` showed the email message. An aborted sign-up showed the network line and re-enabled the form. With sign-up held 2s the fieldset was disabled with a spinner. A fresh guest signed up and the page switched to the signed-in view with a `window` marker intact (no reload). `psql` then found no user and no attempts left for either anonymous id, and the new account had the guest's attempt. Sign out: guest view with 0 points, anonymous users went from 16 to 17, no reload. As that guest, 2 correct answers on 15 Oct (`x-test-now`), then sign in with a wrong password (`Wrong email or password.`), then the right one: points went from 10 to 30 and the ledger gained both 15 Oct entries, no reload. Screenshots: sign-up form, field error, pending, sign-in error, signed in top and scrolled to the ledger.
+
+Deviations:
+
+- Screenshots are dark only, not the issue's light and dark, because the app is dark only by product owner decision (#1).
+
 ## #18 Board screen
 
 Shipped:
