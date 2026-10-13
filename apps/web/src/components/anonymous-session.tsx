@@ -17,7 +17,6 @@ export default function AnonymousSession({
   children: React.ReactNode;
 }) {
   const [ready, setReady] = useState(hasSession);
-  const [attempt, setAttempt] = useState(0);
 
   // Extends the session cookie (see readSession). Not awaited, so it never holds up the queries.
   // A failure is harmless: the next load tries again.
@@ -33,10 +32,12 @@ export default function AnonymousSession({
         id: "anonymous-session",
         // Stays up: without it there is no way out of the loader.
         duration: Infinity,
-        action: { label: "retry", onClick: () => setAttempt((n) => n + 1) },
+        // A reload, not another sign-in: a failed response may still have set the cookie,
+        // and Better-Auth rejects an anonymous sign-in from an anonymous session.
+        action: { label: "retry", onClick: () => location.reload() },
       });
     });
-  }, [ready, attempt]);
+  }, [ready]);
 
   return ready ? children : <Loader />;
 }

@@ -4,6 +4,8 @@ import type { Database } from "@kenpathlabs/db";
 // Whatever stays behind is cascade-deleted with the anonymous user.
 export function mergeAnonymousProgress(db: Database, fromUserId: string, toUserId: string) {
   return db.$transaction(async (tx) => {
+    // The same lock game.answer takes, so an answer on another device cannot finish a day mid-merge.
+    await tx.$queryRaw`SELECT 1 FROM "user" WHERE id = ${toUserId} FOR UPDATE`;
     const played = await tx.attempt.findMany({
       where: { userId: fromUserId },
       distinct: ["day"],

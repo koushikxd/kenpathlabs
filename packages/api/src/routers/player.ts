@@ -64,9 +64,11 @@ export const profileRouter = router({
       // The username plugin stores usernames lowercased.
       const user = await ctx.db.user.findUnique({
         where: { username: input.username.toLowerCase() },
-        select: { id: true, name: true, username: true, isBot: true },
+        select: { id: true, name: true, username: true, isBot: true, isAnonymous: true },
       });
-      if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "No such player" });
+      // Better-Auth lets an anonymous user set a username, but anonymous users have no profile.
+      if (!user || user.isAnonymous)
+        throw new TRPCError({ code: "NOT_FOUND", message: "No such player" });
       return { ...(await playerSummary(ctx.db, user, ctx.now)), isBot: user.isBot };
     }),
 });

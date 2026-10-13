@@ -6,6 +6,8 @@ import { type SeasonTotal, rankSeason } from "./game/ranking";
 export type Standing = SeasonTotal & { name: string; username: string | null; isBot: boolean };
 
 const AWARDS = 10;
+// An answer stamped just before a season ends may still be in its transaction when the season ends.
+const FINALIZE_DELAY = 60 * 1000;
 
 export async function seasonStandings(db: Pick<Database, "$queryRaw">, n: number) {
   const { start, end } = seasonWindow(n);
@@ -21,7 +23,7 @@ export async function seasonStandings(db: Pick<Database, "$queryRaw">, n: number
 }
 
 export async function finalizeEndedSeasons(db: Database, now: Date) {
-  const current = seasonNumber(now);
+  const current = seasonNumber(new Date(now.getTime() - FINALIZE_DELAY));
   const finalized = await db.season.findMany({
     where: { number: { lt: current } },
     select: { number: true },
