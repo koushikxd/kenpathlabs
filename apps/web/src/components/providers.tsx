@@ -6,10 +6,18 @@ import { Toaster } from "@kenpathlabs/ui/components/sonner";
 
 import { queryClient } from "@/utils/trpc";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+import AnonymousSession from "./anonymous-session";
+
+export default function Providers({
+  hasSession,
+  children,
+}: {
+  hasSession: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <AnonymousSession hasSession={hasSession}>{children}</AnonymousSession>
       <ReactQueryDevtools />
       <Toaster richColors theme="dark" />
     </QueryClientProvider>

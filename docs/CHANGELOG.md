@@ -14,6 +14,25 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #14 Client data layer
+
+Shipped:
+
+- `authClient` (`apps/web/src/lib/auth-client.ts`) with the `anonymousClient` and `usernameClient` plugins.
+- `signUp({ name, username, email, password })`, `signIn({ email, password })` and `signOut()` in the same file. Each returns Better-Auth's `{ data, error }` and invalidates all queries on success. `signOut` starts a new anonymous session before invalidating, so refetches never see `UNAUTHORIZED`. A network failure rejects (Better-Auth's client does not set better-fetch's `catchAllError`), so the forms must catch.
+- `ensureAnonymousSession()`, which resolves `true` or `false` and runs one shared sign-in at a time.
+- `AnonymousSession` gate (`components/anonymous-session.tsx`), mounted inside `Providers`. The root layout is now async: it reads the session with `auth.api.getSession` and passes `hasSession` down. With a session, children render at once. Without one, it shows `Loader`, signs in anonymously, then renders children, so nothing under it ever queries without a session.
+- The tRPC client and React Query provider were already in place from the template (`utils/trpc.ts`, `providers.tsx`).
+
+Decisions:
+
+- The session check runs on the server instead of through `authClient.useSession()`. Gating on `useSession` would put a `/get-session` round trip in front of every game query on every load.
+- The sign-in promise is shared at module level, because React dev runs effects twice and two calls with no cookie create two anonymous users. It clears on failure so a retry can run.
+- On failure (error response or network error) the gate keeps the loader and shows a toast that stays up until its retry button is used. With the default toast duration, the retry button disappeared and left the visitor stuck.
+- The template `sign-in-form`, `sign-up-form` and `user-menu` stay until #15 and #19.
+- **Known issue for #15: the session cookie is never refreshed.** This was checked in the Better-Auth 1.7.3 source (`api/routes/session.mjs`) and in the browser. Once a day, a server-side `auth.api.getSession` (layout or tRPC context) extends the session's `expiresAt` in the DB. It sets the new cookie only on its own discarded response. After that, the client's `/get-session` sees a fresh session and sets no cookie either. With the DB session backdated 2 days, a reload moved `expiresAt` forward 7 days, and no response carried `Set-Cookie`. So the cookie expires 7 days after sign-in even for a daily player, and an anonymous player's progress is orphaned. The tRPC context had this before #14. Proposed fix, not verified: pass `query: { disableRefresh: true }` to the server-side `getSession` calls, and have the client call `/get-session` once per load without blocking.
+- Verified with `playwright-cli` (Helium) against `next dev`, StrictMode on by default. First visit with no cookie: one `POST /sign-in/anonymous`, the anonymous `user` count went up by exactly 1, and the app rendered. Reload: no sign-in request, count unchanged. In-page `fetch('/api/trpc/game.today')` returned 200 with 5 rounds. Sign-in forced to 503, and separately aborted as a network failure: the loader stayed with the toast, and after the route was lifted, retry created one user and rendered the app. `signUp`, `signIn` and `signOut` have no UI yet and are not exercised. They are type-checked only.
+
 ## #13 Me and public profile queries
 
 Shipped (`packages/api/src/routers/player.ts`):

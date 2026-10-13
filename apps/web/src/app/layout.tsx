@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { headers } from "next/headers";
 
 import "../index.css";
 import Header from "@/components/header";
 import Providers from "@/components/providers";
+import { auth } from "@/server/services";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,15 +22,16 @@ export const metadata: Metadata = {
   description: "kenpathlabs",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth.api.getSession({ headers: await headers() });
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
+        <Providers hasSession={session !== null}>
           <div className="grid grid-rows-[auto_1fr] h-svh">
             <Header />
             {children}
