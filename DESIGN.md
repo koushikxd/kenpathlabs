@@ -376,6 +376,10 @@ The motion that has a purpose:
   `130ms` on `cubic-bezier(0.4,0,1,1)`, via `data-open:` / `data-closed:`.
 - Disclosures animate `grid-template-rows` between `0fr` and `1fr` with `duration-300
 ease-out`, paired with `inert={!open}`.
+- The glitch (`.glitch` in `apps/web/src/index.css`, `Glitch` in `components/glitch.tsx`) is the
+  signature, and it means "wrong, broken or not real": the fake on reveal, `Wrong`, error text,
+  not-found titles, and the day's score. It plays once on mount. Never put it on hover,
+  navigation or anything seen many times a day.
 - Controls acknowledge press: `Button` uses `active:translate-y-px` (suppressed on
   `aria-haspopup` triggers so a menu opener does not bounce), while icon-sized affordances
   outside it use `active:scale-[0.96]`.

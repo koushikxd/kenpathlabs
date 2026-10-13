@@ -4,7 +4,10 @@ import { cn } from "@kenpathlabs/ui/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowRight, Check, ExternalLink, X } from "lucide-react";
 
+import { useFeedback } from "@/lib/feedback";
 import { queryClient, trpc, type RouterOutputs } from "@/utils/trpc";
+
+import { Glitch } from "./glitch";
 
 type Round = RouterOutputs["game"]["today"]["rounds"][number];
 type Statement = Round["statements"][number];
@@ -21,7 +24,14 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
 
   return (
     <div
-      className={cn(STATEMENT, isFake ? "border-destructive/40 bg-destructive/5" : "border-border")}
+      className={cn(
+        STATEMENT,
+        isFake
+          ? "border-destructive/40 bg-destructive/5"
+          : isPick
+            ? "border-foreground/30"
+            : "border-border",
+      )}
     >
       <span className={cn(LABEL, isFake ? "bg-destructive/15 text-destructive" : "bg-muted")}>
         {statement.label}
@@ -33,7 +43,11 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
         >
           {statement.text}
         </p>
-        {isFake && <p className="text-xs/relaxed text-pretty">{result.correction}</p>}
+        {isFake && (
+          <p className="animate-in text-xs/relaxed text-pretty duration-300 ease-out fade-in fill-mode-both slide-in-from-top-1 delay-300 motion-reduce:animate-none">
+            {result.correction}
+          </p>
+        )}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
           {isFake && <span className="font-medium text-destructive">Hallucination</span>}
           {source && (
@@ -63,21 +77,40 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
   );
 }
 
+// One segment per round of the day: brand if correct, dimmed if wrong, empty until answered.
+function Progress({ results }: { results: (boolean | undefined)[] }) {
+  return (
+    <span aria-hidden className="flex gap-1">
+      {results.map((correct, i) => (
+        <span
+          key={i}
+          className={cn(
+            "h-1 w-5 rounded-full transition-colors duration-300 ease-out motion-reduce:transition-none",
+            correct === undefined ? "bg-muted" : correct ? "bg-brand" : "bg-foreground/30",
+          )}
+        />
+      ))}
+    </span>
+  );
+}
+
 export function RoundCard({
   round,
-  total,
+  results,
   onAnswered,
   onNext,
 }: {
   round: Round;
-  total: number;
+  results: (boolean | undefined)[];
   onAnswered: () => void;
   onNext: () => void;
 }) {
+  const feedback = useFeedback();
   const todayKey = trpc.game.today.queryKey();
   const answer = useMutation(
     trpc.game.answer.mutationOptions({
       onSuccess: (result) => {
+        feedback(result.correct ? "correct" : "wrong");
         onAnswered();
         queryClient.setQueryData(
           todayKey,
@@ -90,6 +123,7 @@ export function RoundCard({
         // Picks up the new graph cell, the streak and, after the last round, `done`.
         void queryClient.invalidateQueries({ queryKey: todayKey });
       },
+      onError: () => feedback("wrong"),
     }),
   );
   const { result } = round;
@@ -97,9 +131,12 @@ export function RoundCard({
   return (
     <section aria-labelledby="round-theme" className="flex flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <p className="text-xs font-medium text-muted-foreground tabular-nums">
-          Round {round.number}/{total}
-        </p>
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs font-medium text-muted-foreground tabular-nums">
+            Round {round.number}/{results.length}
+          </p>
+          <Progress results={results} />
+        </div>
         <h2 id="round-theme" className="text-sm font-medium text-balance">
           {round.theme}
         </h2>
@@ -111,13 +148,22 @@ export function RoundCard({
             Correct · <span className="font-medium text-brand">+{result.points} points</span>
           </>
         )}
-        {result && !result.correct && "Wrong · 0 points"}
+        {result && !result.correct && (
+          <>
+            <Glitch className="font-medium text-destructive">Wrong</Glitch> · 0 points
+          </>
+        )}
       </p>
       <ul className="flex flex-col gap-2">
-        {round.statements.map((statement) => {
+        {round.statements.map((statement, i) => {
           const pending = answer.isPending && answer.variables.statementId === statement.id;
           return (
-            <li key={statement.id}>
+            // The <li> outlives the reveal, so the entrance plays once per round, not again on answer.
+            <li
+              key={statement.id}
+              style={{ animationDelay: `${130 + i * 45}ms` }}
+              className="animate-in duration-500 ease-out fade-in fill-mode-both slide-in-from-bottom-1 motion-reduce:animate-none"
+            >
               {result ? (
                 <RevealedStatement statement={statement} result={result} />
               ) : (
@@ -128,7 +174,7 @@ export function RoundCard({
                   onClick={() => answer.mutate({ roundId: round.id, statementId: statement.id })}
                   className={cn(
                     STATEMENT,
-                    "border-border transition-[background-color,opacity,transform] duration-150 ease-out outline-none hover:bg-muted/40 focus-visible:ring-1 focus-visible:ring-ring active:translate-y-px motion-reduce:transition-none",
+                    "border-border transition-[background-color,opacity,scale] duration-150 ease-out outline-none hover:bg-muted/40 focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.98] motion-reduce:transition-none",
                     pending && "bg-muted/40",
                     answer.isPending && !pending && "opacity-50",
                   )}
@@ -145,12 +191,21 @@ export function RoundCard({
       </ul>
       {answer.isError && (
         <p role="alert" className="text-xs text-destructive">
-          Could not save your answer. Tap a statement to try again.
+          <Glitch>Could not save your answer. Tap a statement to try again.</Glitch>
         </p>
       )}
       {result && (
         // Focus lands here once the tapped button is replaced by the reveal.
-        <Button size="lg" autoFocus onClick={onNext} className="w-full rounded-md">
+        <Button
+          size="lg"
+          autoFocus
+          onClick={() => {
+            // Rounds are played in order, so Next on the last one opens the day's score.
+            if (round.number === results.length) feedback("complete");
+            onNext();
+          }}
+          className="w-full"
+        >
           Next
           <ArrowRight data-icon="inline-end" />
         </Button>

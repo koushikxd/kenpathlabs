@@ -29,7 +29,7 @@ export default function Dock() {
               <Link
                 href={href}
                 aria-current={pathname === href ? "page" : undefined}
-                className="flex h-12 w-20 flex-col items-center justify-center gap-0.5 rounded-full text-xs font-medium text-muted-foreground transition-colors duration-150 outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring aria-[current=page]:bg-brand/15 aria-[current=page]:text-brand motion-reduce:transition-none"
+                className="flex h-12 w-20 flex-col items-center justify-center gap-0.5 rounded-full text-xs font-medium text-muted-foreground transition-[color,background-color,scale] duration-150 ease-out outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.96] aria-[current=page]:bg-brand/15 aria-[current=page]:text-brand motion-reduce:transition-none"
               >
                 <Icon className="size-5" />
                 {label}

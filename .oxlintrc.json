@@ -14,7 +14,8 @@
     ".pi/**",
     ".roo/**",
     ".windsurf/**",
-    "tools/oxlint/anti-slop/**"
+    "tools/oxlint/anti-slop/**",
+    "apps/web/src/components/sensory-ui/**"
   ],
   "categories": {
     "correctness": "error"
@@ -40,6 +41,23 @@
     "builtin": true
   },
   "overrides": [
+    {
+      "files": ["apps/web/src/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "react",
+                "importNames": ["useEffect"],
+                "message": "Derive state, use useQuery, an event handler, a key, or useMountEffect (@/lib/use-mount-effect)."
+              }
+            ]
+          }
+        ]
+      }
+    },
     {
       "files": ["packages/ui/src/components/**"],
       "rules": {

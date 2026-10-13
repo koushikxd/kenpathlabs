@@ -14,6 +14,7 @@ import { Trophy } from "lucide-react";
 import Link from "next/link";
 
 import { BoardList, BoardListSkeleton, BoardRow } from "@/components/board-list";
+import { LoadError } from "@/components/load-error";
 import { type RouterOutputs, trpc } from "@/utils/trpc";
 
 type Board = RouterOutputs["board"]["season"];
@@ -74,11 +75,7 @@ export default function BoardPage() {
           <BoardListSkeleton />
         </>
       )}
-      {board.isError && (
-        <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-xs text-destructive">
-          Could not load the board.
-        </p>
-      )}
+      {board.isError && <LoadError>Could not load the board.</LoadError>}
       {board.isSuccess && (
         <>
           <div className="flex flex-col gap-1">

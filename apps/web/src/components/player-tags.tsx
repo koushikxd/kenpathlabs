@@ -8,6 +8,7 @@ export function RankBadge({ badge }: { badge: keyof typeof RANK_LABEL | null }) 
   return <Badge variant={badge === "goat" ? "brand" : "secondary"}>{RANK_LABEL[badge]}</Badge>;
 }
 
+// Plain text, not a chip: most board rows are bots, and a bordered chip on each one drowns the rank badges.
 export function BotTag() {
-  return <Badge variant="outline">bot</Badge>;
+  return <span className="text-xs text-muted-foreground">bot</span>;
 }

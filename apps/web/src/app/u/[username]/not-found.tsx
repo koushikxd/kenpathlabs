@@ -10,6 +10,8 @@ import {
 import { UserX } from "lucide-react";
 import Link from "next/link";
 
+import { Glitch } from "@/components/glitch";
+
 export default function ProfileNotFound() {
   return (
     <Empty>
@@ -17,7 +19,9 @@ export default function ProfileNotFound() {
         <EmptyMedia variant="icon" className="size-11 rounded-2xl [&_svg]:size-5">
           <UserX />
         </EmptyMedia>
-        <EmptyTitle>Player not found</EmptyTitle>
+        <EmptyTitle>
+          <Glitch>Player not found</Glitch>
+        </EmptyTitle>
         <EmptyDescription>
           No player has this username. Check the link, or find players on the board.
         </EmptyDescription>

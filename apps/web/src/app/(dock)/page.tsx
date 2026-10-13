@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { ActivityGraph, ActivityGraphSkeleton } from "@/components/activity-graph";
 import { DayDone } from "@/components/day-done";
+import { LoadError } from "@/components/load-error";
 import { RoundCard } from "@/components/round-card";
 import { TodayStatus, TodayStatusSkeleton } from "@/components/today-status";
 import { trpc } from "@/utils/trpc";
@@ -27,11 +28,7 @@ export default function TodayPage() {
           <ActivityGraphSkeleton />
         </>
       )}
-      {today.isError && (
-        <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-xs text-destructive">
-          Could not load today’s rounds.
-        </p>
-      )}
+      {today.isError && <LoadError>Could not load today’s rounds.</LoadError>}
       {today.isSuccess && (
         <>
           <TodayStatus
@@ -44,7 +41,7 @@ export default function TodayPage() {
             <RoundCard
               key={round.id}
               round={round}
-              total={rounds.length}
+              results={rounds.map((r) => r.result?.correct)}
               onNext={() => setRevealedId(null)}
               onAnswered={() => setRevealedId(round.id)}
             />

@@ -10,13 +10,11 @@ const REASONS = new Map([
 ]);
 
 // IST, because the game day is IST and `createdAt` is when the server took the answer.
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-GB", {
-    timeZone: "Asia/Kolkata",
-    day: "numeric",
-    month: "short",
-  });
-}
+const DATE = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Asia/Kolkata",
+  day: "numeric",
+  month: "short",
+});
 
 export function PointsLedger({ ledger }: { ledger: Entry[] }) {
   return (
@@ -34,7 +32,7 @@ export function PointsLedger({ ledger }: { ledger: Entry[] }) {
                   {REASONS.get(entry.reason) ?? entry.reason}
                 </span>
                 <span className="text-xs text-muted-foreground tabular-nums">
-                  {formatDate(entry.createdAt)}
+                  {DATE.format(new Date(entry.createdAt))}
                 </span>
               </span>
               <span className="font-mono text-sm font-semibold tabular-nums">+{entry.amount}</span>

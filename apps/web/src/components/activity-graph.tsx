@@ -6,14 +6,16 @@ import { cn } from "@kenpathlabs/ui/lib/utils";
 // Index is the day's correct count, 0 to 5.
 const SHADES = ["bg-muted", "bg-brand/20", "bg-brand/40", "bg-brand/60", "bg-brand/80", "bg-brand"];
 const GRID = "grid grid-flow-col grid-cols-20 grid-rows-7 gap-[3px]";
+// One formatter for all 140 cells: toLocaleDateString with options builds a new one per call.
+const DATE = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "UTC",
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+});
 
 function cellLabel(cell: GraphCell, isToday: boolean) {
-  const date = new Date(`${cell.day}T00:00:00Z`).toLocaleDateString("en-GB", {
-    timeZone: "UTC",
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-  });
+  const date = DATE.format(new Date(`${cell.day}T00:00:00Z`));
   const state = cell.frozen ? "frozen" : `${cell.correct} of 5 correct`;
   return `${isToday ? "Today, " : ""}${date}: ${state}`;
 }

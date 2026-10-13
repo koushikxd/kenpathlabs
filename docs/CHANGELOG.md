@@ -14,6 +14,75 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## Native feel on phones (no issue)
+
+Shipped:
+
+- `globals.css` base layer: `-webkit-tap-highlight-color: transparent` on `html`. `overscroll-behavior-y: contain` on `html, body`. On `a, button, [role="button"]`: `touch-action: manipulation`, `user-select: none` and `-webkit-touch-callout: none`. This supersedes #21's "Not changed" line.
+- Both layouts pad the top with `calc(1.5rem + env(safe-area-inset-top))` (was `pt-6`), so standalone and landscape keep content out from under the notch.
+- Board rows press with `active:bg-muted/40`, because with the tap highlight gone they had no touch feedback.
+
+Decisions:
+
+- Overscroll is `contain`, not `none`: it stops pull-to-refresh from reloading the app mid-round but keeps the iOS bounce, which native apps have.
+- No `interactive-widget=resizes-content`. With it, Android lifts the fixed dock above the keyboard and over the Me form. Native apps hide the tab bar instead.
+- No PWA manifest yet. It needs real app icons, and `favicon.ico` is the only one.
+- Hover stays on Tailwind v4's `(hover: hover)` gate. No `(pointer: fine)` override.
+
+Deviations:
+
+- Checked from computed styles in Chromium at 393x851 only. The tap flash, callout, bounce and safe areas still need a check on a real phone.
+
+## Sound and haptics (no issue)
+
+Shipped:
+
+- `sensory-ui` core (MIT, github.com/SatyamVyas04/sensory-ui at `a5976f3`), vendored by hand into `apps/web/src/components/sensory-ui/` (`config/` and `sounds/`): Web Audio synthesised sounds, no audio files. Not installed with `shadcn add`: the CLI flattened its 13 files into `src/lib/` under generic names (`config.ts`, `index.ts`, `engine.ts`) and broke its own layout. To update, copy the two folders from the repo again. The folder is in `ignorePatterns` for oxlint and oxfmt because it is third-party code that fails the house rules.
+- `SensoryUIProvider` sits inside `Providers` (dock screens only) with the `hero` category on. The default `aero` pack and 0.35 volume are unchanged.
+- `useFeedback()` (`lib/feedback.ts`) returns `feedback(moment)`, which plays a sound and calls `navigator.vibrate`. Moments: `correct` (`notification.success`, 15ms), `wrong` (`notification.error`, `[40, 60, 40]`) and `complete` (`hero.complete`, `[20, 80, 20, 80, 60]`).
+
+Decisions:
+
+- Fired on: the answer result (`correct` or `wrong`), a failed answer save and a failed sign-in or sign-up (`wrong`, matching the glitch), and Next on the last round (`complete`, as `DayDone` appears). Every one runs from a tap, so the browser lets audio start. `DayDone` plays nothing on mount, because a reload has no gesture and a tab return would replay it.
+- Not on statement taps, the dock, Next between rounds, or links: these are high-frequency, and a tap sound followed by the result sound is noise.
+- sensory-ui mutes itself under `prefers-reduced-motion` (its default `reducedMotion: "inherit"`). Vibration ignores that setting.
+- No mute toggle. Add one through `useSensoryUI().setMuted` if players ask.
+- `navigator.vibrate` is Android Chrome only. iOS Safari and desktop do nothing, so sound is the only cue there.
+
+## Glitch as the signature (no issue)
+
+Shipped:
+
+- `Glitch` (`components/glitch.tsx`): `<Glitch>{text}</Glitch>` renders the reveal's `.glitch` on a string, with `data-text` filled in. It is `inline-block` because transform does nothing on an inline box. It plays once, on mount.
+- `LoadError` takes `children: string` (was `ReactNode`) so its text can glitch. All three call sites already passed a string.
+
+Decisions:
+
+- The glitch means "wrong, broken or not real", so it goes only where that is true:
+  - `Wrong` in the round status line, in sync with the fake's glitch. `Correct` stays still.
+  - Error text: `LoadError`, the answer save error and the account form error. It replays on each failed submit because the message remounts.
+  - `Player not found` on `/u/<username>`.
+  - The exception is the day's score in `DayDone`, the one non-error use: the result resolves through the same broken frames once the day is done. It replays whenever `DayDone` remounts, which includes returning to Today from another tab.
+- Rejected: field-level form errors (several could glitch at once), the wrong progress segment (`RoundCard` remounts each round, so the segment would replay every round), the dock, board rows and links (seen many times a day), toasts (styled by sonner), and a glitch on hover anywhere.
+
+## UI polish: radii, round progress, motion (no issue)
+
+Shipped:
+
+- `@kenpathlabs/ui` `Button`, `Badge`, `Input` and `Skeleton` are `rounded-md`, as `DESIGN.md` always said. They shipped `rounded-none` from the shadcn preset, so square chips and inputs sat inside `rounded-xl` cards. `Empty`'s icon media defaults to `rounded-2xl`, the house form. `Button` and `Badge` name their transition properties instead of `transition-all`.
+- `RoundCard` takes `results: (boolean | undefined)[]` (one per round of the day, from `rounds.map((r) => r.result?.correct)`) instead of `total`. It draws a 5-segment progress bar beside `Round n/5`: brand if correct, `foreground/30` if wrong, `muted` until answered. The segment fills with a 300ms colour transition when the answer lands.
+- `BotTag` is plain `text-xs text-muted-foreground` text, not an outline badge. Most board rows are bots, and 23 bordered chips drowned the rank badges.
+- On the reveal, the statement you picked (when it is a truth) gets a `border-foreground/30` edge, so your answer reads without finding the small `Your answer` line.
+
+Decisions:
+
+- Motion added, all `tw-animate-css` utilities with `motion-reduce:animate-none` or `motion-reduce:transition-none`:
+  - Statements enter with the house cascade (`130 + i * 45` ms, `slide-in-from-bottom-1`, 500ms ease-out). The animation sits on the `<li>`, which survives the reveal, so it plays once per round and not again on answer.
+  - The fake's correction fades in 300ms after the reveal, as the 600ms glitch settles.
+  - `DayDone` enters with the page entrance (`slide-in-from-bottom-2`, 500ms). It shows once a day.
+  - Statement cards press with `active:scale-[0.98]` (was `active:translate-y-px`, which never animated: v4's `translate` was not in the `transition-[…transform]` list). 0.98, not 0.96, because a 358px card shrinking 4% reads as a jump. Dock items press with `active:scale-[0.96]`.
+- Rejected: a sliding dock indicator and a board row cascade (core navigation, seen many times a day, and the board is cached, so the cascade would replay on every tab switch). Also rejected: activity graph cell transitions (the cell is off screen when it changes) and a count-up on the day's score.
+
 ## #21 Phone pass: low-end Android, slow network, plain English
 
 Shipped:

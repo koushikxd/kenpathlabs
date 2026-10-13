@@ -48,7 +48,7 @@ export function BoardRow({ row, isMe = false }: { row: Row; isMe?: boolean }) {
       aria-current={isMe || undefined}
       className={cn(
         className,
-        "transition-colors outline-none hover:bg-muted/40 focus-visible:bg-muted/40 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset",
+        "transition-colors outline-none hover:bg-muted/40 focus-visible:bg-muted/40 active:bg-muted/40 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset",
       )}
     >
       <RowContent row={row} />

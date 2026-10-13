@@ -153,6 +153,22 @@
     @apply font-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Every control has its own :active state; the browser's grey tap flash fights it. */
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* contain, not none: keeps the scroll bounce but stops pull-to-refresh reloading the app mid-round. */
+  html,
+  body {
+    overscroll-behavior-y: contain;
+  }
+  /* Controls, not content: no double-tap zoom, no text selection or link callout on long-press. */
+  a,
+  button,
+  [role="button"] {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
   }
 }
 

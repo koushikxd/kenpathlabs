@@ -6,10 +6,16 @@ import { Toaster } from "@kenpathlabs/ui/components/sonner";
 
 import { queryClient } from "@/utils/trpc";
 
+import { defaultConfig } from "./sensory-ui/config/config";
+import { SensoryUIProvider } from "./sensory-ui/config/provider";
+
+// `hero` (the day-complete sound) is off by default in sensory-ui.
+const SOUND = { categories: { ...defaultConfig.categories, hero: true } };
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <SensoryUIProvider config={SOUND}>{children}</SensoryUIProvider>
       <ReactQueryDevtools />
       {/* At the top on phones, where it clears the dock; sonner adds no safe-area inset itself. */}
       <Toaster

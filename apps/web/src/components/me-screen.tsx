@@ -8,6 +8,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 import { AccountForms } from "@/components/account-forms";
+import { LoadError } from "@/components/load-error";
 import { PlayerHeader, PlayerSummary, PlayerSummarySkeleton } from "@/components/player-summary";
 import { PointsLedger } from "@/components/points-ledger";
 import { signOut } from "@/lib/auth-client";
@@ -78,11 +79,7 @@ export function MeScreen({ guest: guestFromSession }: { guest: boolean }) {
         </>
       )}
       {me.isPending && <PlayerSummarySkeleton />}
-      {me.isError && (
-        <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-xs text-destructive">
-          Could not load your profile.
-        </p>
-      )}
+      {me.isError && <LoadError>Could not load your profile.</LoadError>}
       {me.isSuccess && (
         <>
           <PlayerSummary summary={me.data} />

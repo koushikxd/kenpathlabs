@@ -1,8 +1,9 @@
 @import "@kenpathlabs/ui/globals.css";
 
 /*
- * The reveal glitch on the fake statement: the text jitters while two tinted copies
- * (`data-text` on ::before and ::after) flash out of register. Transform and opacity only,
+ * The reveal glitch, first made for the fake statement and now the app's signature for anything
+ * wrong, broken or not real (`Glitch` in components/glitch.tsx). The text jitters while two tinted
+ * copies (`data-text` on ::before and ::after) flash out of register. Transform and opacity only,
  * stepped rather than eased so it reads as broken frames, and gone once it settles.
  */
 .glitch {

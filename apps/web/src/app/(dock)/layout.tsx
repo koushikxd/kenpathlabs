@@ -10,7 +10,7 @@ export default async function DockLayout({ children }: { children: React.ReactNo
   const session = await requestSession();
   return (
     <Providers>
-      <main className="mx-auto flex w-full max-w-120 flex-col gap-5 px-4 pt-6 pb-[calc(6rem+env(safe-area-inset-bottom))]">
+      <main className="mx-auto flex w-full max-w-120 flex-col gap-5 px-4 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-[calc(6rem+env(safe-area-inset-bottom))]">
         <AnonymousSession hasSession={session !== null}>{children}</AnonymousSession>
       </main>
       <Dock />

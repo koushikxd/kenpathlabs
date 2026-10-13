@@ -14,6 +14,9 @@ import { Spinner } from "@kenpathlabs/ui/components/spinner";
 import { useState } from "react";
 
 import { signIn, signUp } from "@/lib/auth-client";
+import { useFeedback } from "@/lib/feedback";
+
+import { Glitch } from "./glitch";
 
 type Mode = "sign-up" | "sign-in";
 type Name = "name" | "username" | "email" | "password";
@@ -80,6 +83,7 @@ export function AccountForms() {
   const [mode, setMode] = useState<Mode>("sign-up");
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
+  const feedback = useFeedback();
   const isSignUp = mode === "sign-up";
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -100,10 +104,12 @@ export function AccountForms() {
       // On success the queries reset and Me re-renders signed in once me.get lands, unmounting this
       // form. It stays pending until then, so it cannot be sent twice.
       if (error) {
+        feedback("wrong");
         setErrors(toErrors(error.code, mode));
         setPending(false);
       }
     } catch {
+      feedback("wrong");
       setErrors({ form: "Could not reach the server. Check your connection and try again." });
       setPending(false);
     }
@@ -162,7 +168,7 @@ export function AccountForms() {
             />
             {errors.form && (
               <p role="alert" className="text-xs text-destructive">
-                {errors.form}
+                <Glitch>{errors.form}</Glitch>
               </p>
             )}
             <Button type="submit" size="lg">

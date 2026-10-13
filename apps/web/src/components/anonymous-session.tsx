@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { authClient, ensureAnonymousSession } from "@/lib/auth-client";
+import { useMountEffect } from "@/lib/use-mount-effect";
 
 import Loader from "./loader";
 
@@ -18,14 +19,14 @@ export default function AnonymousSession({
 }) {
   const [ready, setReady] = useState(hasSession);
 
-  // Extends the session cookie (see readSession). Not awaited, so it never holds up the queries.
-  // A failure is harmless: the next load tries again.
-  useEffect(() => {
-    if (hasSession) authClient.getSession().catch(() => {});
-  }, [hasSession]);
-
-  useEffect(() => {
-    if (ready) return;
+  // Mount only: the dock layout persists across dock navigations, so `hasSession` never changes here.
+  useMountEffect(() => {
+    // Extends the session cookie (see readSession). Not awaited, so it never holds up the queries.
+    // A failure is harmless: the next load tries again.
+    if (hasSession) {
+      authClient.getSession().catch(() => {});
+      return;
+    }
     void ensureAnonymousSession().then((ok) => {
       if (ok) return setReady(true);
       toast.error("Could not connect. Check your connection.", {
@@ -37,7 +38,7 @@ export default function AnonymousSession({
         action: { label: "Retry", onClick: () => location.reload() },
       });
     });
-  }, [ready]);
+  });
 
   return ready ? children : <Loader />;
 }

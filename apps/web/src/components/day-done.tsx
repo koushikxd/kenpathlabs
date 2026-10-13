@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
+import { useMountEffect } from "@/lib/use-mount-effect";
 import type { RouterOutputs } from "@/utils/trpc";
+
+import { Glitch } from "./glitch";
 
 type Done = NonNullable<RouterOutputs["game"]["today"]["done"]>;
 
@@ -13,10 +16,11 @@ function formatLeft(ms: number) {
 
 // `deadline` is a device timestamp offset from the server's time, so it hits zero at the
 // server's midnight whatever the device clock says, give or take the response latency.
+// Keyed by `deadline`, so a refetch that brings a new one restarts the timer.
 function Countdown({ deadline, onElapsed }: { deadline: number; onElapsed: () => void }) {
   const [now, setNow] = useState(Date.now);
 
-  useEffect(() => {
+  useMountEffect(() => {
     const id = setInterval(() => {
       const t = Date.now();
       setNow(t);
@@ -26,7 +30,7 @@ function Countdown({ deadline, onElapsed }: { deadline: number; onElapsed: () =>
       }
     }, 1000);
     return () => clearInterval(id);
-  }, [deadline, onElapsed]);
+  });
 
   return <span className="font-mono tabular-nums">{formatLeft(Math.max(0, deadline - now))}</span>;
 }
@@ -51,13 +55,16 @@ export function DayDone({
   const deadline = receivedAt + Date.parse(done.nextDayStart) - Date.parse(done.serverTime);
 
   return (
-    <section aria-labelledby="day-done" className="flex flex-col gap-4 rounded-xl border p-4">
+    <section
+      aria-labelledby="day-done"
+      className="flex animate-in flex-col gap-4 rounded-xl border p-4 duration-500 ease-out fade-in fill-mode-both slide-in-from-bottom-2 motion-reduce:animate-none"
+    >
       <div className="flex flex-col items-center gap-1">
         <h2 id="day-done" className="text-xs font-medium text-muted-foreground">
           Today’s score
         </h2>
         <p className="font-mono text-2xl font-semibold tabular-nums">
-          {done.correct}/{total}
+          <Glitch>{`${done.correct}/${total}`}</Glitch>
         </p>
       </div>
       <dl className="flex flex-col gap-2 border-t pt-4 text-sm">
@@ -73,7 +80,7 @@ export function DayDone({
         </div>
       </dl>
       <p className="border-t pt-4 text-center text-xs text-muted-foreground">
-        New rounds in <Countdown deadline={deadline} onElapsed={onNewDay} />
+        New rounds in <Countdown key={deadline} deadline={deadline} onElapsed={onNewDay} />
       </p>
     </section>
   );
