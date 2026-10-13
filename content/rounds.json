@@ -1,0 +1,122 @@
+[
+  {
+    "id": "transformer-acronyms",
+    "theme": "Transformer acronyms",
+    "statements": [
+      {
+        "id": "transformer-acronyms-bert",
+        "text": "BERT stands for Bidirectional Encoder Representations from Transformers.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/1810.04805"
+      },
+      {
+        "id": "transformer-acronyms-gpt",
+        "text": "GPT stands for General Pretrained Transformer.",
+        "isFake": true,
+        "correction": "GPT stands for Generative Pre-trained Transformer."
+      },
+      {
+        "id": "transformer-acronyms-attention",
+        "text": "The Transformer architecture was introduced by Google researchers in the paper \"Attention Is All You Need\".",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/1706.03762"
+      }
+    ]
+  },
+  {
+    "id": "model-makers",
+    "theme": "Who makes the model",
+    "statements": [
+      {
+        "id": "model-makers-llama",
+        "text": "The Llama family of open-weight models is released by Meta.",
+        "isFake": false,
+        "sourceUrl": "https://www.llama.com/"
+      },
+      {
+        "id": "model-makers-gemini",
+        "text": "Gemini models are built by Google DeepMind.",
+        "isFake": false,
+        "sourceUrl": "https://deepmind.google/models/gemini/"
+      },
+      {
+        "id": "model-makers-mistral",
+        "text": "Mistral AI, the company behind Le Chat, is headquartered in Berlin.",
+        "isFake": true,
+        "correction": "Mistral AI is headquartered in Paris."
+      }
+    ]
+  },
+  {
+    "id": "benchmark-sizes",
+    "theme": "What benchmarks measure",
+    "statements": [
+      {
+        "id": "benchmark-sizes-humaneval",
+        "text": "OpenAI's HumanEval benchmark contains 1,640 hand-written programming problems.",
+        "isFake": true,
+        "correction": "HumanEval contains 164 hand-written programming problems."
+      },
+      {
+        "id": "benchmark-sizes-mmlu",
+        "text": "The MMLU benchmark covers 57 subjects, including mathematics, US history, computer science and law.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2009.03300"
+      },
+      {
+        "id": "benchmark-sizes-swe-bench",
+        "text": "SWE-bench is built from real GitHub issues in 12 popular Python repositories.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2310.06770"
+      }
+    ]
+  },
+  {
+    "id": "research-milestones",
+    "theme": "AI research milestones",
+    "statements": [
+      {
+        "id": "research-milestones-alphago",
+        "text": "DeepMind's AlphaGo beat Go champion Lee Sedol 4 games to 1.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol"
+      },
+      {
+        "id": "research-milestones-alphafold",
+        "text": "AlphaFold, the protein structure prediction system, was built by OpenAI.",
+        "isFake": true,
+        "correction": "AlphaFold was built by Google DeepMind."
+      },
+      {
+        "id": "research-milestones-openai-five",
+        "text": "OpenAI Five beat OG, the reigning Dota 2 world champions.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/OpenAI_Five"
+      }
+    ]
+  },
+  {
+    "id": "ml-frameworks",
+    "theme": "Machine learning frameworks",
+    "statements": [
+      {
+        "id": "ml-frameworks-jax",
+        "text": "The JAX numerical computing library was developed by Microsoft Research.",
+        "isFake": true,
+        "correction": "JAX was developed by Google."
+      },
+      {
+        "id": "ml-frameworks-tensorflow",
+        "text": "TensorFlow was developed by the Google Brain team.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/TensorFlow"
+      },
+      {
+        "id": "ml-frameworks-pytorch",
+        "text": "PyTorch was originally developed at Meta AI.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/PyTorch"
+      }
+    ]
+  }
+]

@@ -11,10 +11,12 @@
   },
   "scripts": {
     "check-types": "tsc --noEmit",
+    "test": "vitest run",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "bun src/seed.ts",
     "db:studio": "prisma studio",
     "db:start": "docker compose up -d",
     "db:watch": "docker compose up",
@@ -29,6 +31,7 @@
     "@kenpathlabs/config": "workspace:*",
     "prisma": "6.19.3",
     "typescript": "catalog:",
-    "varlock": "catalog:"
+    "varlock": "catalog:",
+    "vitest": "5.0.4"
   }
 }

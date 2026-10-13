@@ -14,6 +14,24 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #6 Round content format and the db:seed validator
+
+Shipped:
+
+- `content/rounds.json`: an ordered array of `{ id, theme, statements: [{ id, text, isFake, correction?, sourceUrl? }] }`. Position is the 1-based array index. It holds one sample day of 5 rounds: `transformer-acronyms`, `model-makers`, `benchmark-sizes`, `research-milestones`, `ml-frameworks`.
+- `packages/db/src/content.ts`: `roundsSchema` (zod) and type `ContentRound`. Every rule failure is one issue whose message starts with `round <id>:`, except the round count rule, which has no round.
+- `packages/db/src/seed.ts`, run with `pnpm db:seed` (root, through turbo) or `pnpm -F @kenpathlabs/db db:seed`. On invalid content it prints `z.prettifyError` and exits 1, before touching the DB.
+- Vitest in `packages/db` (`pnpm -F @kenpathlabs/db test`), picked up by root `pnpm test`.
+
+Decisions:
+
+- The seed makes the DB mirror the file in one batch transaction. It deletes statements and rounds whose ids are not in the file, negates every `Round.position`, then upserts everything. A renamed statement id therefore cannot leave a round with 4 statements, and reordering rounds cannot hit the `position` unique index. Deleting content someone has answered fails on the Attempt FK and rolls back the whole seed. Re-running it leaves the tables unchanged (verified by diffing a table dump).
+- Ids share one namespace: a round id and a statement id may not be the same string, and a statement id is unique across the file, not just its round. The sample uses slugs: round `model-makers`, statements `model-makers-<slug>`.
+- Banned words match whole words, case-insensitively, in `text` only: "Best" fails, "bestselling" passes. Themes and corrections are not checked.
+- A truth's `sourceUrl` must be a valid URL starting with `https://`. Empty strings for `id`, `theme`, `text` and `correction` are shape errors.
+- The seed runs on Bun (`bun src/seed.ts`), because the generated Prisma client is TypeScript with extensionless imports, which Node cannot run directly. Env comes from `varlock/auto-load`, like `prisma.config.ts`.
+- Sample day 1 cites arXiv, vendor pages and Wikipedia. #7 may keep or replace these 5 rounds. Replacing them is safe as long as nobody has answered them yet.
+
 ## #5 Leaderboard order and rank badges
 
 Shipped: `packages/api/src/game/ranking.ts` `rankSeason(totals)` with types `RankBadge` (`"goat" | "10x"`, the same strings as `SeasonAward.award`), `SeasonTotal` (`{ userId, points, reachedAt, isAnonymous }`) and `Ranked<T>`. It is generic, so extra fields (name, username, isBot) pass through. It drops anonymous rows and rows with `points <= 0`, sorts, and adds `rank` and `badge`. Season awards (#12) are `rankSeason(totals).slice(0, 10)` with `badge` as the award.

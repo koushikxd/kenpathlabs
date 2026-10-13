@@ -67,6 +67,12 @@ BETTER_AUTH_URL=http://localhost:3001
 pnpm run db:migrate
 ```
 
+4. Load the rounds from `content/rounds.json`:
+
+```bash
+pnpm run db:seed
+```
+
 Then, run the development server:
 
 ```bash
@@ -144,5 +150,6 @@ kenpathlabs/
 - `pnpm run db:push`: Push schema changes to database
 - `pnpm run db:generate`: Generate database client/types
 - `pnpm run db:migrate`: Run database migrations
+- `pnpm run db:seed`: Validate `content/rounds.json` and load it into the database
 - `pnpm run db:studio`: Open database studio UI
 - `pnpm run check`: Run Oxlint and Oxfmt
