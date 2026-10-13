@@ -14,6 +14,22 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #13 Me and public profile queries
+
+Shipped (`packages/api/src/routers/player.ts`):
+
+- `me.get` (query, any session including anonymous): `{ name, username, points, currentStreak, longestStreak, freezes, graph, badges, rankBadge, seasonAwards, isAnonymous, ledger }`. `points` is the all-time sum. `rankBadge` is the live `"goat" | "10x" | null` for the current season. `seasonAwards` is `[{ seasonNumber, award }]`, newest first. `ledger` is the newest 50 entries, `[{ amount, reason, ref, createdAt }]` with ISO `createdAt`. `username` is `null` for anonymous users.
+- `profile.byUsername` (public query) `{ username }`: the same fields without `isAnonymous` and `ledger`, plus `isBot`. `NOT_FOUND` for an unknown username.
+
+Decisions:
+
+- Both run `finalizeEndedSeasons` first, so a just-ended season's award shows up.
+- The ledger is capped at 50 with no pagination. A full day writes at most 7 entries, so 50 is about a week. Ties on `createdAt` order by `id` desc.
+- `rankBadge` comes from the full season standings, so it always matches the board, at the cost of one aggregate per read.
+- Lookup lowercases the input, because the username plugin stores `username` lowercased (`/u/Priya.Ships` resolves). Responses carry the lowercased `username`, not `displayUsername`. Anonymous users have no username, so they never have a profile.
+- "Seeded bot" correctness is checked through `profile.byUsername` only, because bots cannot sign in.
+- Verified manually with `curl` and `psql` against `next dev`. An anonymous session answered 5 rounds on 2026-10-12 and 5 on 2026-10-13 with `x-test-now`, then signed up. `me.get` showed streak 2/2, `first-token`, two graph days (2 and 4 correct), 75 points equal to the `psql` sum and the ledger newest first. `profile.byUsername` with the username uppercased returned the same fields. `board.season` gave that user a `me` row with `isAnonymous: false`. `priya.ships` showed 420 points, no streaks or badges, `rankBadge: "goat"`, `isBot: true` and no `ledger`. With `x-test-now` in season 2 it showed `seasonAwards: [{ seasonNumber: 1, award: "goat" }]`. An unknown username returned 404 `NOT_FOUND`. `me.get` with no session returned 401.
+
 ## #12 Season finalization and board query
 
 Shipped:
