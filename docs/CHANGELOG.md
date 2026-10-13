@@ -14,6 +14,22 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #12 Season finalization and board query
+
+Shipped:
+
+- `packages/api/src/seasons.ts`. `seasonStandings(db, n)` sums each player's `PointEntry` rows inside `seasonWindow(n)` (`reachedAt` is the latest entry) and returns `rankSeason` output with `name`, `username` and `isBot` added. `finalizeEndedSeasons(db, now)` writes a `Season` row and the top 10 as `SeasonAward` for every ended season that has no row yet. It lives beside `game/`, not in it, because it reads the DB.
+- `board.season` (public query): `{ season, endsAt, serverTime, rows, me, isAnonymous }` with ISO strings. `rows` is the top 50, each `{ rank, name, username, isBot, points, badge }`, `badge` being `"goat" | "10x" | null`. `me` is the caller's row wherever they rank, or `null`.
+
+Decisions:
+
+- One transaction per ended season, oldest first. The `Season` insert uses `createMany` with `skipDuplicates` (`ON CONFLICT DO NOTHING`), not a caught unique error, because an error aborts a Postgres transaction. A concurrent request inserting the same number waits for the first, then writes nothing and skips the awards. A season with no ranked players gets its row and no awards.
+- `board.season` is public. With no session or an anonymous one, `isAnonymous` is `true` and `me` is `null`. A signed-in user with no points this season also gets `me: null`, told apart by `isAnonymous: false`.
+- No user ids in the response. `rank` is unique, so it is the row key.
+- `serverTime` is returned like `today.done.serverTime`, so the countdown to `endsAt` works under the test clock.
+- Finalizing under `x-test-now` is permanent: a request faked into season 2 finalizes season 1 for real. Reset a local DB with `TRUNCATE "SeasonAward", "Season"`.
+- Verified manually with `curl` and `psql` against `next dev`. With no session and with an anonymous one: 20 bots plus one real user, anonymous users holding points left out, `me: null`. Five parallel requests with `x-test-now` in season 2 wrote one `Season` row and 10 awards (rank 1 `goat`, 2 to 10 `10x`), with no errors. Five more changed nothing. A signed-in user's `me` row is checked in #13.
+
 ## #11 Today query and answer mutation
 
 Shipped:
