@@ -13,6 +13,7 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+    "test": {},
     "dev": {
       "cache": false,
       "persistent": true
@@ -51,10 +52,8 @@
     "BETTER_AUTH_SECRET",
     "BETTER_AUTH_URL",
     "CI",
-    "CORS_ORIGIN",
     "DATABASE_URL",
-    "GOOGLE_GENERATIVE_AI_API_KEY",
-    "NEXT_PUBLIC_SERVER_URL",
+    "DIRECT_URL",
     "NODE_ENV",
     "VERCEL",
     "VERCEL_ENV",

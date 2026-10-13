@@ -1,0 +1,65 @@
+model Round {
+  id         String      @id
+  position   Int         @unique
+  theme      String
+  statements Statement[]
+  attempts   Attempt[]
+}
+
+model Statement {
+  id         String    @id
+  roundId    String
+  round      Round     @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  text       String
+  isFake     Boolean
+  correction String?
+  sourceUrl  String?
+  attempts   Attempt[]
+
+  @@index([roundId])
+}
+
+model Attempt {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  day         String // "2026-10-13", IST
+  roundId     String
+  round       Round     @relation(fields: [roundId], references: [id])
+  statementId String
+  statement   Statement @relation(fields: [statementId], references: [id])
+  correct     Boolean
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, day, roundId])
+}
+
+model PointEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Int
+  reason    String // round | perfect | streak | seed
+  ref       String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, reason, ref])
+  @@index([createdAt])
+}
+
+model Season {
+  number      Int           @id
+  finalizedAt DateTime      @default(now())
+  awards      SeasonAward[]
+}
+
+model SeasonAward {
+  seasonNumber Int
+  season       Season @relation(fields: [seasonNumber], references: [number])
+  userId       String
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  award        String // goat | 10x
+  rank         Int
+
+  @@id([seasonNumber, userId])
+}

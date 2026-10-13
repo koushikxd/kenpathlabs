@@ -9,6 +9,14 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  isAnonymous     Boolean?      @default(false)
+  username        String?       @unique
+  displayUsername String?
+  isBot           Boolean       @default(false)
+  attempts        Attempt[]
+  pointEntries    PointEntry[]
+  seasonAwards    SeasonAward[]
+
   @@unique([email])
   @@map("user")
 }

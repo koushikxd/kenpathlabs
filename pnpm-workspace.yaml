@@ -17,7 +17,6 @@ catalog:
   varlock: 1.18.0
   "@trpc/server": ^11.18.0
   better-auth: 1.7.3
-  ai: ^7.0.93
   lucide-react: ^1.41.0
   next-themes: ^0.4.6
   react: ^19.2.8

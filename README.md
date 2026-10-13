@@ -52,16 +52,19 @@ This project uses PostgreSQL with Prisma. Postgres runs in Docker from `packages
 pnpm run db:start
 ```
 
-2. Set the connection URI in `apps/server/.env`:
+2. Set the env in `apps/web/.env`:
 
 ```bash
 DATABASE_URL=postgresql://postgres:password@localhost:5432/kenpathlabs
+DIRECT_URL=postgresql://postgres:password@localhost:5432/kenpathlabs
+BETTER_AUTH_SECRET=<at least 32 characters>
+BETTER_AUTH_URL=http://localhost:3001
 ```
 
-3. Apply the schema to your database:
+3. Apply the migrations to your database:
 
 ```bash
-pnpm run db:push
+pnpm run db:migrate
 ```
 
 Then, run the development server:
@@ -71,7 +74,7 @@ pnpm run dev
 ```
 
 Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
-The API is running at [http://localhost:3000](http://localhost:3000).
+The same app serves the API at `/api/trpc` and auth at `/api/auth`.
 
 ## UI Customization
 
@@ -123,8 +126,7 @@ outside a git repository. After `git init`, run `pnpm install` once to install i
 ```
 kenpathlabs/
 ├── apps/
-│   ├── web/         # Frontend application (Next.js)
-│   └── server/      # Backend API (Express, TRPC)
+│   └── web/         # Next.js app: pages, tRPC and auth routes
 ├── packages/
 │   ├── ui/          # Shared shadcn/ui components and styles
 │   ├── api/         # API layer / business logic
@@ -137,8 +139,8 @@ kenpathlabs/
 - `pnpm run dev`: Start all applications in development mode
 - `pnpm run build`: Build all applications
 - `pnpm run dev:web`: Start only the web application
-- `pnpm run dev:server`: Start only the server
 - `pnpm run check-types`: Check TypeScript types across all apps
+- `pnpm run test`: Run unit tests
 - `pnpm run db:push`: Push schema changes to database
 - `pnpm run db:generate`: Generate database client/types
 - `pnpm run db:migrate`: Run database migrations

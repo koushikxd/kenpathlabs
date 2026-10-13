@@ -10,7 +10,8 @@
     }
   },
   "scripts": {
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@kenpathlabs/auth": "workspace:*",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@kenpathlabs/config": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "5.0.4"
   }
 }
