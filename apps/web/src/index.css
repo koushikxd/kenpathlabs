@@ -1,1 +1,91 @@
 @import "@kenpathlabs/ui/globals.css";
+
+/*
+ * The reveal glitch on the fake statement: the text jitters while two tinted copies
+ * (`data-text` on ::before and ::after) flash out of register. Transform and opacity only,
+ * stepped rather than eased so it reads as broken frames, and gone once it settles.
+ */
+.glitch {
+  position: relative;
+  animation: glitch-jitter 600ms steps(1, end) both;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text) / "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: glitch-ghost 600ms steps(1, end) both;
+}
+
+.glitch::before {
+  --glitch-x: -4px;
+  color: var(--destructive);
+}
+
+.glitch::after {
+  --glitch-x: 4px;
+  color: var(--brand);
+  animation-delay: 60ms;
+}
+
+@keyframes glitch-jitter {
+  0% {
+    transform: translateX(-3px) skewX(-8deg);
+    opacity: 0.6;
+  }
+  15% {
+    transform: translateX(3px) skewX(6deg);
+  }
+  30% {
+    transform: translateX(-2px);
+    opacity: 0.4;
+  }
+  45% {
+    transform: translateX(2px) skewX(-4deg);
+    opacity: 1;
+  }
+  60% {
+    transform: translateX(-1px);
+    opacity: 0.7;
+  }
+  75%,
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes glitch-ghost {
+  0% {
+    transform: translateX(var(--glitch-x));
+    opacity: 0.8;
+  }
+  20% {
+    transform: translate(calc(var(--glitch-x) * -1), 1px);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateX(calc(var(--glitch-x) * 1.5));
+    opacity: 0.8;
+  }
+  60% {
+    transform: translateX(calc(var(--glitch-x) * -0.5));
+    opacity: 0.4;
+  }
+  80%,
+  100% {
+    transform: none;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch,
+  .glitch::before,
+  .glitch::after {
+    animation: none;
+  }
+}

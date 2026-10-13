@@ -14,6 +14,31 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #17 Today: round card, reveal and done state
+
+Shipped:
+
+- `RoundCard({ round, total, onAnswered, onNext })` (`components/round-card.tsx`): theme, `Round n/5`, three full-width statement buttons. It owns the `game.answer` mutation. On success it calls `onAnswered`, writes the `result` into the `game.today` cache with `setQueryData`, then invalidates `game.today`, so the graph and streak update in the background and, after round 5, `done` arrives.
+- `DayDone({ done, total, receivedAt, onNewDay })` (`components/day-done.tsx`): score `x/5`, non-zero point reasons (`Correct rounds`, `Perfect day`, `Streak bonus`) and their sum as `Points earned`, and `Next set in HH:MM:SS`.
+- `RouterOutputs` (`utils/trpc.ts`): `inferRouterOutputs<AppRouter>`, for typing query data in components (`RouterOutputs["game"]["today"]`). #18 to #20 can use it.
+- The `.glitch` class in `apps/web/src/index.css`: put it on an element with `data-text` equal to its text.
+- The Today page shows the round in `revealedId` if it has a result, else the first unanswered round, else `DayDone`. `revealedId` is set on answer and cleared by Next, so Next and a reload both land on the first unanswered round.
+
+Decisions:
+
+- The reveal is read from `round.result` only, as #11 requires. The pick is marked `Your pick` with a green tick or a red cross. The fake gets a red border and tint, the `Hallucination` tag, a strikethrough and its correction below. Truths get `Source`, opening in a new tab with `rel="noopener noreferrer"`. The status line reads `Caught it · +10 points` (points in `text-brand`) or `Missed it · 0 points`, in a `role="status"` region that exists before the answer, so the result is announced.
+- Glitch: 600ms, `steps(1, end)` so it looks like broken frames rather than a slide. The text jitters (translate, skew, opacity) while `::before` (destructive) and `::after` (brand) copies, drawn from `content: attr(data-text) / ""` so screen readers skip them, flash out of register. Transform and opacity only. It plays once because the reveal element mounts once, and a reload never shows a revealed round. `prefers-reduced-motion: reduce` turns off all three animations.
+- Pending: every statement button is disabled, the tapped one gets `aria-busy` and a `Spinner` in place of its letter, the other two drop to 50% opacity. On failure the buttons come back with `Could not save your answer. Tap a statement to try again.` (`role="alert"`). Any statement may be tapped on retry: if the first request did land, the server returns the original pick.
+- Next is the `Button` at `lg`, full width, `autoFocus`ed, because the tapped button is replaced by the reveal and focus would otherwise drop to `<body>`. Its label stays `Next` on round 5 too, as the spec words it.
+- Countdown: `deadline = dataUpdatedAt + (nextDayStart - serverTime)`, ticking every second off `Date.now()`. Only device elapsed time is used, so a wrong device clock does not move it, and the test clock works. At zero it calls `today.refetch()` once. If the server still says it is the same day, the new `serverTime` gives a new deadline and the timer restarts.
+- If Next on round 5 is pressed before the background refetch has brought `done`, the slot is empty until it lands. Not seen in testing: the refetch starts as the reveal appears.
+- An answer sent from a stale day (the tab sat across midnight on an unanswered round) gets `BAD_REQUEST` and shows the same retry line, which keeps failing until the page refetches (on focus or reload). Not handled: it needs a tab left open across midnight mid-round.
+- Verified with `playwright-cli` (Helium) against `next dev` (`ALLOW_TEST_CLOCK=true`) at 393x851, as a fresh anonymous user. With `game.answer` held 3s then failed with a 500: the tapped button was disabled with `aria-busy="true"` and the others at opacity 0.5, then the error line showed and all three were enabled again. A real answer showed the reveal with focus on Next, two source links with `noopener noreferrer`, and `Caught it · +10 points`. The mid-glitch shot is all animations paused at 90ms. Next went to round 2/5. After answering round 2 (reveal on screen, Next not pressed), a reload landed on round 3/5. Rounds 3 to 5 ended in `2/5`, `+20`, `+5` streak, `+25`, and `Next set in 21:23:57`, matching 18:30Z. With `x-test-now` at `2026-10-14T23:59:55+05:30` the countdown showed `00:00:05`. With the header switched to the next day, the page showed `Round 1/5` of the new day 5.3s later. With reduced motion emulated, `.glitch` had 0 running animations. Screenshots: round, pending, error, reveal mid-glitch and settled, done.
+
+Deviations:
+
+- Screenshots are dark only, not the issue's light and dark, because the app is dark only by product owner decision (#1).
+
 ## #16 Today: status header and activity graph
 
 Shipped:
