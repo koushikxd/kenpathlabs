@@ -14,6 +14,28 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #20 Public profile page
+
+Shipped:
+
+- `/u/[username]` (`app/u/[username]/page.tsx`), a server component: `PlayerHeader` (name, `bot`, live rank badge, `@username`) and `PlayerSummary`, the same sections as Me without the ledger or account actions. No client component on the page, so the whole profile is in the first HTML response.
+- `app/u/layout.tsx`: the same 480px column as `(dock)`, no dock, and a `Back to the game` link to `/`.
+- `app/u/[username]/not-found.tsx`: `Player not found` with a `See the board` link. Unknown and anonymous usernames return a real 404.
+- `createContext(headers: Headers)` (`server/context.ts`), was `createContext(req)`. The tRPC route passes `req.headers`. Server components call procedures with `t.createCallerFactory(appRouter)` and `createContext(await headers())`, test clock included.
+
+Decisions:
+
+- The page calls `profile.byUsername` through a server caller, not `playerSummary` directly, so the `NOT_FOUND` rule (unknown or anonymous) and season finalization stay in the procedure. A `TRPCError` with code `NOT_FOUND` becomes `notFound()`. Anything else goes to Next's error page. There is no `error.tsx` yet.
+- No `loading.tsx` on the route: `notFound()` sets a 404 status only before the response starts streaming.
+- The back link goes to `/`, not `history.back()`, because a shared link has no history in the app.
+- Profiles show all four badges with `Not yet` on unearned ones, the same as Me.
+- Verified with `curl` (no cookie) and `playwright-cli` (Helium) against `next dev` at 393x851. `curl`: `/u/metester_ok`, `/u/priya.ships`, `/u/PRIYA.SHIPS` and a da goat account returned 200 with the name, `@username`, the points (30, equal to that account's `me.get`), `bot` for the bot and `da goat` for the goat in the HTML. `/u/nobody-here` returned 404 with the not-found page and back link. Anonymous users in `psql`: 16 before and after. In a browser with no cookie, a bot profile showed the same name, points, rank badge, badges and `Season 1 · da goat` award as `profile.byUsername`, set no auth cookie, and created no user. With JavaScript disabled, a real player's profile showed every section. Regression for the gate move: from a profile, `Back to the game` landed on Today, which signed in anonymously once (one `/sign-in/anonymous`, anonymous users 16 to 17) and played a round. Board, then a row click, opened `/u/priya.ships` without the dock. Back went to round 2/5, which survived a reload. On Me, sign-up worked and `View profile` opened the new profile. Screenshots: real player (no JavaScript), a new account, bot, da goat account, not found.
+
+Deviations:
+
+- `AnonymousSession` moved from `Providers` (root layout) to `(dock)/layout.tsx`, which now reads the session. This supersedes #14's "mounted inside `Providers`". With the gate at the root, a first visit to a shared profile rendered a loader on the server and created an anonymous user before showing anything. Now `/u/*` renders with no session and creates no user. Every dock screen is still gated and still extends the cookie. A profile view alone does not, and does not need to.
+- Screenshots are dark only, because the app is dark only by product owner decision (#1).
+
 ## #19 Me screen with sign up, sign in and sign out
 
 Shipped:

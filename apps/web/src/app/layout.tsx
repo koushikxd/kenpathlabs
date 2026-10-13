@@ -1,9 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 
 import "../index.css";
 import Providers from "@/components/providers";
-import { readSession } from "@/server/services";
 
 export const metadata: Metadata = {
   title: "Hallucinated",
@@ -16,16 +14,15 @@ export const viewport: Viewport = {
   themeColor: "#121212", // --background in dark
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await readSession(await headers());
   return (
     <html lang="en" className="dark">
       <body>
-        <Providers hasSession={session !== null}>{children}</Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
