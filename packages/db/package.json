@@ -17,6 +17,7 @@
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "bun src/seed.ts",
+    "db:seed:players": "bun src/seed-players.ts",
     "db:studio": "prisma studio",
     "db:start": "docker compose up -d",
     "db:watch": "docker compose up",

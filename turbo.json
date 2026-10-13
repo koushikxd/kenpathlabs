@@ -37,6 +37,9 @@
     "db:seed": {
       "cache": false
     },
+    "db:seed:players": {
+      "cache": false
+    },
     "db:start": {
       "cache": false
     },

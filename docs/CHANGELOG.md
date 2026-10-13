@@ -14,6 +14,19 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #9 Seed 20 bot players
+
+Shipped: `pnpm db:seed:players` (`packages/db/src/seed-players.ts`) creates 20 bot users and one `seed` point entry each for the current season. Bot ids are `bot-<username>`, emails `<username>@bots.invalid`, `isBot = true`, `displayUsername` equals `username`, and there is no `account` row, so no login path exists. The entry has `reason: "seed"`, `ref` set to the season number and `createdAt` now, so it falls inside the season window.
+
+Decisions:
+
+- Both inserts are `createMany` with `skipDuplicates` (`ON CONFLICT DO NOTHING`) in one batch transaction. A re-run in the same season writes nothing. In a new season the bots already exist, and only the new season's entries are written.
+- **Bots only score in seasons where the script was run.** Run it once per season (no cron exists).
+- Amounts are a fixed list from 420 (rank 1) down to 15 (rank 20), totalling 3505. Rank 10 is 170: a perfect player (75, 80, 85, 90, 95 per day) passes it on day 3, and a 4/5 player (about 45 to 65 per day) on day 4.
+- If a real user already holds a bot's username or email, that bot is skipped, and its point entry fails on the FK, which rolls back the batch. This is left as a loud failure.
+
+Deviations: `packages/db` imports `seasonNumber` from `packages/api/src/game/clock.ts` by relative path. `@kenpathlabs/api` depends on `@kenpathlabs/db`, so a package dependency the other way would be a workspace cycle. `clock.ts` has no imports, so the relative path pulls in nothing else.
+
 ## #8 Content: rounds for days 8 to 14
 
 Shipped: `content/rounds.json` holds 70 rounds (days 1 to 14). Positions 36 to 70 are new, one theme per round, no theme or fact repeated from days 1 to 7. `pnpm db:seed` seeds 70 rounds and 210 statements. Days 15 onward append after position 70.
