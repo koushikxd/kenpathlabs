@@ -1,8 +1,19 @@
 import type { Context } from "@kenpathlabs/api/context";
 
+import { ENV } from "@/env";
+
 import { auth, db } from "./services";
 
 export async function createContext(req: Request): Promise<Context> {
   const session = await auth.api.getSession({ headers: req.headers });
-  return { db, session };
+  return { db, session, now: serverNow(req) };
+}
+
+// Next inlines NODE_ENV at build time, so a production build drops the header branch entirely.
+function serverNow(req: Request) {
+  const testNow = req.headers.get("x-test-now");
+  if (process.env.NODE_ENV !== "production" && ENV.ALLOW_TEST_CLOCK && testNow) {
+    return new Date(testNow);
+  }
+  return new Date();
 }

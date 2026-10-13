@@ -14,6 +14,26 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #11 Today query and answer mutation
+
+Shipped:
+
+- `Context.now` (`packages/api/src/context.ts`). Procedures read time only from it. `apps/web/src/server/context.ts` sets it from the `x-test-now` header (any `Date`-parsable string, e.g. `2026-10-15T09:00:00+05:30`) when `ALLOW_TEST_CLOCK=true` and the build is not production, otherwise `new Date()`. `ALLOW_TEST_CLOCK` is in `apps/web/.env.schema`, default `false`. Playwright sets it in the web server's env.
+- `game.today` (query, any session including anonymous): `{ day, season, streak, freezes, graph, rounds, done }`. Each round is `{ id, number, theme, statements: [{ id, label, text }], result }`. `result` is `null` until answered. Once answered it is `{ pickedId, correct, fakeId, correction, sources: [{ statementId, url }], points }`. `done` is `null` until all 5 are answered, then `{ correct, points: { round, perfect, streak }, nextDayStart, serverTime }` with ISO strings.
+- `game.answer` (mutation) `{ roundId, statementId }` returns the same `result` object as `today`.
+
+Decisions:
+
+- Unanswered rounds never carry `isFake`, `correction` or `sourceUrl`. The reveal lives only in `result`, so the UI reads it from there and not per statement.
+- `answer` returns only the round's `result`. After the 5th answer the UI refetches `today` for `done`.
+- `statementOrder` gets statements sorted by `id`, because its output depends on input order and the DB has no statement position. Changing that sort reshuffles every round.
+- `answer` locks the user row (`SELECT ... FOR UPDATE`) inside its transaction, so two concurrent answers to different rounds cannot both miss the 5th answer and skip the day bonuses.
+- Round, perfect and streak entries use `createMany` with `skipDuplicates` (`ON CONFLICT DO NOTHING`), and bonuses are only computed when the attempt insert actually wrote a row.
+- A round's `points` is 10 when correct, otherwise 0, derived from the attempt. `done.points` sums the ledger: `round` entries with ref `"<day>:"…` and `perfect`/`streak` entries with ref `"<day>"`.
+- An unknown round, a round not scheduled today, and a statement from another round all return the same `BAD_REQUEST`.
+- Both procedures use `protectedProcedure`. Without a session they return `UNAUTHORIZED`. The client signs in anonymously first (#14).
+- Verified manually with `curl` against `next dev` and `psql`, as anonymous users. 5/5 wrote 5 `round` entries, `perfect` 20 and `streak` 5. 4/5 wrote 4 `round` entries and `streak` 5, no `perfect`. Answering again with the same or a different statement returned the original result and wrote no rows. `x-test-now` the next day gave `streak` 10. The header was ignored with the flag off. The production-build gate (`process.env.NODE_ENV` inlined by Next) is not verified with a build.
+
 ## #10 Merge anonymous progress on sign-up and sign-in
 
 Shipped: `mergeAnonymousProgress(db, fromUserId, toUserId)` in `packages/auth/src/merge.ts`, wired as `anonymous({ onLinkAccount })` in `createAuth`. Every day the anonymous user played that the target account has not played moves across: its attempts, its `round` entries (`ref` starting `"<day>:"`) and its `perfect` and `streak` entries (`ref` equal to `"<day>"`). Everything else goes with the anonymous user when Better-Auth deletes it (cascade).
