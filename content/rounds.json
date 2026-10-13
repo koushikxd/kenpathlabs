@@ -838,5 +838,845 @@
         "correction": "GSM8K has 8,500 grade school math word problems."
       }
     ]
+  },
+  {
+    "id": "tokenizers",
+    "theme": "Tokenizers",
+    "statements": [
+      {
+        "id": "tokenizers-sentencepiece",
+        "text": "SentencePiece, a subword tokenizer library, was developed by Google.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/1808.06226"
+      },
+      {
+        "id": "tokenizers-tiktoken",
+        "text": "OpenAI's tiktoken library is a fast tokenizer for OpenAI models.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/openai/tiktoken"
+      },
+      {
+        "id": "tokenizers-llama-3-vocab",
+        "text": "Meta's Llama 3 uses a tokenizer with a vocabulary of 32,000 tokens.",
+        "isFake": true,
+        "correction": "Llama 3 uses a tokenizer with a vocabulary of 128K tokens."
+      }
+    ]
+  },
+  {
+    "id": "chatbot-names",
+    "theme": "Chatbot names",
+    "statements": [
+      {
+        "id": "chatbot-names-bard",
+        "text": "Google renamed its Bard chatbot to Gemini.",
+        "isFake": false,
+        "sourceUrl": "https://blog.google/products/gemini/bard-gemini-advanced-app/"
+      },
+      {
+        "id": "chatbot-names-bing-chat",
+        "text": "Microsoft renamed Bing Chat to Copilot.",
+        "isFake": false,
+        "sourceUrl": "https://blogs.microsoft.com/blog/2023/11/15/microsoft-ignite-2023-ai-transformation-and-the-technology-driving-change/"
+      },
+      {
+        "id": "chatbot-names-alexa",
+        "text": "Amazon's generative AI upgrade to Alexa is called Alexa Pro.",
+        "isFake": true,
+        "correction": "Amazon's upgraded assistant is called Alexa+."
+      }
+    ]
+  },
+  {
+    "id": "ai-for-science",
+    "theme": "AI for science",
+    "statements": [
+      {
+        "id": "ai-for-science-alphafold-db",
+        "text": "The AlphaFold Protein Structure Database holds over 200 million protein structure predictions.",
+        "isFake": false,
+        "sourceUrl": "https://alphafold.ebi.ac.uk/"
+      },
+      {
+        "id": "ai-for-science-gnome",
+        "text": "Google DeepMind's GNoME tool discovered 2.2 million new crystals.",
+        "isFake": false,
+        "sourceUrl": "https://deepmind.google/discover/blog/millions-of-new-materials-discovered-with-deep-learning/"
+      },
+      {
+        "id": "ai-for-science-alphafold-3",
+        "text": "AlphaFold 3 was developed by Google DeepMind and Microsoft Research.",
+        "isFake": true,
+        "correction": "AlphaFold 3 was developed by Google DeepMind and Isomorphic Labs."
+      }
+    ]
+  },
+  {
+    "id": "coding-benchmarks",
+    "theme": "Coding benchmarks",
+    "statements": [
+      {
+        "id": "coding-benchmarks-livecodebench",
+        "text": "LiveCodeBench collects new problems from LeetCode, AtCoder and Codeforces.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2403.07974"
+      },
+      {
+        "id": "coding-benchmarks-aider-polyglot",
+        "text": "Aider's polyglot benchmark has 225 coding exercises in six programming languages.",
+        "isFake": false,
+        "sourceUrl": "https://aider.chat/2024/12/21/polyglot.html"
+      },
+      {
+        "id": "coding-benchmarks-mbpp",
+        "text": "Google's MBPP benchmark has about 9,700 Python programming problems.",
+        "isFake": true,
+        "correction": "MBPP has 974 Python programming problems."
+      }
+    ]
+  },
+  {
+    "id": "cloud-chips",
+    "theme": "Chips built by tech giants",
+    "statements": [
+      {
+        "id": "cloud-chips-trainium",
+        "text": "Trainium is a chip that AWS built for training AI models.",
+        "isFake": false,
+        "sourceUrl": "https://aws.amazon.com/ai/machine-learning/trainium/"
+      },
+      {
+        "id": "cloud-chips-mtia",
+        "text": "MTIA is Meta's own family of AI accelerator chips.",
+        "isFake": false,
+        "sourceUrl": "https://ai.meta.com/blog/next-generation-meta-training-inference-accelerator-AI-MTIA/"
+      },
+      {
+        "id": "cloud-chips-maia",
+        "text": "The Maia 100 AI accelerator chip was designed by Google.",
+        "isFake": true,
+        "correction": "Maia 100 was designed by Microsoft."
+      }
+    ]
+  },
+  {
+    "id": "llama-4",
+    "theme": "Llama 4",
+    "statements": [
+      {
+        "id": "llama-4-scout-context",
+        "text": "Llama 4 Scout supports a context window of 10 million tokens.",
+        "isFake": false,
+        "sourceUrl": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+      },
+      {
+        "id": "llama-4-maverick",
+        "text": "Llama 4 Maverick has 17 billion active parameters and 128 experts.",
+        "isFake": false,
+        "sourceUrl": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+      },
+      {
+        "id": "llama-4-titan",
+        "text": "Llama 4 Maverick was distilled from a larger teacher model called Llama 4 Titan.",
+        "isFake": true,
+        "correction": "Maverick was distilled from Llama 4 Behemoth. There is no Llama 4 Titan."
+      }
+    ]
+  },
+  {
+    "id": "transformer-blocks",
+    "theme": "Transformer building blocks",
+    "statements": [
+      {
+        "id": "transformer-blocks-rope",
+        "text": "Rotary Position Embedding (RoPE) was introduced in the RoFormer paper.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2104.09864"
+      },
+      {
+        "id": "transformer-blocks-alibi",
+        "text": "ALiBi, a way to encode token positions, stands for Attention with Linear Biases.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2108.12409"
+      },
+      {
+        "id": "transformer-blocks-gqa",
+        "text": "Grouped-query attention (GQA) was introduced by researchers at Meta.",
+        "isFake": true,
+        "correction": "GQA was introduced by researchers at Google Research."
+      }
+    ]
+  },
+  {
+    "id": "ai-music",
+    "theme": "AI music models",
+    "statements": [
+      {
+        "id": "ai-music-musiclm",
+        "text": "MusicLM, a model that makes music from text, is from Google.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/2301.11325"
+      },
+      {
+        "id": "ai-music-jukebox",
+        "text": "Jukebox, a model that generates music with singing, is from OpenAI.",
+        "isFake": false,
+        "sourceUrl": "https://openai.com/index/jukebox/"
+      },
+      {
+        "id": "ai-music-musicgen",
+        "text": "MusicGen, a model that makes music from text, is from Microsoft.",
+        "isFake": true,
+        "correction": "MusicGen is from Meta, as part of its AudioCraft library."
+      }
+    ]
+  },
+  {
+    "id": "agent-benchmarks",
+    "theme": "Agent benchmarks",
+    "statements": [
+      {
+        "id": "agent-benchmarks-swe-bench-verified",
+        "text": "SWE-bench Verified is a set of 500 SWE-bench problems checked by human software engineers.",
+        "isFake": false,
+        "sourceUrl": "https://openai.com/index/introducing-swe-bench-verified/"
+      },
+      {
+        "id": "agent-benchmarks-tau-bench",
+        "text": "τ-bench (tau-bench), a benchmark for agents that use tools and talk to users, was made by Sierra.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/2406.12045"
+      },
+      {
+        "id": "agent-benchmarks-gaia",
+        "text": "In the GAIA benchmark paper, GPT-4 with plugins scored higher than human respondents.",
+        "isFake": true,
+        "correction": "In the GAIA paper, humans scored 92% and GPT-4 with plugins scored 15%."
+      }
+    ]
+  },
+  {
+    "id": "famous-datasets",
+    "theme": "Famous datasets",
+    "statements": [
+      {
+        "id": "famous-datasets-coco",
+        "text": "The COCO image dataset was first released under the name Microsoft COCO.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/1405.0312"
+      },
+      {
+        "id": "famous-datasets-laion-5b",
+        "text": "LAION-5B was released with 5.85 billion image and text pairs.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2210.08402"
+      },
+      {
+        "id": "famous-datasets-imagenet",
+        "text": "ImageNet has more than 140 million images.",
+        "isFake": true,
+        "correction": "ImageNet has more than 14 million images."
+      }
+    ]
+  },
+  {
+    "id": "mmlu-scores",
+    "theme": "MMLU scores",
+    "statements": [
+      {
+        "id": "mmlu-scores-gemini-ultra",
+        "text": "Google said Gemini Ultra was the first model to beat human experts on MMLU, with a score of 90.0%.",
+        "isFake": false,
+        "sourceUrl": "https://blog.google/technology/ai/google-gemini-ai/"
+      },
+      {
+        "id": "mmlu-scores-gpt-4",
+        "text": "GPT-4 scored 86.4% on MMLU.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/2303.08774"
+      },
+      {
+        "id": "mmlu-scores-claude-3-opus",
+        "text": "Claude 3 Opus scored 91.8% on MMLU.",
+        "isFake": true,
+        "correction": "Claude 3 Opus scored 86.8% on MMLU."
+      }
+    ]
+  },
+  {
+    "id": "robot-models",
+    "theme": "Robot models",
+    "statements": [
+      {
+        "id": "robot-models-rt-2",
+        "text": "RT-2 is a vision-language-action model for robots from Google DeepMind.",
+        "isFake": false,
+        "sourceUrl": "https://deepmind.google/discover/blog/rt-2-new-model-translates-vision-and-language-into-action/"
+      },
+      {
+        "id": "robot-models-pi-zero",
+        "text": "π0 (pi-zero) is a robot foundation model from Physical Intelligence.",
+        "isFake": false,
+        "sourceUrl": "https://www.physicalintelligence.company/blog/pi0"
+      },
+      {
+        "id": "robot-models-helix",
+        "text": "Helix, a model that controls humanoid robots, is made by Tesla.",
+        "isFake": true,
+        "correction": "Helix is made by Figure AI."
+      }
+    ]
+  },
+  {
+    "id": "agent-frameworks",
+    "theme": "Agent frameworks",
+    "statements": [
+      {
+        "id": "agent-frameworks-dspy",
+        "text": "DSPy, a framework for programming language models, comes from the Stanford NLP Group.",
+        "isFake": false,
+        "sourceUrl": "https://nlp.stanford.edu/"
+      },
+      {
+        "id": "agent-frameworks-smolagents",
+        "text": "Hugging Face's smolagents library lets agents write their actions as code.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/huggingface/smolagents"
+      },
+      {
+        "id": "agent-frameworks-autogen",
+        "text": "The AutoGen multi-agent framework was created by Google.",
+        "isFake": true,
+        "correction": "AutoGen was created by Microsoft, with researchers from Penn State and the University of Washington."
+      }
+    ]
+  },
+  {
+    "id": "nn-history",
+    "theme": "Neural network history",
+    "statements": [
+      {
+        "id": "nn-history-alexnet",
+        "text": "AlexNet was trained on two GTX 580 GPUs.",
+        "isFake": false,
+        "sourceUrl": "https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf"
+      },
+      {
+        "id": "nn-history-backprop",
+        "text": "Rumelhart, Hinton and Williams described backpropagation in \"Learning representations by back-propagating errors\".",
+        "isFake": false,
+        "sourceUrl": "https://www.nature.com/articles/323533a0"
+      },
+      {
+        "id": "nn-history-lstm",
+        "text": "Long short-term memory (LSTM) networks were introduced by Yann LeCun.",
+        "isFake": true,
+        "correction": "LSTM was introduced by Sepp Hochreiter and Jürgen Schmidhuber."
+      }
+    ]
+  },
+  {
+    "id": "mistral-models",
+    "theme": "Mistral AI models",
+    "statements": [
+      {
+        "id": "mistral-models-magistral",
+        "text": "Magistral is Mistral AI's first reasoning model.",
+        "isFake": false,
+        "sourceUrl": "https://mistral.ai/news/magistral"
+      },
+      {
+        "id": "mistral-models-devstral",
+        "text": "Mistral built its Devstral coding model together with All Hands AI.",
+        "isFake": false,
+        "sourceUrl": "https://mistral.ai/news/devstral"
+      },
+      {
+        "id": "mistral-models-codestral",
+        "text": "Mistral's Codestral model was trained on code in about 20 programming languages.",
+        "isFake": true,
+        "correction": "Codestral was trained on more than 80 programming languages."
+      }
+    ]
+  },
+  {
+    "id": "image-models",
+    "theme": "Image generation models",
+    "statements": [
+      {
+        "id": "image-models-imagen",
+        "text": "Imagen, a text-to-image diffusion model, was created by the Google Research Brain Team.",
+        "isFake": false,
+        "sourceUrl": "https://imagen.research.google/"
+      },
+      {
+        "id": "image-models-stable-diffusion",
+        "text": "Stable Diffusion was built by the CompVis group with Stability AI and Runway.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/CompVis/stable-diffusion"
+      },
+      {
+        "id": "image-models-flux",
+        "text": "The FLUX.1 image models are made by Stability AI.",
+        "isFake": true,
+        "correction": "FLUX.1 is made by Black Forest Labs."
+      }
+    ]
+  },
+  {
+    "id": "training-methods",
+    "theme": "Training methods",
+    "statements": [
+      {
+        "id": "training-methods-ppo",
+        "text": "Proximal Policy Optimization (PPO) was introduced by researchers at OpenAI.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/1707.06347"
+      },
+      {
+        "id": "training-methods-grpo",
+        "text": "Group Relative Policy Optimization (GRPO) was introduced in DeepSeek's DeepSeekMath paper.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2402.03300"
+      },
+      {
+        "id": "training-methods-dpo",
+        "text": "Direct Preference Optimization (DPO) was introduced by researchers at Google DeepMind.",
+        "isFake": true,
+        "correction": "DPO was introduced by researchers at Stanford University."
+      }
+    ]
+  },
+  {
+    "id": "human-exams",
+    "theme": "AI on human exams",
+    "statements": [
+      {
+        "id": "human-exams-gpt-4-bar",
+        "text": "OpenAI reported that GPT-4 passed a simulated bar exam with a score around the top 10% of test takers.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2303.08774"
+      },
+      {
+        "id": "human-exams-med-palm",
+        "text": "Google says its Med-PaLM was the first AI to reach the pass mark on US medical licensing exam style questions.",
+        "isFake": false,
+        "sourceUrl": "https://sites.research.google/med-palm/"
+      },
+      {
+        "id": "human-exams-alphacode",
+        "text": "DeepMind's original AlphaCode ranked in the top 5% of competitors in Codeforces contests.",
+        "isFake": true,
+        "correction": "The original AlphaCode ranked in about the top 54% of competitors, close to an average competitor."
+      }
+    ]
+  },
+  {
+    "id": "deepseek",
+    "theme": "DeepSeek models",
+    "statements": [
+      {
+        "id": "deepseek-r1-license",
+        "text": "DeepSeek-R1's code and model weights are licensed under the MIT License.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/deepseek-ai/DeepSeek-R1"
+      },
+      {
+        "id": "deepseek-v3-gpu-hours",
+        "text": "DeepSeek-V3's full training took 2.788 million H800 GPU hours.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2412.19437"
+      },
+      {
+        "id": "deepseek-coder-v2",
+        "text": "DeepSeek-Coder-V2 supports only 86 programming languages.",
+        "isFake": true,
+        "correction": "DeepSeek-Coder-V2 supports 338 programming languages, up from 86."
+      }
+    ]
+  },
+  {
+    "id": "gpu-programming",
+    "theme": "GPU programming",
+    "statements": [
+      {
+        "id": "gpu-programming-triton",
+        "text": "OpenAI released Triton, an open-source Python-like language for writing GPU code.",
+        "isFake": false,
+        "sourceUrl": "https://openai.com/index/triton/"
+      },
+      {
+        "id": "gpu-programming-mojo",
+        "text": "Mojo is a programming language created by the AI company Modular.",
+        "isFake": false,
+        "sourceUrl": "https://mojolang.org/docs/faq/"
+      },
+      {
+        "id": "gpu-programming-rocm",
+        "text": "ROCm is NVIDIA's open-source software stack for GPU programming.",
+        "isFake": true,
+        "correction": "ROCm is AMD's open-source GPU software stack."
+      }
+    ]
+  },
+  {
+    "id": "multimodal",
+    "theme": "Multimodal models",
+    "statements": [
+      {
+        "id": "multimodal-gpt-4o-omni",
+        "text": "The \"o\" in GPT-4o stands for \"omni\".",
+        "isFake": false,
+        "sourceUrl": "https://openai.com/index/hello-gpt-4o/"
+      },
+      {
+        "id": "multimodal-llava",
+        "text": "LLaVA, a vision-language model, came from the University of Wisconsin–Madison, Microsoft Research and Columbia.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/2304.08485"
+      },
+      {
+        "id": "multimodal-gpt-4o-latency",
+        "text": "OpenAI said GPT-4o can respond to audio in as little as 2.3 seconds.",
+        "isFake": true,
+        "correction": "GPT-4o can respond to audio in as little as 232 milliseconds."
+      }
+    ]
+  },
+  {
+    "id": "weather-models",
+    "theme": "Weather models",
+    "statements": [
+      {
+        "id": "weather-models-aurora",
+        "text": "Aurora, a foundation model for weather and the atmosphere, was built by Microsoft.",
+        "isFake": false,
+        "sourceUrl": "https://www.microsoft.com/en-us/research/project/aurora-forecasting/"
+      },
+      {
+        "id": "weather-models-pangu",
+        "text": "The Pangu-Weather forecasting model was built by Huawei Cloud.",
+        "isFake": false,
+        "sourceUrl": "https://www.nature.com/articles/s41586-023-06185-3"
+      },
+      {
+        "id": "weather-models-graphcast",
+        "text": "In DeepMind's tests, GraphCast was less accurate than ECMWF's HRES forecast on most of 1,380 test targets.",
+        "isFake": true,
+        "correction": "GraphCast was more accurate than HRES on 90% of the 1,380 test targets."
+      }
+    ]
+  },
+  {
+    "id": "chatbot-arena",
+    "theme": "Ranking chatbots",
+    "statements": [
+      {
+        "id": "chatbot-arena-lmsys",
+        "text": "The Chatbot Arena paper came from researchers at UC Berkeley, Stanford and UC San Diego.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/2403.04132"
+      },
+      {
+        "id": "chatbot-arena-mt-bench",
+        "text": "MT-Bench has 80 multi-turn questions for testing chat assistants.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/2306.05685"
+      },
+      {
+        "id": "chatbot-arena-anonymous",
+        "text": "In Chatbot Arena's battle mode, the names of the two models are shown before people vote.",
+        "isFake": true,
+        "correction": "In battle mode, the two models stay anonymous until after the vote."
+      }
+    ]
+  },
+  {
+    "id": "early-language-models",
+    "theme": "Before ChatGPT",
+    "statements": [
+      {
+        "id": "early-language-models-roberta",
+        "text": "RoBERTa, an improved version of BERT, came from Facebook AI.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/1907.11692"
+      },
+      {
+        "id": "early-language-models-xlnet",
+        "text": "XLNet was developed by researchers at Carnegie Mellon University and Google.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/1906.08237"
+      },
+      {
+        "id": "early-language-models-distilbert",
+        "text": "DistilBERT is 40% smaller than BERT and keeps 79% of its language understanding.",
+        "isFake": true,
+        "correction": "DistilBERT keeps 97% of BERT's language understanding."
+      }
+    ]
+  },
+  {
+    "id": "safety-frameworks",
+    "theme": "AI safety",
+    "statements": [
+      {
+        "id": "safety-frameworks-rsp",
+        "text": "Anthropic's first Responsible Scaling Policy defined AI Safety Levels, or ASLs.",
+        "isFake": false,
+        "sourceUrl": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+      },
+      {
+        "id": "safety-frameworks-fsf",
+        "text": "Google DeepMind's Frontier Safety Framework introduced Critical Capability Levels.",
+        "isFake": false,
+        "sourceUrl": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"
+      },
+      {
+        "id": "safety-frameworks-aisi",
+        "text": "The UK's AI Security Institute was previously called the AI Standards Institute.",
+        "isFake": true,
+        "correction": "Before it was renamed, it was called the AI Safety Institute."
+      }
+    ]
+  },
+  {
+    "id": "claude-4",
+    "theme": "Claude 4 models",
+    "statements": [
+      {
+        "id": "claude-4-sonnet-45-osworld",
+        "text": "Claude Sonnet 4.5 scored 61.4% on the OSWorld computer-use benchmark.",
+        "isFake": false,
+        "sourceUrl": "https://www.anthropic.com/news/claude-sonnet-4-5"
+      },
+      {
+        "id": "claude-4-sonnet-45-hours",
+        "text": "Anthropic said Claude Sonnet 4.5 can keep focus on complex tasks for more than 30 hours.",
+        "isFake": false,
+        "sourceUrl": "https://www.anthropic.com/news/claude-sonnet-4-5"
+      },
+      {
+        "id": "claude-4-haiku-4",
+        "text": "Anthropic launched Claude Opus 4 and Claude Sonnet 4 together with Claude Haiku 4.",
+        "isFake": true,
+        "correction": "There is no Claude Haiku 4. Claude 4 launched as Opus 4 and Sonnet 4, and the next Haiku was Haiku 4.5."
+      }
+    ]
+  },
+  {
+    "id": "search-embeddings",
+    "theme": "Search and embeddings",
+    "statements": [
+      {
+        "id": "search-embeddings-faiss",
+        "text": "FAISS, a library for vector similarity search, was built by Meta's FAIR team.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/facebookresearch/faiss"
+      },
+      {
+        "id": "search-embeddings-colbert",
+        "text": "ColBERT, a retrieval model built on BERT, came from Stanford University.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/2004.12832"
+      },
+      {
+        "id": "search-embeddings-sbert",
+        "text": "Sentence-BERT was developed by researchers at Google.",
+        "isFake": true,
+        "correction": "Sentence-BERT was developed at the UKP Lab of TU Darmstadt."
+      }
+    ]
+  },
+  {
+    "id": "math-benchmarks",
+    "theme": "Math benchmarks",
+    "statements": [
+      {
+        "id": "math-benchmarks-frontiermath",
+        "text": "FrontierMath, a benchmark of very hard math problems, was created by Epoch AI.",
+        "isFake": false,
+        "sourceUrl": "https://epoch.ai/frontiermath"
+      },
+      {
+        "id": "math-benchmarks-gsm-symbolic",
+        "text": "GSM-Symbolic, a variant of the GSM8K math benchmark, was made by Apple researchers.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/pdf/2410.05229"
+      },
+      {
+        "id": "math-benchmarks-minif2f",
+        "text": "The miniF2F benchmark has 4,880 formal Olympiad-level math problems.",
+        "isFake": true,
+        "correction": "miniF2F has 488 problems."
+      }
+    ]
+  },
+  {
+    "id": "ai-dev-tools",
+    "theme": "AI software builders",
+    "statements": [
+      {
+        "id": "ai-dev-tools-devin",
+        "text": "Devin, an autonomous AI software engineer, is made by Cognition.",
+        "isFake": false,
+        "sourceUrl": "https://cognition.ai/blog/introducing-devin"
+      },
+      {
+        "id": "ai-dev-tools-cursor",
+        "text": "Cursor, the AI code editor, is made by a company called Anysphere.",
+        "isFake": false,
+        "sourceUrl": "https://cursor.com/terms-of-service"
+      },
+      {
+        "id": "ai-dev-tools-v0",
+        "text": "v0, the AI app builder, is made by Netlify.",
+        "isFake": true,
+        "correction": "v0 is made by Vercel."
+      }
+    ]
+  },
+  {
+    "id": "open-model-families",
+    "theme": "Open model families",
+    "statements": [
+      {
+        "id": "open-model-families-olmo",
+        "text": "OLMo, a fully open language model, is made by the Allen Institute for AI (Ai2).",
+        "isFake": false,
+        "sourceUrl": "https://allenai.org/olmo"
+      },
+      {
+        "id": "open-model-families-granite",
+        "text": "IBM makes the Granite family of open models.",
+        "isFake": false,
+        "sourceUrl": "https://www.ibm.com/granite"
+      },
+      {
+        "id": "open-model-families-nemotron",
+        "text": "The Nemotron family of models is made by AMD.",
+        "isFake": true,
+        "correction": "Nemotron is made by NVIDIA."
+      }
+    ]
+  },
+  {
+    "id": "qwen3",
+    "theme": "Qwen3",
+    "statements": [
+      {
+        "id": "qwen3-moe",
+        "text": "Qwen3-235B-A22B has 235 billion total parameters and 22 billion active parameters.",
+        "isFake": false,
+        "sourceUrl": "https://qwenlm.github.io/blog/qwen3/"
+      },
+      {
+        "id": "qwen3-languages",
+        "text": "Qwen3 launched with support for 119 languages and dialects.",
+        "isFake": false,
+        "sourceUrl": "https://qwenlm.github.io/blog/qwen3/"
+      },
+      {
+        "id": "qwen3-tokens",
+        "text": "Qwen3 was pretrained on about 3.6 trillion tokens.",
+        "isFake": true,
+        "correction": "Qwen3 was pretrained on about 36 trillion tokens."
+      }
+    ]
+  },
+  {
+    "id": "fast-inference",
+    "theme": "Making inference fast",
+    "statements": [
+      {
+        "id": "fast-inference-pagedattention",
+        "text": "PagedAttention, the attention algorithm behind vLLM, was inspired by virtual memory in operating systems.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2309.06180"
+      },
+      {
+        "id": "fast-inference-gptq",
+        "text": "GPTQ can compress the weights of GPT models down to 3 or 4 bits each.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2210.17323"
+      },
+      {
+        "id": "fast-inference-speculative-decoding",
+        "text": "Speculative decoding speeds up text generation, but it changes the model's outputs.",
+        "isFake": true,
+        "correction": "Speculative decoding speeds up generation without changing the model's outputs."
+      }
+    ]
+  },
+  {
+    "id": "interpretability",
+    "theme": "Looking inside models",
+    "statements": [
+      {
+        "id": "interpretability-golden-gate",
+        "text": "Anthropic made Golden Gate Claude by turning up a Golden Gate Bridge feature inside the model.",
+        "isFake": false,
+        "sourceUrl": "https://www.anthropic.com/news/golden-gate-claude"
+      },
+      {
+        "id": "interpretability-explain-neurons",
+        "text": "OpenAI used GPT-4 to write explanations for neurons in GPT-2.",
+        "isFake": false,
+        "sourceUrl": "https://openai.com/index/language-models-can-explain-neurons-in-language-models/"
+      },
+      {
+        "id": "interpretability-gemma-scope",
+        "text": "Gemma Scope, a set of sparse autoencoders for Gemma 2, was released by Anthropic.",
+        "isFake": true,
+        "correction": "Gemma Scope was released by Google DeepMind."
+      }
+    ]
+  },
+  {
+    "id": "large-models",
+    "theme": "Very large models",
+    "statements": [
+      {
+        "id": "large-models-grok-1",
+        "text": "xAI's Grok-1 has 314 billion parameters.",
+        "isFake": false,
+        "sourceUrl": "https://x.ai/news/grok-os"
+      },
+      {
+        "id": "large-models-palm",
+        "text": "Google's PaLM model has 540 billion parameters.",
+        "isFake": false,
+        "sourceUrl": "https://research.google/blog/pathways-language-model-palm-scaling-to-540-billion-parameters-for-breakthrough-performance/"
+      },
+      {
+        "id": "large-models-falcon-180b",
+        "text": "Falcon 180B was trained on 35 trillion tokens.",
+        "isFake": true,
+        "correction": "Falcon 180B was trained on 3.5 trillion tokens."
+      }
+    ]
+  },
+  {
+    "id": "ai-acronyms",
+    "theme": "More AI acronyms",
+    "statements": [
+      {
+        "id": "ai-acronyms-llama",
+        "text": "LLaMA, the name of Meta's first Llama model, stood for Large Language Model Meta AI.",
+        "isFake": false,
+        "sourceUrl": "https://ai.meta.com/blog/large-language-model-llama-meta-ai/"
+      },
+      {
+        "id": "ai-acronyms-lora",
+        "text": "LoRA stands for Low-Rank Adaptation.",
+        "isFake": false,
+        "sourceUrl": "https://arxiv.org/abs/2106.09685"
+      },
+      {
+        "id": "ai-acronyms-tpu",
+        "text": "The \"TPU\" in Google's TPU chips stands for Tensor Parallel Unit.",
+        "isFake": true,
+        "correction": "TPU stands for Tensor Processing Unit."
+      }
+    ]
   }
 ]

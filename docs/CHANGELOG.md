@@ -14,6 +14,19 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #8 Content: rounds for days 8 to 14
+
+Shipped: `content/rounds.json` holds 70 rounds (days 1 to 14). Positions 36 to 70 are new, one theme per round, no theme or fact repeated from days 1 to 7. `pnpm db:seed` seeds 70 rounds and 210 statements. Days 15 onward append after position 70.
+
+Decisions:
+
+- Fakes vary the changed detail: company or lab (13), number (12), winner or result (4: GAIA scores, GraphCast vs HRES, Chatbot Arena anonymity, speculative decoding outputs), a product or model that does not exist (3: Alexa Pro, Claude Haiku 4, Llama 4 Titan), person (1) and name or acronym (2).
+- Claims a vendor makes about itself are attributed in the text ("Google said", "Google says", "OpenAI reported") where others dispute them: Gemini Ultra's 90.0% MMLU is a CoT@32 score, and the GPT-4 bar exam percentile has been questioned.
+- Wording is pinned so it stays true: "original AlphaCode" (AlphaCode 2 did reach the top 5%), "Anthropic's first Responsible Scaling Policy" (later versions dropped ASLs as the structure), "LAION-5B was released with" (Re-LAION-5B is smaller), "Qwen3 launched with", "Mojo ... created by Modular" (Qualcomm acquired Modular), "previously called the AI Safety Institute" (it began as the Frontier AI Taskforce, so "first called" was wrong), "In Chatbot Arena's battle mode" (other modes show model names).
+- Dropped as a fake because the origin is disputed: "speculative decoding was introduced by Google" (Peking University and MSRA claim the name first). The fake now changes the result instead.
+- Sources moved where the original URL stopped supporting the claim: Imagen cites `imagen.research.google` (`deepmind.google/models/imagen` now redirects to the Gemini image page), Mojo cites `mojolang.org/docs/faq` (`modular.com/mojo` redirects to a page that does not name Modular), PaLM cites the Google Research blog (the arXiv abstract does not name Google), DSPy cites `nlp.stanford.edu`.
+- Each truth and each fake's correction was checked by opening its source and quoting the supporting sentence. openai.com, ai.meta.com, microsoft.com/research and physicalintelligence.company block scripts, so those were checked through Web Archive copies. Their links are kept because they load in a browser.
+
 ## #7 Content: rounds for days 1 to 7
 
 Shipped: `content/rounds.json` holds 35 rounds (days 1 to 7, positions 1 to 35), one theme per round, no theme repeated. `pnpm db:seed` seeds 35 rounds and 105 statements. #8 (days 8 to 14) appends after position 35.
