@@ -14,6 +14,20 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #7 Content: rounds for days 1 to 7
+
+Shipped: `content/rounds.json` holds 35 rounds (days 1 to 7, positions 1 to 35), one theme per round, no theme repeated. `pnpm db:seed` seeds 35 rounds and 105 statements. #8 (days 8 to 14) appends after position 35.
+
+Decisions:
+
+- Kept the 5 sample rounds from #6 as day 1. Replaced their Wikipedia sources with vendor, repo or paper links, and reworded the PyTorch truth to "Facebook AI Research, now part of Meta", because the paper predates the Meta name.
+- "No dates shown to players" is read as: no years or dates in statement text. Facts that only hold for one year (which IMO, which ARC Prize rules) were swapped for facts that need no year.
+- Fakes vary the changed detail: company, lab or HQ (13), number (13), winner or result (3), a model that does not exist (2: GPT-4o nano, o2), and license, architecture or acronym (4).
+- Where the abstract page does not name the affiliation the truth claims, `sourceUrl` points at the arXiv PDF (`/pdf/`), whose first page does.
+- `reasoning-models-r1-zero` cites `arxiv.org/abs/2501.12948v1`, because v2 of the abstract no longer mentions R1-Zero.
+- A few truths are pinned to a model version so they stay true: "original Whisper", "the largest Llama 3.1 model", "a preview of OpenAI's o3", "Operator was powered by".
+- Each truth and fake correction was checked by opening its source and quoting the supporting sentence. openai.com, awards.acm.org and ir.kuaishou.com return 403 to scripts, so those were checked through Web Archive copies or the vendor's other pages (system card, GitHub repo). Their links are kept because they load in a browser.
+
 ## #6 Round content format and the db:seed validator
 
 Shipped:
