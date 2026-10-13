@@ -83,6 +83,7 @@ Decisions:
 - A round's `points` is 10 when correct, otherwise 0, derived from the attempt. `done.points` sums the ledger: `round` entries with ref `"<day>:"…` and `perfect`/`streak` entries with ref `"<day>"`.
 - An unknown round, a round not scheduled today, and a statement from another round all return the same `BAD_REQUEST`.
 - Both procedures use `protectedProcedure`. Without a session they return `UNAUTHORIZED`. The client signs in anonymously first (#14).
+- `answer` sets `createdAt` to `ctx.now` on the attempt and its point entries, instead of the DB clock, so under the test clock points land in the faked season (needed for the board E2E in #25). Added after #14. Checked: answers with `x-test-now` on 2026-10-19 put the player on the season 2 board and not on season 1.
 - Verified manually with `curl` against `next dev` and `psql`, as anonymous users. 5/5 wrote 5 `round` entries, `perfect` 20 and `streak` 5. 4/5 wrote 4 `round` entries and `streak` 5, no `perfect`. Answering again with the same or a different statement returned the original result and wrote no rows. `x-test-now` the next day gave `streak` 10. The header was ignored with the flag off. The production-build gate (`process.env.NODE_ENV` inlined by Next) is not verified with a build.
 
 ## #10 Merge anonymous progress on sign-up and sign-in

@@ -106,6 +106,8 @@ export const gameRouter = router({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
       const day = dayKey(ctx.now);
+      // Stamped with ctx.now, not the DB clock, so the test clock also moves points into its season.
+      const createdAt = ctx.now;
       const round = await ctx.db.round.findFirst({
         where: { id: input.roundId, position: { in: roundPositions(day) } },
         include: { statements: true },
@@ -120,7 +122,7 @@ export const gameRouter = router({
         await tx.$queryRaw`SELECT 1 FROM "user" WHERE id = ${userId} FOR UPDATE`;
         const key = { userId, day, roundId: round.id };
         const { count } = await tx.attempt.createMany({
-          data: [{ ...key, statementId: picked.id, correct: picked.isFake }],
+          data: [{ ...key, statementId: picked.id, correct: picked.isFake, createdAt }],
           skipDuplicates: true,
         });
         if (count === 1) {
@@ -131,6 +133,7 @@ export const gameRouter = router({
               amount: ROUND_POINTS,
               reason: "round",
               ref: `${day}:${round.id}`,
+              createdAt,
             });
           }
           const attempts = await tx.attempt.findMany({
@@ -140,12 +143,18 @@ export const gameRouter = router({
           const todays = attempts.filter((a) => a.day === day);
           if (todays.length === ROUNDS_PER_DAY) {
             if (todays.every((a) => a.correct)) {
-              entries.push({ userId, amount: PERFECT_POINTS, reason: "perfect", ref: day });
+              entries.push({
+                userId,
+                amount: PERFECT_POINTS,
+                reason: "perfect",
+                ref: day,
+                createdAt,
+              });
             }
             // Today is finished, so the streak includes it.
             const streak = computeHistory(attempts, day).currentStreak;
             const amount = Math.min(STREAK_POINTS * streak, MAX_STREAK_POINTS);
-            entries.push({ userId, amount, reason: "streak", ref: day });
+            entries.push({ userId, amount, reason: "streak", ref: day, createdAt });
           }
           await tx.pointEntry.createMany({ data: entries, skipDuplicates: true });
         }
