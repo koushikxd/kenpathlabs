@@ -24,6 +24,8 @@ colors:
   success: "oklch(0.639 0.175 148)" # #1fa748, same in both themes
   success-muted: "oklch(0.941 0.074 147.9) → oklch(0.639 0.175 148 / 15%)" # #cbfad0 → success at 15%
   success-foreground: "oklch(0.485 0.129 148.8) → oklch(0.726 0.179 148.9)" # #137232 → #3cc463
+  brand: "oklch(0.541 0.281 293.009) → oklch(0.702 0.183 293.541)" # violet-600 → violet-400, the one accent
+  frozen: "oklch(0.685 0.169 237.323) → oklch(0.746 0.16 232.661)" # sky-500 → sky-400, frozen days only
   border: "oklch(0.922 0 0) → oklch(1 0 0 / 10%)"
   input: "oklch(0.922 0 0) → oklch(1 0 0 / 15%)"
   ring: "oklch(0.708 0 0) → oklch(0.556 0 0)"
@@ -234,6 +236,10 @@ The scale is semantic, not numeric. What each token is for:
   `success-foreground` is the text that sits on that fill, so a success badge or status
   plate is `bg-success-muted text-success-foreground`, and a bare indicator (a dot, a
   tick) is `text-success` or `bg-success`. There is no warning or info token.
+- `brand` is the one accent: the active dock item, the activity graph, and emphasis on the
+  game's own numbers. Derive its tints with opacity (`bg-brand/15`). There is no
+  `brand-foreground` yet, because nothing puts text on a solid brand fill.
+- `frozen` is only the colour of a frozen day (the activity graph, the freeze counter).
 - `border` is every hairline. `input` is the border on form controls (a different alpha in
   dark). `ring` is focus only.
 - The `sidebar-*` set exists so the rail can be a different tone from the page: white
@@ -302,6 +308,13 @@ The spacing rhythm inside that: `gap-5` between sections, `gap-3` between a head
 its controls, `gap-2.5` inside a control cluster, `gap-2` for list rows and inline
 clusters, `gap-1` / `gap-1.5` inside a row (title next to badge, icon next to label),
 `gap-0.5` between row-action icon buttons.
+
+**Dock frame.** This app does not use the sidebar frame above. Every screen except the
+public profile renders in the `(dock)` layout: a centred
+`mx-auto flex w-full max-w-120 flex-col gap-5 px-4 pt-6` column (480px), with the document
+as the scroller, and a floating pill dock fixed to the bottom. The column's bottom padding,
+`pb-[calc(6rem+env(safe-area-inset-bottom))]`, keeps the last line of content above the
+dock, so a screen adds no bottom padding of its own.
 
 Mobile: only `sm:` and `md:` are load-bearing, plus `max-sm:` to reveal hover-only actions
 on touch. The sidebar becomes a sheet below `md` (a JS breakpoint at 768px, not a media
@@ -582,8 +595,8 @@ to get the latest version, then reapply your edits.`
 ## Do's and Don'ts
 
 - Do reference tokens through their utility. No raw hex, no `rounded-[10px]`.
-- Do treat the theme as achromatic. `destructive` and `success` are the only hues with a
-  meaning; a new hue needs a new meaning, not a new screen.
+- Do treat the theme as achromatic. `destructive`, `success`, `brand` and `frozen` are the
+  only hues with a meaning; a new hue needs a new meaning, not a new screen.
 - Do derive shades with an opacity modifier (`bg-muted/40`, `bg-accent/35`,
   `border-destructive/30`) instead of adding a colour.
 - Do use `ring-1 ring-foreground/10` for a surface that floats and a `border` for one that

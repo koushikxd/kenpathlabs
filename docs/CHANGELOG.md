@@ -14,6 +14,31 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #15 App shell: dock, layout, accent
+
+Shipped:
+
+- `app/(dock)/layout.tsx`: every screen except `/u/[username]` (#20, under `app/u/`, no dock) renders in a centred `max-w-120` (480px) `<main>` with `gap-5 px-4 pt-6`, plus the dock. Its bottom padding, `pb-[calc(6rem+env(safe-area-inset-bottom))]`, is the contract: a screen adds no bottom padding of its own and its last line still clears the dock.
+- `components/dock.tsx`: a fixed pill nav (Today `/`, Board `/board`, Me `/me`) with a gradient scrim behind it. The active link carries `aria-current="page"` and is styled from that attribute.
+- `(dock)/page.tsx`, `(dock)/board/page.tsx`, `(dock)/me/page.tsx` are placeholders (title plus one line) for #16 to #19.
+- Tokens `brand` and `frozen` in `packages/ui/src/styles/globals.css` (`:root`, `.dark` and `@theme inline`), so `bg-brand/15`, `text-brand`, `bg-frozen` work. Documented in `DESIGN.md`, which also gained a "Dock frame" paragraph.
+- The root layout exports `viewport` (`viewportFit: "cover"`, so `env(safe-area-inset-*)` is not 0, plus `colorScheme: "dark"` and `themeColor: "#121212"`) and the title "Hallucinated".
+- Deleted: `/login`, `header.tsx`, `user-menu.tsx`, `sign-in-form.tsx`, `sign-up-form.tsx`, and the Geist fonts (never read: `font-sans` is the system stack).
+
+Decisions:
+
+- The accent is called `brand`, because `accent` is already shadcn's hover tint and the `packages/ui` primitives use it.
+- `brand` is violet (Tailwind violet-600 light, violet-400 dark), clear of the hues that already mean something (`success` green, `destructive` red, the blue `chart-*` ramp). Violet-400 on `#121212` is readable as text (about 6.8:1, computed, not measured with a tool). `frozen` is sky (sky-500 / sky-400), about 60° from violet, so a frozen cell does not read as a graph shade. It lands here so the palette changes once; #16 is its first user. No `brand-foreground` yet, since nothing puts text on a solid brand fill.
+- The document scrolls, not an inner `<main>` (DESIGN's single scroller belongs to its sidebar frame). On a phone that lets the browser bar collapse and keeps native scroll restoration.
+- `px-4`, not DESIGN's `p-6`, so #16's 20-column graph gets about 15px cells at 393px.
+- The template sign-in and sign-up forms went with `/login`, their only user. #19 writes new forms against `signUp` / `signIn` in `lib/auth-client.ts`. `@tanstack/react-form` stays in `package.json` for it.
+- Every dock item has an icon and a label (`CalendarCheck`, `Trophy`, `CircleUser`), 48px tall. Active match is exact `pathname`, since there are no nested dock routes.
+- Verified with `playwright-cli` (Helium) against `next dev` at 393x851 and 1280x800: on `/`, `/board` and `/me` exactly one link has `aria-current="page"` and it is the right one. Dock clicks navigate without a reload (a `window` marker survived). `/login` returns 404. With 2000px of content injected and the page scrolled to the bottom, the last line ends 28px above the dock at 393x851. Safe-area insets are not verifiable in desktop Chromium (`env()` is 0); #21's phone pass covers them. In dev, the Next.js and TanStack devtools buttons sit beside the dock; they do not ship.
+
+Deviations:
+
+- Screenshots are dark only, not the issue's light and dark, because the app is dark only by product owner decision (#1), re-confirmed for this issue. The light token values are defined anyway so every token pair stays complete.
+
 ## #14 Client data layer
 
 Shipped:
