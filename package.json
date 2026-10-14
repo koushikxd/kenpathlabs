@@ -19,6 +19,7 @@
     "db:migrate": "turbo run db:migrate -F @kenpathlabs/db --",
     "db:seed": "turbo run db:seed -F @kenpathlabs/db --",
     "db:seed:players": "turbo run db:seed:players -F @kenpathlabs/db --",
+    "db:seed:demo": "turbo run db:seed:demo -F @kenpathlabs/db --",
     "db:start": "turbo run db:start -F @kenpathlabs/db --",
     "db:watch": "turbo run db:watch -F @kenpathlabs/db --",
     "db:stop": "turbo run db:stop -F @kenpathlabs/db --",
@@ -33,6 +34,8 @@
   },
   "devDependencies": {
     "@kenpathlabs/config": "workspace:*",
+    "@neon/config": "1.9.1",
+    "@neon/env": "1.6.1",
     "@oxlint/plugins": "1.83.0",
     "@types/node": "catalog:",
     "lefthook": "^2.1.14",

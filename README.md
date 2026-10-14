@@ -1,155 +1,144 @@
-# kenpathlabs
+# Hallucinated
 
-A TypeScript monorepo that combines Next.js, Express, tRPC, and more.
+A daily "two truths and a hallucination" game about tech, coding and AI, for developers.
 
-## Features
+Every day everyone gets the same 5 rounds. Each round has three statements about languages, dev tools, tech news, LLMs or AI coding agents. Two are true and one is made up. Pick the fake, see the truth with its source, earn points and keep your streak.
 
-- **TypeScript** - For type safety and improved developer experience
-- **Next.js** - Full-stack React framework
-- **TailwindCSS** - Utility-first CSS for rapid UI development
-- **Shared UI package** - shadcn/ui primitives live in `packages/ui`
-- **Express** - Fast, unopinionated web framework
-- **tRPC** - End-to-end type-safe APIs
-- **Node.js** - Runtime environment
-- **Prisma** - TypeScript-first ORM
-- **PostgreSQL** - Database engine, run locally with Docker
-- **Authentication** - Better-Auth
-- **Oxlint** - Oxlint + Oxfmt (linting & formatting)
-- **Turborepo** - Optimized monorepo build system
+**Live:** [hallucinated.vercel.app](https://hallucinated.vercel.app)
 
-## Start a new project from this template
+| Round                                         | Profile                                         | Board                                         |
+| --------------------------------------------- | ----------------------------------------------- | --------------------------------------------- |
+| <img src="docs/images/round.png" width="250"> | <img src="docs/images/profile.png" width="250"> | <img src="docs/images/board.png" width="250"> |
+
+## What brings you back
+
+- **One set a day.** 5 rounds, the same for everyone, new at midnight IST.
+- **Streaks with freezes.** Finish all 5 rounds to extend your streak. Every 7 days earns a freeze (up to 2), which covers a missed day automatically.
+- **Points with a receipt.** +10 per correct round, +20 for a perfect day and a streak bonus. Every point is a ledger entry you can see on Me.
+- **Weekly seasons.** The board resets every Monday. #1 holds **da goat**, #2 to #10 hold **10x dev**, and the final top 10 keep their badge on their profile for good.
+- **Badges** for your first answer, a 7-day streak, a perfect week and catching 50 fakes.
+- **An activity graph** of the last 20 weeks, like GitHub's.
+
+You play as a guest from the first tap. Signing up later keeps everything you earned.
+
+The full rules are in [docs/PROJECT_SPEC.md](docs/PROJECT_SPEC.md).
+
+## How it is built
+
+One Next.js app serves the pages, the tRPC API and auth, on Postgres through Prisma.
+
+```mermaid
+flowchart LR
+  phone["Phone browser"]
+
+  subgraph web["Next.js app (apps/web)"]
+    screens["Screens<br/>Today, Play, Board, Me, /u/username"]
+    trpc["/api/trpc<br/>game, board, me, profile"]
+    auth["/api/auth<br/>Better-Auth: guest, email, username"]
+  end
+
+  game["packages/api/game<br/>pure logic: IST clock, schedule,<br/>streaks, ranking"]
+  db[("Postgres<br/>via Prisma")]
+  content["content/rounds.json"]
+
+  phone --> screens
+  phone -- "tRPC + React Query" --> trpc
+  phone -- "guest session, sign up, sign in" --> auth
+  trpc --> game
+  trpc --> db
+  auth -- "merge guest progress" --> db
+  content -- "pnpm db:seed validates and loads" --> db
+```
+
+A few choices that shape the rest:
+
+- **The server owns the clock and the points.** The client sends only `{ roundId, statementId }`. It never sees which statement is fake until it has answered, and every point is written by the server in one transaction. Retries and double taps cannot score twice.
+- **Streaks are computed, not stored.** Streaks, freezes, the graph and badges are worked out from a player's answers on every read, so they can never drift.
+- **No cron job.** A finished season is finalized by the first request that reads the board or a profile after it ends.
+- **Date and ranking logic is pure functions** in `packages/api/src/game`, unit tested without a database.
+
+The details, including the data model and the answer transaction, are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Run it locally
+
+You need Node 20.9+, [pnpm](https://pnpm.io) 11, [Bun](https://bun.sh) (runs the seed scripts), the [Neon CLI](https://neon.com/docs/cli) (`npm i -g neon`) and Docker for the E2E suite.
 
 ```bash
-gh repo create <name> --template koushikxd/assignment-template --private --clone
-cd <name>
-git grep -lz kenpathlabs | xargs -0 perl -pi -e 's/kenpathlabs/<name>/g'
+git clone https://github.com/koushikxd/kenpathlabs.git
+cd kenpathlabs
 pnpm install
 ```
 
-The rename replaces the `kenpathlabs` placeholder everywhere: the root package name, the `@kenpathlabs/*` workspace scope, the lockfile, the Postgres container and database and the page title. Use a lowercase kebab-case name. Commit the result as the first commit.
-
-## Getting Started
-
-First, install the dependencies:
+Create `apps/web/.env`, then create a free Neon project and pull its connection strings into `apps/web/.env.local`:
 
 ```bash
-pnpm install
+cat > apps/web/.env <<EOF
+BETTER_AUTH_SECRET=$(openssl rand -hex 32)
+BETTER_AUTH_URL=http://localhost:3000
+EOF
+neon auth
+neon link --project-name hallucinated --region-id aws-us-east-2
+neon env pull --file apps/web/.env.local   # DATABASE_URL (pooled), DATABASE_URL_UNPOOLED (direct)
 ```
 
-## Database Setup
+Any Postgres works too: set `DATABASE_URL` and `DATABASE_URL_UNPOOLED` to the same URL by hand.
 
-Generate the Prisma client before development, typechecking, or building, including in CI and deployment builds. Run this again after changing the Prisma schema:
+Set up the database and run the app:
 
 ```bash
-pnpm run db:generate
+pnpm db:generate        # Prisma client
+pnpm db:migrate         # create the tables
+pnpm db:seed            # validate and load the 70 rounds
+pnpm db:seed:demo       # 20 bot players with a played history, so the board is not empty
+pnpm dev
 ```
 
-This project uses PostgreSQL with Prisma. Postgres runs in Docker from `packages/db/docker-compose.yml` on port 5432.
+Open [http://localhost:3000](http://localhost:3000). Use your browser's device toolbar for the phone layout.
 
-1. Start Postgres:
+Bots play up to yesterday. Run `pnpm db:seed:demo` again later to carry their history on to the new yesterday.
+
+## Tests
 
 ```bash
-pnpm run db:start
+pnpm test        # unit tests: clock, schedule, streaks, ranking, content validator
+pnpm test:e2e    # Playwright on an emulated Pixel 5 over slow 4G
 ```
 
-2. Set the env in `apps/web/.env`:
+The E2E suite needs only Docker running (`pnpm db:start`, Postgres 17 on port 5432) and Bun. It never touches Neon. It creates its own database and starts its own server on port 3100, so it can run while `pnpm dev` is up. It fakes the server clock to cross midnight and the end of a season. Every test leaves a trace and a final screenshot in `apps/web/test-results/`.
 
-```bash
-DATABASE_URL=postgresql://postgres:password@localhost:5432/kenpathlabs
-DIRECT_URL=postgresql://postgres:password@localhost:5432/kenpathlabs
-BETTER_AUTH_SECRET=<at least 32 characters>
-BETTER_AUTH_URL=http://localhost:3001
-```
+## Scripts
 
-3. Apply the migrations to your database:
+| Command            | What it does                                |
+| ------------------ | ------------------------------------------- |
+| `pnpm dev`         | Start the app on port 3000                  |
+| `pnpm check-types` | Type-check every package                    |
+| `pnpm check`       | Oxlint and Oxfmt (also run on every commit) |
+| `pnpm db:studio`   | Browse the database                         |
+| `pnpm db:stop`     | Stop the E2E Postgres container             |
 
-```bash
-pnpm run db:migrate
-```
-
-4. Load the rounds from `content/rounds.json`:
-
-```bash
-pnpm run db:seed
-```
-
-Then, run the development server:
-
-```bash
-pnpm run dev
-```
-
-Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
-The same app serves the API at `/api/trpc` and auth at `/api/auth`.
-
-## UI Customization
-
-React web apps in this stack share shadcn/ui primitives through `packages/ui`.
-
-- Change design tokens and global styles in `packages/ui/src/styles/globals.css`
-- Update shared primitives in `packages/ui/src/components/*`
-- Adjust shadcn aliases or style config in `packages/ui/components.json` and `apps/web/components.json`
-
-### Add more shared components
-
-Run this from the project root to add more primitives to the shared UI package:
-
-```bash
-npx shadcn@latest add accordion dialog popover sheet table -c packages/ui
-```
-
-Import shared components like this:
-
-```tsx
-import { Button } from "@kenpathlabs/ui/components/button";
-```
-
-### Add app-specific blocks
-
-If you want to add app-specific blocks instead of shared primitives, run the shadcn CLI from `apps/web`.
-
-## Environment Configuration
-
-Each app owns its environment schema in `.env.schema`. Varlock generates `src/env.ts` during installation; run `pnpm run env:generate` after changing a schema. Commit schemas, and keep secrets in ignored env files or your deployment platform.
-
-Import the generated `ENV` accessor in application code. Shared database and auth packages receive configuration or initialized clients from the application. See [Varlock's monorepo guide](https://varlock.dev/guides/monorepos/).
-
-Bun's automatic env loading is disabled in `bunfig.toml`; the framework integration or server bootstrap loads Varlock. Node deployments must include Varlock and its dependencies alongside the app schema.
-
-## Git Hooks and Formatting
-
-Lefthook installs a `pre-commit` hook that runs Oxlint (`--fix`) and Oxfmt over staged
-files and re-stages what it fixed. Anything Oxlint cannot fix automatically blocks the
-commit.
-
-The hook is installed by the `prepare` script during `pnpm install`, and is skipped
-outside a git repository. After `git init`, run `pnpm install` once to install it.
-
-- Run checks manually: `pnpm run check`
-
-## Project Structure
+## Repository
 
 ```
-kenpathlabs/
-├── apps/
-│   └── web/         # Next.js app: pages, tRPC and auth routes
-├── packages/
-│   ├── ui/          # Shared shadcn/ui components and styles
-│   ├── api/         # API layer / business logic
-│   ├── auth/        # Authentication configuration & logic
-│   └── db/          # Database schema & queries
+apps/web/          Next.js app: screens, API routes, E2E tests
+packages/api/      tRPC routers and the pure game logic
+packages/auth/     Better-Auth config and the guest progress merge
+packages/db/       Prisma schema, migrations, seed scripts
+packages/ui/       shared shadcn components and design tokens
+content/           the round content
+tools/anatomy/     scripts that draw the round illustrations
+docs/              spec, architecture, screenshots
 ```
 
-## Available Scripts
+## Docs
 
-- `pnpm run dev`: Start all applications in development mode
-- `pnpm run build`: Build all applications
-- `pnpm run dev:web`: Start only the web application
-- `pnpm run check-types`: Check TypeScript types across all apps
-- `pnpm run test`: Run unit tests
-- `pnpm run db:push`: Push schema changes to database
-- `pnpm run db:generate`: Generate database client/types
-- `pnpm run db:migrate`: Run database migrations
-- `pnpm run db:seed`: Validate `content/rounds.json` and load it into the database
-- `pnpm run db:studio`: Open database studio UI
-- `pnpm run check`: Run Oxlint and Oxfmt
+- [docs/PROJECT_SPEC.md](docs/PROJECT_SPEC.md): the product. Rules for days, points, streaks, badges, seasons and accounts, every screen, and what is out of scope.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): the stack, data model, answer transaction, season finalization, guest accounts, testing and known gaps.
+- [DESIGN.md](DESIGN.md): design tokens and component rules.
+
+## What I left out
+
+The content is a curated set of 70 sourced rounds rather than live news, and it loops after 14 days. The answer key in `content/rounds.json` is public along with the rest of the repo. More in the [spec](docs/PROJECT_SPEC.md#out-of-scope).
+
+## Where I used AI
+
+I used Claude Code and Codex for most of the implementation. I wrote the spec and architecture first, split the work into GitHub issues, and ran one agent session per issue in order, with [AGENTS.md](AGENTS.md) as its instructions. Each session left a handoff note, which I have since folded into the docs. Claude also helped write this README and the docs.

@@ -1,6 +1,7 @@
 import { appRouter } from "@kenpathlabs/api/routers/index";
 import { t } from "@kenpathlabs/api";
 import { TRPCError } from "@trpc/server";
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -18,6 +19,14 @@ async function findProfile(username: string) {
     if (error instanceof TRPCError && error.code === "NOT_FOUND") notFound();
     throw error;
   }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}): Promise<Metadata> {
+  return { title: `@${(await params).username}` };
 }
 
 // No loading.tsx on this route: notFound() only sets a 404 status before the response streams.

@@ -7,6 +7,9 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
+    "@kenpathlabs/db#build": {
+      "cache": false
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },
@@ -40,6 +43,9 @@
     "db:seed:players": {
       "cache": false
     },
+    "db:seed:demo": {
+      "cache": false
+    },
     "db:start": {
       "cache": false
     },
@@ -59,7 +65,7 @@
     "BETTER_AUTH_URL",
     "CI",
     "DATABASE_URL",
-    "DIRECT_URL",
+    "DATABASE_URL_UNPOOLED",
     "NODE_ENV",
     "VERCEL",
     "VERCEL_ENV",

@@ -1,1681 +1,1681 @@
 [
   {
-    "id": "transformer-acronyms",
-    "theme": "Transformer acronyms",
+    "id": "lang-js-origin",
+    "theme": "JavaScript origin story",
     "statements": [
       {
-        "id": "transformer-acronyms-bert",
-        "text": "BERT stands for Bidirectional Encoder Representations from Transformers.",
+        "id": "lang-js-origin-ten-days",
+        "text": "Brendan Eich wrote the first version of JavaScript in about ten days.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/1810.04805"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brendan_Eich"
       },
       {
-        "id": "transformer-acronyms-gpt",
-        "text": "GPT stands for General Pretrained Transformer.",
+        "id": "lang-js-origin-browser",
+        "text": "JavaScript first shipped in Microsoft's Internet Explorer.",
         "isFake": true,
-        "correction": "GPT stands for Generative Pre-trained Transformer."
+        "correction": "JavaScript first shipped in Netscape Navigator; Microsoft later built its own version called JScript."
       },
       {
-        "id": "transformer-acronyms-attention",
-        "text": "The Transformer architecture was introduced by Google researchers in the paper \"Attention Is All You Need\".",
+        "id": "lang-js-origin-mocha",
+        "text": "Before it was JavaScript, the language was called Mocha, then LiveScript.",
         "isFake": false,
-        "sourceUrl": "https://research.google/blog/transformer-a-novel-neural-network-architecture-for-language-understanding/"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brendan_Eich"
       }
     ]
   },
   {
-    "id": "model-makers",
-    "theme": "Who makes the model",
+    "id": "tools-xz-backdoor",
+    "theme": "The xz backdoor",
     "statements": [
       {
-        "id": "model-makers-llama",
-        "text": "Meta created the Llama family of open-weight models.",
+        "id": "tools-xz-backdoor-jia-tan",
+        "text": "A contributor called Jia Tan spent about two years earning maintainer access to xz.",
         "isFake": false,
-        "sourceUrl": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+        "sourceUrl": "https://en.wikipedia.org/wiki/XZ_Utils_backdoor"
       },
       {
-        "id": "model-makers-gemini",
-        "text": "Gemini models are built by Google DeepMind.",
+        "id": "tools-xz-backdoor-finder",
+        "text": "It was caught by a Google engineer who noticed SSH logins getting slow.",
+        "isFake": true,
+        "correction": "It was caught by Microsoft engineer Andres Freund, who noticed SSH logins burning too much CPU."
+      },
+      {
+        "id": "tools-xz-backdoor-sshd",
+        "text": "The xz backdoor was aimed at SSH servers on Linux.",
+        "isFake": false,
+        "sourceUrl": "https://www.openwall.com/lists/oss-security/2024/03/29/4"
+      }
+    ]
+  },
+  {
+    "id": "news-startup-pivots",
+    "theme": "Startup pivots",
+    "statements": [
+      {
+        "id": "news-startup-pivots-slack",
+        "text": "Slack began as an internal chat tool for a failed online game called Glitch.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Slack_(software)"
+      },
+      {
+        "id": "news-startup-pivots-instagram",
+        "text": "Instagram started life as Burbn, a location check-in app.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Instagram"
+      },
+      {
+        "id": "news-startup-pivots-youtube",
+        "text": "YouTube started out as a site for sharing music videos.",
+        "isFake": true,
+        "correction": "YouTube began as a video dating site with the slogan \"Tune In, Hook Up\"."
+      }
+    ]
+  },
+  {
+    "id": "llm-model-makers",
+    "theme": "Who makes which model",
+    "statements": [
+      {
+        "id": "llm-model-makers-claude",
+        "text": "Anthropic is the AI lab behind the Claude models.",
+        "isFake": false,
+        "sourceUrl": "https://www.anthropic.com/company"
+      },
+      {
+        "id": "llm-model-makers-gemini",
+        "text": "Google DeepMind builds the Gemini models.",
         "isFake": false,
         "sourceUrl": "https://deepmind.google/models/gemini/"
       },
       {
-        "id": "model-makers-mistral",
-        "text": "Mistral AI, the company behind Le Chat, is headquartered in Berlin.",
+        "id": "llm-model-makers-qwen",
+        "text": "The Qwen models come from Chinese search giant Baidu.",
         "isFake": true,
-        "correction": "Mistral AI is headquartered in Paris."
+        "correction": "Qwen is built by Alibaba Cloud, part of Alibaba Group."
       }
     ]
   },
   {
-    "id": "benchmark-sizes",
-    "theme": "What benchmarks measure",
+    "id": "agents-windsurf-saga",
+    "theme": "The Windsurf saga",
     "statements": [
       {
-        "id": "benchmark-sizes-humaneval",
-        "text": "OpenAI's HumanEval benchmark contains 1,640 hand-written programming problems.",
+        "id": "agents-windsurf-saga-openai-deal",
+        "text": "OpenAI's planned $3 billion deal to buy Windsurf fell apart.",
+        "isFake": false,
+        "sourceUrl": "https://www.deeplearning.ai/the-batch/google-cognition-carve-up-windsurf-after-openais-failed-3b-acquisition-bid"
+      },
+      {
+        "id": "agents-windsurf-saga-ceo-hire",
+        "text": "Microsoft hired Windsurf's CEO Varun Mohan after that deal collapsed.",
         "isFake": true,
-        "correction": "HumanEval contains 164 hand-written programming problems."
+        "correction": "Google hired Varun Mohan into Google DeepMind as part of a reported $2.4 billion licensing deal."
       },
       {
-        "id": "benchmark-sizes-mmlu",
-        "text": "The MMLU benchmark covers 57 subjects, including mathematics, US history, computer science and law.",
+        "id": "agents-windsurf-saga-cognition",
+        "text": "Cognition, the maker of Devin, signed a deal to acquire Windsurf.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2009.03300"
-      },
-      {
-        "id": "benchmark-sizes-swe-bench",
-        "text": "SWE-bench is built from real GitHub issues in 12 popular Python repositories.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2310.06770"
+        "sourceUrl": "https://cognition.com/blog/windsurf"
       }
     ]
   },
   {
-    "id": "research-milestones",
-    "theme": "AI research milestones",
+    "id": "tools-left-pad",
+    "theme": "The left-pad meltdown",
     "statements": [
       {
-        "id": "research-milestones-alphago",
-        "text": "DeepMind's AlphaGo beat Go champion Lee Sedol 4 games to 1.",
+        "id": "tools-left-pad-lines",
+        "text": "left-pad, the package that broke builds everywhere, was just 11 lines of code.",
         "isFake": false,
-        "sourceUrl": "https://deepmind.google/research/alphago/"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Npm_left-pad_incident"
       },
       {
-        "id": "research-milestones-alphafold",
-        "text": "AlphaFold, the protein structure prediction system, was built by OpenAI.",
+        "id": "tools-left-pad-dispute",
+        "text": "Its author pulled all his packages after a naming fight with WhatsApp.",
         "isFake": true,
-        "correction": "AlphaFold was built by DeepMind, now Google DeepMind."
+        "correction": "The fight was with messaging app Kik, over the npm package name kik."
       },
       {
-        "id": "research-milestones-openai-five",
-        "text": "OpenAI Five beat OG, the reigning Dota 2 world champions.",
+        "id": "tools-left-pad-restore",
+        "text": "npm took the unusual step of republishing left-pad from a backup.",
         "isFake": false,
-        "sourceUrl": "https://openai.com/index/openai-five-defeats-dota-2-world-champions/"
+        "sourceUrl": "https://blog.npmjs.org/post/141577284765/kik-left-pad-and-npm"
       }
     ]
   },
   {
-    "id": "ml-frameworks",
-    "theme": "Machine learning frameworks",
+    "id": "news-rebrand-energy",
+    "theme": "Rebrand energy",
     "statements": [
       {
-        "id": "ml-frameworks-jax",
-        "text": "The JAX numerical computing library was developed by Microsoft Research.",
+        "id": "news-rebrand-energy-meta",
+        "text": "Facebook's parent company renamed itself Meta.",
+        "isFake": false,
+        "sourceUrl": "https://about.fb.com/news/2021/10/facebook-company-is-now-meta/"
+      },
+      {
+        "id": "news-rebrand-energy-larry",
+        "text": "Twitter's old bird logo was named Larry, after NBA legend Larry Bird.",
+        "isFake": false,
+        "sourceUrl": "https://www.nbcsports.com/nba/news/twitters-iconic-bird-logo-is-named-larry-after-you-know-who"
+      },
+      {
+        "id": "news-rebrand-energy-xeets",
+        "text": "After the X rebrand, tweets were officially renamed xeets.",
         "isFake": true,
-        "correction": "JAX was developed by Google."
-      },
-      {
-        "id": "ml-frameworks-tensorflow",
-        "text": "TensorFlow was developed by the Google Brain team.",
-        "isFake": false,
-        "sourceUrl": "https://github.com/tensorflow/tensorflow"
-      },
-      {
-        "id": "ml-frameworks-pytorch",
-        "text": "PyTorch was originally developed at Facebook AI Research, now part of Meta.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/1912.01703"
+        "correction": "X's terms of service renamed tweets to \"posts\", and \"xeets\" was only a fan joke."
       }
     ]
   },
   {
-    "id": "context-windows",
-    "theme": "Context windows",
+    "id": "llm-lab-origins",
+    "theme": "Who started the lab",
     "statements": [
       {
-        "id": "context-windows-llama-3-1",
-        "text": "Meta's Llama 3.1 models support a context length of 128K tokens.",
+        "id": "llm-lab-origins-anthropic",
+        "text": "Anthropic was founded by ex-OpenAI staff, including siblings Dario and Daniela Amodei.",
         "isFake": false,
-        "sourceUrl": "https://ai.meta.com/blog/meta-llama-3-1/"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Anthropic"
       },
       {
-        "id": "context-windows-claude-3",
-        "text": "The Claude 3 model family launched with a 200K token context window.",
+        "id": "llm-lab-origins-xai",
+        "text": "Elon Musk founded xAI, the lab that built the Grok chatbot.",
         "isFake": false,
-        "sourceUrl": "https://www.anthropic.com/news/claude-3-family"
+        "sourceUrl": "https://en.wikipedia.org/wiki/XAI_(company)"
       },
       {
-        "id": "context-windows-gemini-1-5",
-        "text": "Google tested Gemini 1.5 Pro on context windows of up to 100 million tokens in research.",
+        "id": "llm-lab-origins-deepmind",
+        "text": "DeepMind began as a Silicon Valley startup before Google bought it.",
         "isFake": true,
-        "correction": "Google tested Gemini 1.5 Pro on up to 10 million tokens in research."
+        "correction": "DeepMind was founded in London in 2010, and Google bought it in 2014."
       }
     ]
   },
   {
-    "id": "coding-agents",
-    "theme": "Terminal coding agents",
+    "id": "agents-vibe-coding",
+    "theme": "Vibe coding",
     "statements": [
       {
-        "id": "coding-agents-claude-code",
-        "text": "Claude Code is Anthropic's agentic coding tool that runs in the terminal.",
+        "id": "agents-vibe-coding-karpathy",
+        "text": "Andrej Karpathy coined the term \"vibe coding\" in a post on X.",
         "isFake": false,
-        "sourceUrl": "https://code.claude.com/docs/en/overview"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Vibe_coding"
       },
       {
-        "id": "coding-agents-codex-cli",
-        "text": "OpenAI's Codex CLI is an open-source coding agent that runs locally in the terminal.",
-        "isFake": false,
-        "sourceUrl": "https://github.com/openai/codex"
-      },
-      {
-        "id": "coding-agents-gemini-cli",
-        "text": "Google's Gemini CLI is open source under the MIT License.",
+        "id": "agents-vibe-coding-every-line",
+        "text": "Karpathy's original post urged people to \"read every line the AI writes\".",
         "isFake": true,
-        "correction": "Gemini CLI is open source under the Apache 2.0 License."
+        "correction": "His post said to fully give in to the vibes and \"forget that the code even exists\"."
+      },
+      {
+        "id": "agents-vibe-coding-collins",
+        "text": "Collins Dictionary named \"vibe coding\" its Word of the Year.",
+        "isFake": false,
+        "sourceUrl": "https://blog.collinsdictionary.com/language-lovers/collins-word-of-the-year-2025-ai-meets-authenticity-as-society-shifts/"
       }
     ]
   },
   {
-    "id": "ai-awards",
-    "theme": "Awards for AI pioneers",
+    "id": "lang-python-origin",
+    "theme": "Python origin story",
     "statements": [
       {
-        "id": "ai-awards-nobel-chemistry",
-        "text": "Demis Hassabis and John Jumper won a share of the Nobel Prize in Chemistry for protein structure prediction.",
+        "id": "lang-python-origin-christmas",
+        "text": "Guido van Rossum started Python as a hobby project for the week around Christmas.",
         "isFake": false,
-        "sourceUrl": "https://www.nobelprize.org/prizes/chemistry/2024/press-release/"
+        "sourceUrl": "https://www.python.org/doc/essays/foreword/"
       },
       {
-        "id": "ai-awards-turing",
-        "text": "Yoshua Bengio, Geoffrey Hinton and Yann LeCun received the Turing Award for their work on deep learning.",
+        "id": "lang-python-origin-monty",
+        "text": "Python is named after Monty Python's Flying Circus, not the snake.",
         "isFake": false,
-        "sourceUrl": "https://awards.acm.org/about/2018-turing"
+        "sourceUrl": "https://docs.python.org/3/faq/general.html#why-is-it-called-python"
       },
       {
-        "id": "ai-awards-nobel-physics",
-        "text": "Geoffrey Hinton shared the Nobel Prize in Physics with Yann LeCun.",
+        "id": "lang-python-origin-retirement",
+        "text": "After retiring, Guido van Rossum got bored and joined Google.",
         "isFake": true,
-        "correction": "Hinton shared the Nobel Prize in Physics with John Hopfield."
+        "correction": "He came out of retirement to join Microsoft; his time at Google was years earlier."
       }
     ]
   },
   {
-    "id": "chinese-labs",
-    "theme": "Model families from China",
+    "id": "news-blue-screen-friday",
+    "theme": "Blue screen Friday",
     "statements": [
       {
-        "id": "chinese-labs-qwen",
-        "text": "The Qwen family of language models is developed by Alibaba Cloud.",
+        "id": "news-blue-screen-friday-machines",
+        "text": "The CrowdStrike outage crashed about 8.5 million Windows machines.",
         "isFake": false,
-        "sourceUrl": "https://github.com/QwenLM/Qwen"
+        "sourceUrl": "https://blogs.microsoft.com/blog/2024/07/20/helping-our-customers-through-the-crowdstrike-outage/"
       },
       {
-        "id": "chinese-labs-kimi",
-        "text": "The Kimi K2 model is developed by Moonshot AI.",
+        "id": "news-blue-screen-friday-delta",
+        "text": "Delta sued CrowdStrike after the outage forced about 7,000 flight cancellations.",
         "isFake": false,
-        "sourceUrl": "https://github.com/MoonshotAI/Kimi-K2"
+        "sourceUrl": "https://www.nbcnews.com/business/business-news/delta-sues-crowdstrike-widespread-outage-caused-thousands-cancellation-rcna177422"
       },
       {
-        "id": "chinese-labs-glm",
-        "text": "The GLM family of models is developed by DeepSeek.",
+        "id": "news-blue-screen-friday-cause",
+        "text": "The crashes were triggered by a faulty Windows update pushed by Microsoft.",
         "isFake": true,
-        "correction": "The GLM models are developed by Zhipu AI, also known as Z.ai."
+        "correction": "A faulty content update to CrowdStrike's own Falcon sensor caused the crashes, not a Microsoft update."
       }
     ]
   },
   {
-    "id": "attention-tricks",
-    "theme": "Inside attention",
+    "id": "llm-chatgpt-debut",
+    "theme": "ChatGPT's wild debut",
     "statements": [
       {
-        "id": "attention-tricks-flash",
-        "text": "FlashAttention speeds up attention by cutting reads and writes to GPU memory.",
+        "id": "llm-chatgpt-debut-million",
+        "text": "ChatGPT crossed 1 million users just five days after launch.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2205.14135"
+        "sourceUrl": "https://x.com/gdb/status/1599683104142430208"
       },
       {
-        "id": "attention-tricks-multi-query",
-        "text": "Multi-query attention, where all heads share one set of keys and values, was proposed by Noam Shazeer.",
+        "id": "llm-chatgpt-debut-hundred",
+        "text": "ChatGPT reached about 100 million users within two months.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/1911.02150"
+        "sourceUrl": "https://en.wikipedia.org/wiki/ChatGPT"
       },
       {
-        "id": "attention-tricks-heads",
-        "text": "The base Transformer model in \"Attention Is All You Need\" used 12 attention heads.",
+        "id": "llm-chatgpt-debut-paid",
+        "text": "ChatGPT launched as a paid product and added a free tier later.",
         "isFake": true,
-        "correction": "The base Transformer model used 8 attention heads."
+        "correction": "ChatGPT launched free as a research preview, and paid plans came later."
       }
     ]
   },
   {
-    "id": "parameter-counts",
-    "theme": "Parameter counts",
+    "id": "agents-replit-wipe",
+    "theme": "Replit's database disaster",
     "statements": [
       {
-        "id": "parameter-counts-gpt-3",
-        "text": "GPT-3 has 175 billion parameters.",
+        "id": "agents-replit-wipe-lemkin",
+        "text": "Replit's agent deleted SaaStr founder Jason Lemkin's production database.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2005.14165"
+        "sourceUrl": "https://fortune.com/2025/07/23/ai-coding-tool-replit-wiped-database-called-it-a-catastrophic-failure/"
       },
       {
-        "id": "parameter-counts-bloom",
-        "text": "BLOOM, the open multilingual model from the BigScience project, has 176 billion parameters.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2211.05100"
-      },
-      {
-        "id": "parameter-counts-llama-3-1",
-        "text": "The largest Llama 3.1 model has 450 billion parameters.",
+        "id": "agents-replit-wipe-refund",
+        "text": "Replit's CEO Amjad Masad blamed Lemkin and refused to refund him.",
         "isFake": true,
-        "correction": "The largest Llama 3.1 model has 405 billion parameters."
+        "correction": "Amjad Masad called it \"unacceptable\" and promised Lemkin a refund and a postmortem."
+      },
+      {
+        "id": "agents-replit-wipe-panicked",
+        "text": "The agent admitted it \"panicked\" after seeing empty database queries.",
+        "isFake": false,
+        "sourceUrl": "https://fortune.com/2025/07/23/ai-coding-tool-replit-wiped-database-called-it-a-catastrophic-failure/"
       }
     ]
   },
   {
-    "id": "agent-protocols",
-    "theme": "Agent protocols",
+    "id": "lang-ts-native",
+    "theme": "TypeScript goes native",
     "statements": [
       {
-        "id": "agent-protocols-a2a",
-        "text": "The Agent2Agent (A2A) protocol, for agents to talk to each other, was announced by Google.",
-        "isFake": false,
-        "sourceUrl": "https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/"
-      },
-      {
-        "id": "agent-protocols-json-rpc",
-        "text": "Model Context Protocol (MCP) clients and servers exchange JSON-RPC 2.0 messages.",
-        "isFake": false,
-        "sourceUrl": "https://modelcontextprotocol.io/specification/2025-06-18"
-      },
-      {
-        "id": "agent-protocols-mcp",
-        "text": "The Model Context Protocol (MCP) was introduced by OpenAI.",
+        "id": "lang-ts-native-rust",
+        "text": "Microsoft's native TypeScript compiler is written in Rust.",
         "isFake": true,
-        "correction": "MCP was introduced by Anthropic."
+        "correction": "Microsoft ported the TypeScript compiler to Go, not Rust."
+      },
+      {
+        "id": "lang-ts-native-hejlsberg",
+        "text": "Anders Hejlsberg, the lead architect of C#, is also a core TypeScript developer.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Anders_Hejlsberg"
+      },
+      {
+        "id": "lang-ts-native-10x",
+        "text": "Microsoft said going native would make most TypeScript builds about 10x faster.",
+        "isFake": false,
+        "sourceUrl": "https://devblogs.microsoft.com/typescript/typescript-native-port/"
       }
     ]
   },
   {
-    "id": "game-playing-ai",
-    "theme": "AI against human players",
+    "id": "tools-npm-worms",
+    "theme": "npm under attack",
     "statements": [
       {
-        "id": "game-playing-ai-libratus",
-        "text": "Libratus, an AI built at Carnegie Mellon University, beat top professional poker players.",
+        "id": "tools-npm-worms-dune",
+        "text": "The Shai-Hulud npm worm is named after the giant sandworm in Dune.",
         "isFake": false,
-        "sourceUrl": "https://www.cmu.edu/news/stories/archives/2017/january/AI-beats-poker-pros.html"
+        "sourceUrl": "https://www.trendaisecurity.com/en-us/resources-insights/trendai-security-blog/npm-supply-chain-attack"
       },
       {
-        "id": "game-playing-ai-alphastar",
-        "text": "DeepMind's AlphaStar reached Grandmaster level in StarCraft II.",
-        "isFake": false,
-        "sourceUrl": "https://deepmind.google/blog/alphastar-grandmaster-level-in-starcraft-ii-using-multi-agent-reinforcement-learning/"
-      },
-      {
-        "id": "game-playing-ai-deep-blue",
-        "text": "IBM's Deep Blue lost its rematch against chess champion Garry Kasparov.",
+        "id": "tools-npm-worms-chalk",
+        "text": "The chalk and debug packages were hijacked after a maintainer's laptop was stolen.",
         "isFake": true,
-        "correction": "Deep Blue won its rematch against Kasparov."
+        "correction": "The maintainer was phished by a fake npm support email asking him to update his 2FA."
+      },
+      {
+        "id": "tools-npm-worms-spread",
+        "text": "Shai-Hulud spread by stealing npm tokens and publishing infected package versions.",
+        "isFake": false,
+        "sourceUrl": "https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem"
       }
     ]
   },
   {
-    "id": "video-models",
-    "theme": "Video generation models",
+    "id": "llm-bard-blunder",
+    "theme": "Bard's pricey blunder",
     "statements": [
       {
-        "id": "video-models-movie-gen",
-        "text": "Movie Gen is a set of media generation models from Meta.",
+        "id": "llm-bard-blunder-webb",
+        "text": "Bard's launch promo wrongly said Webb took the first photo of an exoplanet.",
         "isFake": false,
-        "sourceUrl": "https://ai.meta.com/research/movie-gen/"
+        "sourceUrl": "https://www.bbc.com/news/business-64576225"
       },
       {
-        "id": "video-models-veo",
-        "text": "Veo is a video generation model from Google DeepMind.",
+        "id": "llm-bard-blunder-billions",
+        "text": "The Bard blunder wiped about $100 billion off Alphabet's market value.",
         "isFake": false,
-        "sourceUrl": "https://deepmind.google/models/veo/"
+        "sourceUrl": "https://www.cnn.com/2023/02/08/tech/google-ai-bard-demo-error/index.html"
       },
       {
-        "id": "video-models-kling",
-        "text": "Kling, the AI video generation model, is made by ByteDance.",
+        "id": "llm-bard-blunder-stage",
+        "text": "Bard made the mistake live on stage during a Google I/O keynote.",
         "isFake": true,
-        "correction": "Kling is made by Kuaishou."
+        "correction": "The mistake was in a promo demo Google posted on Twitter, not a live I/O keynote."
       }
     ]
   },
   {
-    "id": "paper-authors",
-    "theme": "Who wrote the paper",
+    "id": "agents-mcp-origins",
+    "theme": "MCP origin story",
     "statements": [
       {
-        "id": "paper-authors-rag",
-        "text": "Retrieval-augmented generation (RAG) was introduced in a paper from Facebook AI Research.",
+        "id": "agents-mcp-origins-anthropic",
+        "text": "Anthropic created and open-sourced the Model Context Protocol.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2005.11401"
+        "sourceUrl": "https://www.anthropic.com/news/model-context-protocol"
       },
       {
-        "id": "paper-authors-constitutional-ai",
-        "text": "Constitutional AI, a method for training AI with a list of principles, was published by Anthropic.",
+        "id": "agents-mcp-origins-openai",
+        "text": "OpenAI's own Agents SDK supports MCP servers.",
         "isFake": false,
-        "sourceUrl": "https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback"
+        "sourceUrl": "https://openai.github.io/openai-agents-python/mcp/"
       },
       {
-        "id": "paper-authors-chain-of-thought",
-        "text": "Chain-of-thought prompting was introduced in a paper by Meta AI researchers.",
+        "id": "agents-mcp-origins-apache",
+        "text": "Anthropic handed MCP over to the Apache Software Foundation.",
         "isFake": true,
-        "correction": "Chain-of-thought prompting was introduced by Google researchers."
+        "correction": "Anthropic donated MCP to the Agentic AI Foundation, under the Linux Foundation."
       }
     ]
   },
   {
-    "id": "benchmark-creators",
-    "theme": "Who built the benchmark",
+    "id": "lang-rust-lore",
+    "theme": "Rust folklore",
     "statements": [
       {
-        "id": "benchmark-creators-hle",
-        "text": "Humanity's Last Exam was created by the Center for AI Safety and Scale AI.",
+        "id": "lang-rust-lore-linux",
+        "text": "Linus Torvalds merged Rust support into the Linux kernel.",
         "isFake": false,
-        "sourceUrl": "https://lastexam.ai/"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rust_for_Linux"
       },
       {
-        "id": "benchmark-creators-gsm8k",
-        "text": "The GSM8K math benchmark was created by OpenAI.",
+        "id": "lang-rust-lore-mozilla",
+        "text": "Rust started as a side project by a programmer working at Mozilla.",
         "isFake": false,
-        "sourceUrl": "https://github.com/openai/grade-school-math"
+        "sourceUrl": "https://www.technologyreview.com/2023/02/14/1067869/rust-worlds-fastest-growing-programming-language/"
       },
       {
-        "id": "benchmark-creators-math",
-        "text": "The MATH benchmark of competition problems was created by OpenAI.",
+        "id": "lang-rust-lore-mascot",
+        "text": "Rust's unofficial crab mascot is named Rusty.",
         "isFake": true,
-        "correction": "MATH was created by researchers at UC Berkeley."
+        "correction": "The crab is named Ferris."
       }
     ]
   },
   {
-    "id": "mixture-of-experts",
-    "theme": "Mixture-of-experts models",
+    "id": "tools-git-origins",
+    "theme": "How Git began",
     "statements": [
       {
-        "id": "mixture-of-experts-deepseek-v3",
-        "text": "DeepSeek-V3 has 671 billion total parameters, with 37 billion active for each token.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2412.19437"
-      },
-      {
-        "id": "mixture-of-experts-mixtral",
-        "text": "Mixtral 8x7B has 8 experts per layer and sends each token to 2 of them.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2401.04088"
-      },
-      {
-        "id": "mixture-of-experts-switch",
-        "text": "Google's Switch Transformer sends each token to 2 experts.",
+        "id": "tools-git-origins-perforce",
+        "text": "Linus wrote Git after kernel developers lost free use of Perforce.",
         "isFake": true,
-        "correction": "Switch Transformer sends each token to a single expert."
+        "correction": "It was BitKeeper, a proprietary tool whose free license for kernel developers was revoked."
+      },
+      {
+        "id": "tools-git-origins-egotist",
+        "text": "Linus joked he names all his projects after himself: first Linux, now git.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Git"
+      },
+      {
+        "id": "tools-git-origins-readme",
+        "text": "Git's README says the name can stand for \"global information tracker\".",
+        "isFake": false,
+        "sourceUrl": "https://github.com/git/git/blob/master/README.md"
       }
     ]
   },
   {
-    "id": "ai-browsers",
-    "theme": "AI web browsers",
+    "id": "news-deals-that-died",
+    "theme": "Deals that died",
     "statements": [
       {
-        "id": "ai-browsers-comet",
-        "text": "Comet is an AI web browser made by Perplexity.",
+        "id": "news-deals-that-died-figma",
+        "text": "Adobe's plan to buy Figma was scrapped after regulators pushed back.",
         "isFake": false,
-        "sourceUrl": "https://www.perplexity.ai/comet"
+        "sourceUrl": "https://news.adobe.com/news/news-details/2023/adobe-and-figma-mutually-agree-to-terminate-merger-agreement"
       },
       {
-        "id": "ai-browsers-atlas",
-        "text": "ChatGPT Atlas is a web browser made by OpenAI.",
+        "id": "news-deals-that-died-arm",
+        "text": "Nvidia's attempt to buy chip designer Arm collapsed under regulatory pressure.",
         "isFake": false,
-        "sourceUrl": "https://openai.com/index/introducing-chatgpt-atlas/"
+        "sourceUrl": "https://nvidianews.nvidia.com/news/nvidia-and-softbank-group-announce-termination-of-nvidias-acquisition-of-arm-limited"
       },
       {
-        "id": "ai-browsers-dia",
-        "text": "The Dia AI browser is made by Opera.",
+        "id": "news-deals-that-died-activision",
+        "text": "Microsoft's Activision Blizzard deal fell apart after regulators sued to block it.",
         "isFake": true,
-        "correction": "Dia is made by The Browser Company, the makers of Arc."
+        "correction": "Microsoft closed its Activision Blizzard acquisition despite the FTC's challenge."
       }
     ]
   },
   {
-    "id": "ai-chips",
-    "theme": "AI chips",
+    "id": "agents-instruction-files",
+    "theme": "Agent instruction files",
     "statements": [
       {
-        "id": "ai-chips-blackwell",
-        "text": "NVIDIA's Blackwell GPU architecture is named after the mathematician David Blackwell.",
-        "isFake": false,
-        "sourceUrl": "https://nvidianews.nvidia.com/news/nvidia-blackwell-platform-arrives-to-power-a-new-era-of-computing"
-      },
-      {
-        "id": "ai-chips-ironwood",
-        "text": "Ironwood is Google's seventh-generation TPU.",
-        "isFake": false,
-        "sourceUrl": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/ironwood-tpu-age-of-inference/"
-      },
-      {
-        "id": "ai-chips-h100",
-        "text": "NVIDIA's H100 GPU is built on the Ampere architecture.",
+        "id": "agents-instruction-files-init",
+        "text": "Claude Code's /init command writes an AGENTS.md file for your repo.",
         "isFake": true,
-        "correction": "The H100 is built on the Hopper architecture."
+        "correction": "Claude Code's /init command generates a CLAUDE.md file."
+      },
+      {
+        "id": "agents-instruction-files-codex",
+        "text": "OpenAI's Codex reads project instructions from AGENTS.md files.",
+        "isFake": false,
+        "sourceUrl": "https://learn.chatgpt.com/docs/agent-configuration/agents-md"
+      },
+      {
+        "id": "agents-instruction-files-gemini",
+        "text": "Gemini CLI loads project context from GEMINI.md files.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md"
       }
     ]
   },
   {
-    "id": "reasoning-models",
-    "theme": "Reasoning models",
+    "id": "lang-js-trademark",
+    "theme": "Who owns JavaScript",
     "statements": [
       {
-        "id": "reasoning-models-r1-zero",
-        "text": "DeepSeek-R1-Zero was trained with large-scale reinforcement learning, without supervised fine-tuning first.",
+        "id": "lang-js-trademark-oracle",
+        "text": "In the US, Oracle holds the trademark on the name \"JavaScript\".",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2501.12948v1"
+        "sourceUrl": "https://javascript.tm/"
       },
       {
-        "id": "reasoning-models-o1",
-        "text": "OpenAI o1 ranked in the 89th percentile on Codeforces competitive programming questions.",
-        "isFake": false,
-        "sourceUrl": "https://openai.com/index/learning-to-reason-with-llms/"
-      },
-      {
-        "id": "reasoning-models-o2",
-        "text": "OpenAI named its next reasoning model after o1 \"o2\".",
+        "id": "lang-js-trademark-netscape",
+        "text": "Oracle got the JavaScript trademark when it bought Netscape.",
         "isFake": true,
-        "correction": "OpenAI skipped the name o2 and named the next model o3."
+        "correction": "Oracle inherited the trademark when it bought Sun Microsystems."
+      },
+      {
+        "id": "lang-js-trademark-deno",
+        "text": "Deno asked the US trademark office to cancel Oracle's \"JavaScript\" trademark.",
+        "isFake": false,
+        "sourceUrl": "https://deno.com/blog/deno-v-oracle"
       }
     ]
   },
   {
-    "id": "swe-bench-scores",
-    "theme": "SWE-bench Verified scores",
+    "id": "tools-github-lore",
+    "theme": "GitHub lore",
     "statements": [
       {
-        "id": "swe-bench-scores-opus-4-5",
-        "text": "Claude Opus 4.5 scored 80.9% on SWE-bench Verified.",
+        "id": "tools-github-lore-npm",
+        "text": "GitHub bought npm, the JavaScript package registry.",
         "isFake": false,
-        "sourceUrl": "https://www.anthropic.com/news/claude-opus-4-5"
+        "sourceUrl": "https://github.blog/news-insights/company-news/npm-is-joining-github/"
       },
       {
-        "id": "swe-bench-scores-gpt-5",
-        "text": "GPT-5 scored 74.9% on SWE-bench Verified.",
+        "id": "tools-github-lore-vault",
+        "text": "GitHub stored a snapshot of public repos on film in an Arctic coal mine.",
         "isFake": false,
-        "sourceUrl": "https://openai.com/index/introducing-gpt-5/"
+        "sourceUrl": "https://archiveprogram.github.com/arctic-vault/"
       },
       {
-        "id": "swe-bench-scores-gemini-2-5",
-        "text": "Gemini 2.5 Pro scored 83.8% on SWE-bench Verified.",
+        "id": "tools-github-lore-price",
+        "text": "Microsoft paid $26 billion to buy GitHub.",
         "isFake": true,
-        "correction": "At launch, Gemini 2.5 Pro scored 63.8% on SWE-bench Verified with a custom agent."
+        "correction": "Microsoft paid $7.5 billion in stock for GitHub."
       }
     ]
   },
   {
-    "id": "open-licenses",
-    "theme": "Open model licenses",
+    "id": "news-hyped-gadgets",
+    "theme": "Hyped gadgets",
     "statements": [
       {
-        "id": "open-licenses-gpt-oss",
-        "text": "OpenAI's gpt-oss-120b and gpt-oss-20b open-weight models use the Apache 2.0 license.",
+        "id": "news-hyped-gadgets-vision-pro",
+        "text": "Apple Vision Pro launched with a starting price of $3,499.",
         "isFake": false,
-        "sourceUrl": "https://openai.com/index/introducing-gpt-oss/"
+        "sourceUrl": "https://www.apple.com/newsroom/2023/06/introducing-apple-vision-pro/"
       },
       {
-        "id": "open-licenses-mistral-7b",
-        "text": "Mistral 7B was released under the Apache 2.0 license.",
+        "id": "news-hyped-gadgets-humane",
+        "text": "HP bought Humane's assets, and the AI Pin was switched off.",
         "isFake": false,
-        "sourceUrl": "https://mistral.ai/news/announcing-mistral-7b"
+        "sourceUrl": "https://techcrunch.com/2025/02/22/the-fallout-of-hps-humane-acquisition/"
       },
       {
-        "id": "open-licenses-llama-2",
-        "text": "Meta released Llama 2 under the Apache 2.0 license.",
+        "id": "news-hyped-gadgets-rabbit",
+        "text": "The Rabbit R1's software was exposed as a repackaged iPhone app.",
         "isFake": true,
-        "correction": "Llama 2 uses Meta's own Llama 2 Community License."
+        "correction": "Android Authority found the R1's interface ran as a single Android app and got it working on a Pixel phone."
       }
     ]
   },
   {
-    "id": "deep-learning-classics",
-    "theme": "Deep learning classics",
+    "id": "llm-openai-weekend",
+    "theme": "OpenAI's wild weekend",
     "statements": [
       {
-        "id": "deep-learning-classics-word2vec",
-        "text": "Word2vec was introduced by researchers at Google.",
+        "id": "llm-openai-weekend-microsoft",
+        "text": "Satya Nadella announced Sam Altman would join Microsoft to lead an AI team.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/1301.3781"
+        "sourceUrl": "https://x.com/satyanadella/status/1726509045803336122"
       },
       {
-        "id": "deep-learning-classics-resnet",
-        "text": "ResNet, the deep residual network for image recognition, came from Microsoft Research.",
+        "id": "llm-openai-weekend-letter",
+        "text": "Over 700 OpenAI staff signed a letter threatening to quit unless the board resigned.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/1512.03385"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Removal_of_Sam_Altman_from_OpenAI"
       },
       {
-        "id": "deep-learning-classics-gan",
-        "text": "Generative adversarial networks (GANs) were introduced by researchers at OpenAI.",
+        "id": "llm-openai-weekend-ilya",
+        "text": "Ilya Sutskever was named interim CEO right after Altman's firing.",
         "isFake": true,
-        "correction": "GANs were introduced by Ian Goodfellow and others at the Université de Montréal."
+        "correction": "CTO Mira Murati was named interim CEO, and Emmett Shear replaced her days later."
       }
     ]
   },
   {
-    "id": "speech-ai",
-    "theme": "Speech models",
+    "id": "lang-bun",
+    "theme": "Bun's wild ride",
     "statements": [
       {
-        "id": "speech-ai-wav2vec",
-        "text": "wav2vec 2.0, a model that learns speech from raw audio, was developed by Facebook AI.",
+        "id": "lang-bun-anthropic",
+        "text": "Anthropic acquired Bun, the JavaScript runtime created by Jarred Sumner.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2006.11477"
+        "sourceUrl": "https://bun.com/blog/bun-joins-anthropic"
       },
       {
-        "id": "speech-ai-seamless",
-        "text": "Meta's SeamlessM4T is a single model for speech and text translation in up to 100 languages.",
+        "id": "lang-bun-rust",
+        "text": "Bun was ported from Zig to Rust with dozens of Claude agents working in parallel.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2308.11596"
+        "sourceUrl": "https://bun.com/blog/bun-in-rust"
       },
       {
-        "id": "speech-ai-whisper",
-        "text": "OpenAI trained the original Whisper model on 68,000 hours of audio.",
+        "id": "lang-bun-engine",
+        "text": "Bun runs JavaScript on Chrome's V8 engine, just like Node.js.",
         "isFake": true,
-        "correction": "The original Whisper was trained on 680,000 hours of audio."
+        "correction": "Bun uses JavaScriptCore, the engine behind Safari."
       }
     ]
   },
   {
-    "id": "inference-tools",
-    "theme": "Open-source AI tooling",
+    "id": "tools-vim-lore",
+    "theme": "Stuck in Vim",
     "statements": [
       {
-        "id": "inference-tools-vllm",
-        "text": "vLLM was first developed in the Sky Computing Lab at UC Berkeley.",
+        "id": "tools-vim-lore-name",
+        "text": "Vim is short for \"Vi IMproved\".",
         "isFake": false,
-        "sourceUrl": "https://github.com/vllm-project/vllm"
+        "sourceUrl": "https://github.com/vim/vim"
       },
       {
-        "id": "inference-tools-gguf",
-        "text": "GGUF, a file format for model weights, was created by the developer of llama.cpp.",
-        "isFake": false,
-        "sourceUrl": "https://huggingface.co/docs/hub/gguf"
-      },
-      {
-        "id": "inference-tools-safetensors",
-        "text": "The safetensors format for storing model weights was created by Google.",
+        "id": "tools-vim-lore-charity",
+        "text": "Vim asks users who like it to donate to help children in Kenya.",
         "isFake": true,
-        "correction": "safetensors was created by Hugging Face."
+        "correction": "Vim is charityware that asks for donations to help children in Uganda."
+      },
+      {
+        "id": "tools-vim-lore-exit",
+        "text": "Stack Overflow said over a million developers needed its help to exit Vim.",
+        "isFake": false,
+        "sourceUrl": "https://stackoverflow.blog/2017/05/23/stack-overflow-helping-one-million-developers-exit-vim/"
       }
     ]
   },
   {
-    "id": "math-olympiad",
-    "theme": "AI at the Math Olympiad",
+    "id": "news-nvidia-wild-ride",
+    "theme": "Nvidia's wild ride",
     "statements": [
       {
-        "id": "math-olympiad-lean",
-        "text": "Google DeepMind's AlphaProof proves math statements in the formal language Lean.",
-        "isFake": false,
-        "sourceUrl": "https://deepmind.google/discover/blog/ai-solves-imo-problems-at-silver-medal-level/"
-      },
-      {
-        "id": "math-olympiad-deep-think",
-        "text": "An advanced version of Gemini Deep Think reached gold-medal level at the International Mathematical Olympiad.",
-        "isFake": false,
-        "sourceUrl": "https://deepmind.google/discover/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/"
-      },
-      {
-        "id": "math-olympiad-alphaproof-gold",
-        "text": "Google DeepMind's AlphaProof and AlphaGeometry 2 reached gold-medal level at the International Mathematical Olympiad.",
+        "id": "news-nvidia-wild-ride-waffle-house",
+        "text": "Nvidia's founders planned the company in a Waffle House booth.",
         "isFake": true,
-        "correction": "AlphaProof and AlphaGeometry 2 reached silver-medal level, solving four of six problems."
+        "correction": "Nvidia's founders hatched the company in a Denny's booth in Silicon Valley."
+      },
+      {
+        "id": "news-nvidia-wild-ride-jacket",
+        "text": "Nvidia CEO Jensen Huang's signature look is a black leather jacket.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Jensen_Huang"
+      },
+      {
+        "id": "news-nvidia-wild-ride-five-trillion",
+        "text": "Nvidia became the first public company worth $5 trillion.",
+        "isFake": false,
+        "sourceUrl": "https://techcrunch.com/2025/10/29/nvidia-becomes-first-public-company-worth-5-trillion/"
       }
     ]
   },
   {
-    "id": "model-lineups",
-    "theme": "Model lineups",
+    "id": "llm-deepseek-shock",
+    "theme": "The DeepSeek shock",
     "statements": [
       {
-        "id": "model-lineups-claude-3",
-        "text": "Anthropic's Claude 3 family had three models: Haiku, Sonnet and Opus.",
+        "id": "llm-deepseek-shock-nvidia",
+        "text": "The DeepSeek panic wiped nearly $600 billion off Nvidia in one day.",
         "isFake": false,
-        "sourceUrl": "https://www.anthropic.com/news/claude-3-family"
+        "sourceUrl": "https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html"
       },
       {
-        "id": "model-lineups-gemini-1",
-        "text": "Google's first Gemini model came in three sizes: Ultra, Pro and Nano.",
+        "id": "llm-deepseek-shock-appstore",
+        "text": "DeepSeek's app knocked ChatGPT off the top of Apple's App Store.",
         "isFake": false,
-        "sourceUrl": "https://blog.google/technology/ai/google-gemini-ai/"
+        "sourceUrl": "https://www.cnbc.com/2025/01/27/chinas-deepseek-ai-tops-chatgpt-app-store-what-you-should-know.html"
       },
       {
-        "id": "model-lineups-gpt-4o",
-        "text": "OpenAI's GPT-4o family has three models: GPT-4o, GPT-4o mini and GPT-4o nano.",
+        "id": "llm-deepseek-shock-tencent",
+        "text": "DeepSeek started as an AI spinoff of Chinese tech giant Tencent.",
         "isFake": true,
-        "correction": "There is no GPT-4o nano. OpenAI's first nano model was GPT-4.1 nano."
+        "correction": "DeepSeek grew out of High-Flyer, a Chinese quant hedge fund that owns and funds it."
       }
     ]
   },
   {
-    "id": "training-data",
-    "theme": "Training data",
+    "id": "agents-devin-debut",
+    "theme": "Devin's debut",
     "statements": [
       {
-        "id": "training-data-llama-3",
-        "text": "Meta pretrained Llama 3 on over 15 trillion tokens.",
+        "id": "agents-devin-debut-first",
+        "text": "Cognition pitched Devin as \"the first AI software engineer\".",
         "isFake": false,
-        "sourceUrl": "https://ai.meta.com/blog/meta-llama-3/"
+        "sourceUrl": "https://cognition.com/blog/introducing-devin"
       },
       {
-        "id": "training-data-pile",
-        "text": "The Pile, an open dataset from EleutherAI, is 825 GiB of English text.",
+        "id": "agents-devin-debut-price",
+        "text": "Devin's general release started at $500 a month.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2101.00027"
+        "sourceUrl": "https://cognition.com/blog/devin-generally-available"
       },
       {
-        "id": "training-data-fineweb",
-        "text": "Hugging Face's FineWeb dataset has about 150 trillion tokens.",
+        "id": "agents-devin-debut-fiverr",
+        "text": "Devin's launch demo showed it taking paid freelance jobs on Fiverr.",
         "isFake": true,
-        "correction": "FineWeb launched with about 15 trillion tokens and has since grown to about 18.5 trillion."
+        "correction": "The launch demo showed Devin taking jobs on Upwork, a claim critics later called misleading."
       }
     ]
   },
   {
-    "id": "coding-assistants",
-    "theme": "AI coding assistants",
+    "id": "tools-docker-origins",
+    "theme": "Docker's origin story",
     "statements": [
       {
-        "id": "coding-assistants-copilot",
-        "text": "GitHub Copilot was first powered by OpenAI Codex.",
-        "isFake": false,
-        "sourceUrl": "https://github.blog/news-insights/product-news/introducing-github-copilot-ai-pair-programmer/"
-      },
-      {
-        "id": "coding-assistants-junie",
-        "text": "Junie is the AI coding agent made by JetBrains.",
-        "isFake": false,
-        "sourceUrl": "https://www.jetbrains.com/junie/"
-      },
-      {
-        "id": "coding-assistants-kiro",
-        "text": "Amazon's agentic coding IDE is called Jules.",
+        "id": "tools-docker-origins-demo",
+        "text": "Docker was first shown to the public in a keynote at Google I/O.",
         "isFake": true,
-        "correction": "Amazon's agentic IDE is Kiro. Jules is Google's coding agent."
+        "correction": "Solomon Hykes first showed Docker publicly in a five-minute lightning talk at PyCon."
+      },
+      {
+        "id": "tools-docker-origins-whale",
+        "text": "Docker's whale mascot is named Moby Dock, picked by a community vote.",
+        "isFake": false,
+        "sourceUrl": "https://www.docker.com/blog/call-me-moby-dock/"
+      },
+      {
+        "id": "tools-docker-origins-dotcloud",
+        "text": "Docker Inc. started life as a company called dotCloud.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Docker,_Inc."
       }
     ]
   },
   {
-    "id": "vision-models",
-    "theme": "Vision models",
+    "id": "news-apple-lore",
+    "theme": "Apple lore",
     "statements": [
       {
-        "id": "vision-models-vit",
-        "text": "The Vision Transformer paper is titled \"An Image is Worth 16x16 Words\".",
+        "id": "news-apple-lore-wayne",
+        "text": "Apple had a third co-founder, Ronald Wayne, who sold his stake for $800.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2010.11929"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ronald_Wayne"
       },
       {
-        "id": "vision-models-clip",
-        "text": "OpenAI trained CLIP on 400 million image and text pairs.",
+        "id": "news-apple-lore-next",
+        "text": "Apple bought NeXT, which brought Steve Jobs back to the company.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2103.00020"
+        "sourceUrl": "https://en.wikipedia.org/wiki/NeXT"
       },
       {
-        "id": "vision-models-sa-1b",
-        "text": "Meta's SA-1B dataset for Segment Anything has 11 million masks.",
+        "id": "news-apple-lore-logo",
+        "text": "Apple's very first logo was the rainbow apple with a bite taken out.",
         "isFake": true,
-        "correction": "SA-1B has over 1 billion masks on 11 million images."
+        "correction": "Apple's first logo, drawn by Ronald Wayne, showed Isaac Newton sitting under an apple tree."
       }
     ]
   },
   {
-    "id": "arc-agi",
-    "theme": "ARC-AGI",
+    "id": "llm-ghibli-wave",
+    "theme": "The Ghibli wave",
     "statements": [
       {
-        "id": "arc-agi-chollet",
-        "text": "The ARC-AGI benchmark was created by François Chollet.",
+        "id": "llm-ghibli-wave-melting",
+        "text": "Sam Altman said the image craze was making OpenAI's GPUs melt.",
         "isFake": false,
-        "sourceUrl": "https://arcprize.org/arc-agi"
+        "sourceUrl": "https://www.cnbc.com/2025/03/27/chatgpts-viral-image-generation-ai-is-melting-openais-gpus.html"
       },
       {
-        "id": "arc-agi-o3",
-        "text": "A preview of OpenAI's o3 scored 75.7% on the ARC-AGI-1 Semi-Private set in its high-efficiency setting.",
+        "id": "llm-ghibli-wave-hour",
+        "text": "During the craze, ChatGPT added a million users in a single hour.",
         "isFake": false,
-        "sourceUrl": "https://arcprize.org/blog/oai-o3-pub-breakthrough"
+        "sourceUrl": "https://x.com/sama/status/1906771292390666325"
       },
       {
-        "id": "arc-agi-grid-size",
-        "text": "ARC-AGI-1 puzzles use grids of up to 50x50 cells.",
+        "id": "llm-ghibli-wave-midjourney",
+        "text": "The Ghibli trend took off after Midjourney launched a new image model.",
         "isFake": true,
-        "correction": "ARC-AGI-1 grids are at most 30x30 cells."
+        "correction": "It took off after OpenAI added GPT-4o image generation to ChatGPT."
       }
     ]
   },
   {
-    "id": "paper-results",
-    "theme": "Results from famous papers",
+    "id": "agents-cursor-chaos",
+    "theme": "Cursor's rough patches",
     "statements": [
       {
-        "id": "paper-results-instructgpt",
-        "text": "In OpenAI's InstructGPT paper, people preferred a 1.3B model's outputs over the 175B GPT-3.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2203.02155"
-      },
-      {
-        "id": "paper-results-lora",
-        "text": "LoRA can cut the number of trainable parameters by 10,000 times compared with full fine-tuning of GPT-3.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2106.09685"
-      },
-      {
-        "id": "paper-results-chinchilla",
-        "text": "DeepMind's compute-optimal Chinchilla model has 280 billion parameters.",
+        "id": "agents-cursor-chaos-intellij",
+        "text": "Cursor is built on top of JetBrains' IntelliJ platform.",
         "isFake": true,
-        "correction": "Chinchilla has 70 billion parameters. Gopher is the 280B model."
+        "correction": "Cursor is built on the VS Code codebase."
+      },
+      {
+        "id": "agents-cursor-chaos-sam",
+        "text": "Cursor's AI support bot invented a login policy that didn't exist.",
+        "isFake": false,
+        "sourceUrl": "https://www.theregister.com/2025/04/18/cursor_ai_support_bot_lies/"
+      },
+      {
+        "id": "agents-cursor-chaos-pricing",
+        "text": "Cursor apologized and offered refunds after a pricing change backfired.",
+        "isFake": false,
+        "sourceUrl": "https://cursor.com/blog/june-2025-pricing"
       }
     ]
   },
   {
-    "id": "small-models",
-    "theme": "Small models",
+    "id": "lang-ryan-dahl",
+    "theme": "Ryan Dahl's runtimes",
     "statements": [
       {
-        "id": "small-models-phi-3",
-        "text": "Microsoft's Phi-3-mini has 3.8 billion parameters.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2404.14219"
-      },
-      {
-        "id": "small-models-gemma-2",
-        "text": "Google's Gemma 2 comes in 2B, 9B and 27B sizes.",
-        "isFake": false,
-        "sourceUrl": "https://developers.googleblog.com/en/gemma-explained-new-in-gemma-2/"
-      },
-      {
-        "id": "small-models-apple",
-        "text": "Apple's on-device foundation model has about 30 billion parameters.",
+        "id": "lang-ryan-dahl-vercel",
+        "text": "Vercel acquired the company behind Deno.",
         "isFake": true,
-        "correction": "Apple's on-device model has about 3 billion parameters."
+        "correction": "Cloudflare announced it is acquiring Deno to boost its Workers platform."
+      },
+      {
+        "id": "lang-ryan-dahl-cofounder",
+        "text": "Node.js creator Ryan Dahl went on to co-found Deno.",
+        "isFake": false,
+        "sourceUrl": "https://techcrunch.com/2026/10/10/cloudflare-acquires-deno-to-improve-its-workers-programming-model/"
+      },
+      {
+        "id": "lang-ryan-dahl-regrets",
+        "text": "Ryan Dahl gave a famous talk called \"10 Things I Regret About Node.js\".",
+        "isFake": false,
+        "sourceUrl": "https://www.youtube.com/watch?v=M3BM9TB-8yA"
       }
     ]
   },
   {
-    "id": "computer-use-agents",
-    "theme": "Computer-use agents",
+    "id": "news-musk-buys-twitter",
+    "theme": "Musk buys Twitter",
     "statements": [
       {
-        "id": "computer-use-agents-claude-3-5",
-        "text": "Claude 3.5 Sonnet was the first frontier AI model to offer computer use in public beta.",
+        "id": "news-musk-buys-twitter-price",
+        "text": "Elon Musk agreed to buy Twitter for about $44 billion.",
         "isFake": false,
-        "sourceUrl": "https://www.anthropic.com/news/3-5-models-and-computer-use"
+        "sourceUrl": "https://www.prnewswire.com/news-releases/elon-musk-to-acquire-twitter-301532245.html"
       },
       {
-        "id": "computer-use-agents-operator",
-        "text": "OpenAI's Operator agent was powered by a model called Computer-Using Agent (CUA).",
+        "id": "news-musk-buys-twitter-parag",
+        "text": "Musk fired Twitter CEO Parag Agrawal as soon as he took control.",
         "isFake": false,
-        "sourceUrl": "https://cdn.openai.com/operator_system_card.pdf"
+        "sourceUrl": "https://fortune.com/2022/10/28/bird-freed-elon-musk-ushers-in-new-twitter-era-taking-control-firing-top-execs"
       },
       {
-        "id": "computer-use-agents-mariner",
-        "text": "Project Mariner, a research prototype agent that works in the browser, is from Microsoft.",
+        "id": "news-musk-buys-twitter-toilet",
+        "text": "Musk strolled into Twitter HQ carrying a toilet before closing the deal.",
         "isFake": true,
-        "correction": "Project Mariner is from Google DeepMind."
+        "correction": "He carried a sink, captioning the video \"let that sink in!\""
       }
     ]
   },
   {
-    "id": "benchmark-datasets",
-    "theme": "Benchmark sizes",
+    "id": "llm-jargon",
+    "theme": "AI jargon decoded",
     "statements": [
       {
-        "id": "benchmark-datasets-gpqa",
-        "text": "GPQA has 448 multiple-choice questions written by experts in biology, physics and chemistry.",
+        "id": "llm-jargon-rag",
+        "text": "RAG stands for retrieval-augmented generation.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2311.12022"
+        "sourceUrl": "https://arxiv.org/abs/2005.11401"
       },
       {
-        "id": "benchmark-datasets-math",
-        "text": "The MATH benchmark has 12,500 competition mathematics problems.",
+        "id": "llm-jargon-rlhf",
+        "text": "RLHF stands for reinforcement learning from human feedback.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2103.03874"
+        "sourceUrl": "https://huggingface.co/blog/rlhf"
       },
       {
-        "id": "benchmark-datasets-gsm8k",
-        "text": "GSM8K has 85,000 grade school math word problems.",
+        "id": "llm-jargon-token",
+        "text": "In LLMs, one token always equals exactly one whole word.",
         "isFake": true,
-        "correction": "GSM8K has 8,500 grade school math word problems."
+        "correction": "Tokens are often pieces of words, so one word can take several tokens."
       }
     ]
   },
   {
-    "id": "tokenizers",
-    "theme": "Tokenizers",
+    "id": "agents-yolo-mode",
+    "theme": "YOLO mode",
     "statements": [
       {
-        "id": "tokenizers-sentencepiece",
-        "text": "SentencePiece, a subword tokenizer library, was developed by Google.",
+        "id": "agents-yolo-mode-cursor",
+        "text": "Cursor once shipped a setting literally called \"Yolo Mode\".",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/1808.06226"
+        "sourceUrl": "https://cursor.com/changelog/0-44-x"
       },
       {
-        "id": "tokenizers-tiktoken",
-        "text": "OpenAI's tiktoken library is a fast tokenizer for OpenAI models.",
-        "isFake": false,
-        "sourceUrl": "https://github.com/openai/tiktoken"
-      },
-      {
-        "id": "tokenizers-llama-3-vocab",
-        "text": "Meta's Llama 3 uses a tokenizer with a vocabulary of 32,000 tokens.",
+        "id": "agents-yolo-mode-claude-flag",
+        "text": "Claude Code's flag for skipping every permission prompt is --yolo.",
         "isFake": true,
-        "correction": "Llama 3 uses a tokenizer with a vocabulary of 128K tokens."
+        "correction": "Claude Code's flag is --dangerously-skip-permissions."
+      },
+      {
+        "id": "agents-yolo-mode-gemini",
+        "text": "Gemini CLI has an approval mode named \"yolo\" that auto-approves actions.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/cli-reference.md"
       }
     ]
   },
   {
-    "id": "chatbot-names",
-    "theme": "Chatbot names",
+    "id": "lang-react-lore",
+    "theme": "React lore",
     "statements": [
       {
-        "id": "chatbot-names-bard",
+        "id": "lang-react-lore-walke",
+        "text": "Jordan Walke created React while working as an engineer at Facebook.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/React_(software)"
+      },
+      {
+        "id": "lang-react-lore-apache",
+        "text": "Meta handed React over to the Apache Software Foundation.",
+        "isFake": true,
+        "correction": "React moved to a new React Foundation under the Linux Foundation."
+      },
+      {
+        "id": "lang-react-lore-react2shell",
+        "text": "A max-severity bug in React Server Components was nicknamed React2Shell.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/React_(software)"
+      }
+    ]
+  },
+  {
+    "id": "tools-kubernetes-lore",
+    "theme": "Kubernetes folklore",
+    "statements": [
+      {
+        "id": "tools-kubernetes-lore-greek",
+        "text": "Kubernetes comes from the Greek word for helmsman or pilot.",
+        "isFake": false,
+        "sourceUrl": "https://kubernetes.io/docs/concepts/overview/"
+      },
+      {
+        "id": "tools-kubernetes-lore-colossus",
+        "text": "Kubernetes grew out of a Google cluster manager called Colossus.",
+        "isFake": true,
+        "correction": "Kubernetes was inspired by Google's internal cluster manager, Borg."
+      },
+      {
+        "id": "tools-kubernetes-lore-spokes",
+        "text": "The seven spokes on the Kubernetes logo nod to its codename, Project 7.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kubernetes"
+      }
+    ]
+  },
+  {
+    "id": "llm-big-backers",
+    "theme": "Follow the AI money",
+    "statements": [
+      {
+        "id": "llm-big-backers-microsoft",
+        "text": "Microsoft made a multibillion-dollar investment in OpenAI.",
+        "isFake": false,
+        "sourceUrl": "https://blogs.microsoft.com/blog/2023/01/23/microsoftandopenaiextendpartnership/"
+      },
+      {
+        "id": "llm-big-backers-amazon",
+        "text": "Amazon has invested billions of dollars in Anthropic.",
+        "isFake": false,
+        "sourceUrl": "https://www.aboutamazon.com/news/company-news/amazon-anthropic-ai-investment"
+      },
+      {
+        "id": "llm-big-backers-stargate",
+        "text": "Stargate is Anthropic's giant AI data center venture with SoftBank and Oracle.",
+        "isFake": true,
+        "correction": "Stargate is OpenAI's data center venture, launched with SoftBank, Oracle and MGX."
+      }
+    ]
+  },
+  {
+    "id": "agents-app-builders",
+    "theme": "Prompt-to-app builders",
+    "statements": [
+      {
+        "id": "agents-app-builders-v0",
+        "text": "v0, the AI app builder, is made by Vercel.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Vercel"
+      },
+      {
+        "id": "agents-app-builders-lovable",
+        "text": "Lovable, the vibe coding app, is a startup from Copenhagen.",
+        "isFake": true,
+        "correction": "Lovable was founded in, and is based in, Stockholm, Sweden."
+      },
+      {
+        "id": "agents-app-builders-bolt",
+        "text": "Bolt.new is built by StackBlitz.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/stackblitz/bolt.new"
+      }
+    ]
+  },
+  {
+    "id": "lang-nextjs",
+    "theme": "Next.js and Vercel",
+    "statements": [
+      {
+        "id": "lang-nextjs-zeit",
+        "text": "Vercel, the company behind Next.js, used to be called ZEIT.",
+        "isFake": false,
+        "sourceUrl": "https://vercel.com/blog/zeit-is-now-vercel"
+      },
+      {
+        "id": "lang-nextjs-header",
+        "text": "A Next.js bug let attackers skip middleware using a single request header.",
+        "isFake": false,
+        "sourceUrl": "https://vercel.com/blog/postmortem-on-next-js-middleware-bypass"
+      },
+      {
+        "id": "lang-nextjs-express",
+        "text": "Vercel CEO Guillermo Rauch created the Express.js framework.",
+        "isFake": true,
+        "correction": "Rauch created Socket.IO; Express was created by TJ Holowaychuk."
+      }
+    ]
+  },
+  {
+    "id": "tools-license-forks",
+    "theme": "Forked over licenses",
+    "statements": [
+      {
+        "id": "tools-license-forks-valkey",
+        "text": "The Linux Foundation launched Valkey after Redis dropped its open source license.",
+        "isFake": false,
+        "sourceUrl": "https://www.linuxfoundation.org/press/linux-foundation-launches-open-source-valkey-community"
+      },
+      {
+        "id": "tools-license-forks-opentofu",
+        "text": "OpenTofu, the open source fork of Terraform, was first called OpenTF.",
+        "isFake": false,
+        "sourceUrl": "https://www.linuxfoundation.org/press/announcing-opentofu"
+      },
+      {
+        "id": "tools-license-forks-opensearch",
+        "text": "Amazon's fork of Elasticsearch is called OpenElastic.",
+        "isFake": true,
+        "correction": "AWS forked Elasticsearch and Kibana as OpenSearch."
+      }
+    ]
+  },
+  {
+    "id": "news-yc-folklore",
+    "theme": "YC folklore",
+    "statements": [
+      {
+        "id": "news-yc-folklore-reddit",
+        "text": "Reddit was part of Y Combinator's very first batch of startups.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Reddit"
+      },
+      {
+        "id": "news-yc-folklore-hacker-news",
+        "text": "Hacker News is run by Y Combinator.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Hacker_News"
+      },
+      {
+        "id": "news-yc-folklore-airbnb",
+        "text": "Airbnb's founders kept the company alive by selling election-themed T-shirts.",
+        "isFake": true,
+        "correction": "They sold election-themed cereal boxes called Obama O's and Cap'n McCain's."
+      }
+    ]
+  },
+  {
+    "id": "agents-claude-code-origins",
+    "theme": "Claude Code origins",
+    "statements": [
+      {
+        "id": "agents-claude-code-origins-boris",
+        "text": "Claude Code started as an experiment by Anthropic engineer Boris Cherny.",
+        "isFake": false,
+        "sourceUrl": "https://newsletter.pragmaticengineer.com/p/how-claude-code-is-built"
+      },
+      {
+        "id": "agents-claude-code-origins-preview",
+        "text": "Claude Code debuted as a research preview alongside Claude 3.7 Sonnet.",
+        "isFake": false,
+        "sourceUrl": "https://www.anthropic.com/news/claude-3-7-sonnet"
+      },
+      {
+        "id": "agents-claude-code-origins-boomerang",
+        "text": "Boris Cherny left Anthropic for OpenAI, then came back two weeks later.",
+        "isFake": true,
+        "correction": "He left for Anysphere, the maker of Cursor, and returned to Anthropic about two weeks later."
+      }
+    ]
+  },
+  {
+    "id": "lang-tailwind",
+    "theme": "Tailwind's AI squeeze",
+    "statements": [
+      {
+        "id": "lang-tailwind-dark-mode",
+        "text": "The layoffs came out when Adam Wathan rejected a PR adding dark mode to the docs.",
+        "isFake": true,
+        "correction": "The PR he rejected added an llms.txt file to make the docs easier for AI to read."
+      },
+      {
+        "id": "lang-tailwind-layoffs",
+        "text": "Tailwind Labs laid off 75% of its engineering team, blaming AI.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/tailwindlabs/tailwindcss.com/pull/2388"
+      },
+      {
+        "id": "lang-tailwind-revenue",
+        "text": "Adam Wathan said Tailwind was bigger than ever while revenue fell nearly 80%.",
+        "isFake": false,
+        "sourceUrl": "https://github.com/tailwindlabs/tailwindcss.com/pull/2388"
+      }
+    ]
+  },
+  {
+    "id": "tools-wordpress-drama",
+    "theme": "WordPress vs WP Engine",
+    "statements": [
+      {
+        "id": "tools-wordpress-drama-cancer",
+        "text": "Matt Mullenweg called WP Engine \"a cancer to WordPress\".",
+        "isFake": false,
+        "sourceUrl": "https://wordpress.org/news/2024/09/wp-engine/"
+      },
+      {
+        "id": "tools-wordpress-drama-acf",
+        "text": "WordPress.org took over WP Engine's ACF plugin and renamed it Secure Custom Fields.",
+        "isFake": false,
+        "sourceUrl": "https://wordpress.org/news/2024/10/secure-custom-fields/"
+      },
+      {
+        "id": "tools-wordpress-drama-court",
+        "text": "A judge sided with Automattic and refused WP Engine's request for an injunction.",
+        "isFake": true,
+        "correction": "A judge granted WP Engine a preliminary injunction ordering its WordPress.org access restored."
+      }
+    ]
+  },
+  {
+    "id": "news-before-the-rename",
+    "theme": "Before the rename",
+    "statements": [
+      {
+        "id": "news-before-the-rename-google",
+        "text": "Google's search engine was first called BackRub.",
+        "isFake": false,
+        "sourceUrl": "https://about.google/our-story/"
+      },
+      {
+        "id": "news-before-the-rename-amazon",
+        "text": "Amazon was founded under the name Cadabra.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Amazon_(company)"
+      },
+      {
+        "id": "news-before-the-rename-snapchat",
+        "text": "Snapchat first launched under the name Ghostface.",
+        "isFake": true,
+        "correction": "Snapchat's first version was called Picaboo before it was renamed."
+      }
+    ]
+  },
+  {
+    "id": "llm-name-origins",
+    "theme": "Name origin stories",
+    "statements": [
+      {
+        "id": "llm-name-origins-grok",
+        "text": "Grok is named after a word from Heinlein's novel Stranger in a Strange Land.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Grok_(chatbot)"
+      },
+      {
+        "id": "llm-name-origins-llama",
+        "text": "LLaMA originally stood for Large Language Model Meta AI.",
+        "isFake": false,
+        "sourceUrl": "https://ai.meta.com/blog/large-language-model-llama-meta-ai/"
+      },
+      {
+        "id": "llm-name-origins-mistral",
+        "text": "Mistral AI is named after a hot desert wind that blows from the Sahara.",
+        "isFake": true,
+        "correction": "The mistral is a cold, strong northwesterly wind in southern France."
+      }
+    ]
+  },
+  {
+    "id": "lang-htmx",
+    "theme": "htmx lore",
+    "statements": [
+      {
+        "id": "lang-htmx-intercooler",
+        "text": "htmx is the successor to an older library called intercooler.js.",
+        "isFake": false,
+        "sourceUrl": "https://htmx.org/"
+      },
+      {
+        "id": "lang-htmx-build-step",
+        "text": "htmx needs a bundler and a build step before you can use it.",
+        "isFake": true,
+        "correction": "htmx is dependency-free and works by adding a single script tag."
+      },
+      {
+        "id": "lang-htmx-book",
+        "text": "htmx creator Carson Gross co-wrote a book called Hypermedia Systems.",
+        "isFake": false,
+        "sourceUrl": "https://hypermedia.systems/"
+      }
+    ]
+  },
+  {
+    "id": "tools-stack-overflow",
+    "theme": "Stack Overflow's slide",
+    "statements": [
+      {
+        "id": "tools-stack-overflow-founders",
+        "text": "Stack Overflow was founded by Jeff Atwood and Joel Spolsky.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Stack_Overflow"
+      },
+      {
+        "id": "tools-stack-overflow-buyer",
+        "text": "Microsoft bought Stack Overflow for $1.8 billion.",
+        "isFake": true,
+        "correction": "Dutch tech investor Prosus bought Stack Overflow for $1.8 billion."
+      },
+      {
+        "id": "tools-stack-overflow-decline",
+        "text": "Monthly questions on Stack Overflow fell back to about where they were at launch.",
+        "isFake": false,
+        "sourceUrl": "https://blog.pragmaticengineer.com/stack-overflow-is-almost-dead/"
+      }
+    ]
+  },
+  {
+    "id": "news-layoff-season",
+    "theme": "Layoff season",
+    "statements": [
+      {
+        "id": "news-layoff-season-microsoft",
+        "text": "Satya Nadella announced that Microsoft would cut 10,000 jobs.",
+        "isFake": false,
+        "sourceUrl": "https://blogs.microsoft.com/blog/2023/01/18/subject-focusing-on-our-short-and-long-term-opportunity/"
+      },
+      {
+        "id": "news-layoff-season-google",
+        "text": "Sundar Pichai told staff Google would cut about 12,000 jobs.",
+        "isFake": false,
+        "sourceUrl": "https://blog.google/inside-google/message-ceo/january-update/"
+      },
+      {
+        "id": "news-layoff-season-efficiency",
+        "text": "Sundar Pichai branded Google's round of cuts the \"Year of Efficiency\".",
+        "isFake": true,
+        "correction": "Mark Zuckerberg coined the \"Year of Efficiency\" for Meta's layoffs."
+      }
+    ]
+  },
+  {
+    "id": "llm-chatbot-rebrands",
+    "theme": "Chatbot name changes",
+    "statements": [
+      {
+        "id": "llm-chatbot-rebrands-bard",
         "text": "Google renamed its Bard chatbot to Gemini.",
         "isFake": false,
         "sourceUrl": "https://blog.google/products/gemini/bard-gemini-advanced-app/"
       },
       {
-        "id": "chatbot-names-bing-chat",
-        "text": "Microsoft renamed Bing Chat to Copilot.",
+        "id": "llm-chatbot-rebrands-sydney",
+        "text": "Users tricked Bing Chat into revealing its secret codename, Sydney.",
         "isFake": false,
-        "sourceUrl": "https://blogs.microsoft.com/blog/2023/11/15/microsoft-ignite-2023-ai-transformation-and-the-technology-driving-change/"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Microsoft_Copilot"
       },
       {
-        "id": "chatbot-names-alexa",
-        "text": "Amazon's generative AI upgrade to Alexa is called Alexa Pro.",
+        "id": "llm-chatbot-rebrands-cortana",
+        "text": "Microsoft rebranded Bing Chat as Cortana.",
         "isFake": true,
-        "correction": "Amazon's upgraded assistant is called Alexa+."
+        "correction": "Bing Chat was rebranded as Microsoft Copilot, which replaced the retired Cortana."
       }
     ]
   },
   {
-    "id": "ai-for-science",
-    "theme": "AI for science",
+    "id": "agents-claude-code-leak",
+    "theme": "The Claude Code leak",
     "statements": [
       {
-        "id": "ai-for-science-alphafold-db",
-        "text": "The AlphaFold Protein Structure Database holds over 200 million protein structure predictions.",
+        "id": "agents-claude-code-leak-source-map",
+        "text": "Claude Code's source leaked via a source map file in its npm package.",
         "isFake": false,
-        "sourceUrl": "https://alphafold.ebi.ac.uk/"
+        "sourceUrl": "https://www.infoq.com/news/2026/04/claude-code-source-leak/"
       },
       {
-        "id": "ai-for-science-gnome",
-        "text": "Google DeepMind's GNoME tool discovered 2.2 million new crystals.",
-        "isFake": false,
-        "sourceUrl": "https://deepmind.google/discover/blog/millions-of-new-materials-discovered-with-deep-learning/"
-      },
-      {
-        "id": "ai-for-science-alphafold-3",
-        "text": "AlphaFold 3 was developed by Google DeepMind and Microsoft Research.",
+        "id": "agents-claude-code-leak-hackers",
+        "text": "Anthropic blamed the leak on hackers who breached its servers.",
         "isFake": true,
-        "correction": "AlphaFold 3 was developed by Google DeepMind and Isomorphic Labs."
+        "correction": "Anthropic called it a release packaging issue caused by human error, not a security breach."
+      },
+      {
+        "id": "agents-claude-code-leak-github",
+        "text": "Copies of the leaked code were on GitHub within hours.",
+        "isFake": false,
+        "sourceUrl": "https://www.infoq.com/news/2026/04/claude-code-source-leak/"
       }
     ]
   },
   {
-    "id": "coding-benchmarks",
-    "theme": "Coding benchmarks",
+    "id": "tools-linux-lore",
+    "theme": "Linux origin lore",
     "statements": [
       {
-        "id": "coding-benchmarks-livecodebench",
-        "text": "LiveCodeBench collects new problems from LeetCode, AtCoder and Codeforces.",
+        "id": "tools-linux-lore-hobby",
+        "text": "Linus announced Linux as \"just a hobby, won't be big and professional like gnu\".",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2403.07974"
+        "sourceUrl": "https://en.wikipedia.org/wiki/History_of_Linux"
       },
       {
-        "id": "coding-benchmarks-aider-polyglot",
-        "text": "Aider's polyglot benchmark has 225 coding exercises in six programming languages.",
-        "isFake": false,
-        "sourceUrl": "https://aider.chat/2024/12/21/polyglot.html"
-      },
-      {
-        "id": "coding-benchmarks-mbpp",
-        "text": "Google's MBPP benchmark has about 9,700 Python programming problems.",
+        "id": "tools-linux-lore-name",
+        "text": "Linus himself picked the name Linux over his first idea, Freax.",
         "isFake": true,
-        "correction": "MBPP has 974 Python programming problems."
+        "correction": "Linus wanted Freax, but FTP admin Ari Lemmke named the project Linux without asking him."
+      },
+      {
+        "id": "tools-linux-lore-penguin",
+        "text": "Linus says a penguin nibbled him at an Australian zoo, which inspired Tux.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tux_(mascot)"
       }
     ]
   },
   {
-    "id": "cloud-chips",
-    "theme": "Chips built by tech giants",
+    "id": "news-ceo-meme-moments",
+    "theme": "CEO meme moments",
     "statements": [
       {
-        "id": "cloud-chips-trainium",
-        "text": "Trainium is a chip that AWS built for training AI models.",
+        "id": "news-ceo-meme-moments-ballmer",
+        "text": "Steve Ballmer went viral for chanting \"developers\" over and over on stage.",
         "isFake": false,
-        "sourceUrl": "https://aws.amazon.com/ai/machine-learning/trainium/"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Steve_Ballmer"
       },
       {
-        "id": "cloud-chips-mtia",
-        "text": "MTIA is Meta's own family of AI accelerator chips.",
+        "id": "news-ceo-meme-moments-envelope",
+        "text": "Steve Jobs unveiled the first MacBook Air by pulling it out of an office envelope.",
         "isFake": false,
-        "sourceUrl": "https://ai.meta.com/blog/next-generation-meta-training-inference-accelerator-AI-MTIA/"
+        "sourceUrl": "https://www.cultofmac.com/apple-history/first-macbook-air-worlds-thinnest-notebook"
       },
       {
-        "id": "cloud-chips-maia",
-        "text": "The Maia 100 AI accelerator chip was designed by Google.",
+        "id": "news-ceo-meme-moments-cage-fight",
+        "text": "Musk and Zuckerberg finally had their cage fight at Rome's Colosseum.",
         "isFake": true,
-        "correction": "Maia 100 was designed by Microsoft."
+        "correction": "The Musk vs Zuckerberg cage fight was hyped for weeks but never happened."
       }
     ]
   },
   {
-    "id": "llama-4",
-    "theme": "Llama 4",
+    "id": "llm-open-weights",
+    "theme": "Open weights drama",
     "statements": [
       {
-        "id": "llama-4-scout-context",
-        "text": "Llama 4 Scout supports a context window of 10 million tokens.",
+        "id": "llm-open-weights-mixtral",
+        "text": "Mistral dropped its Mixtral model as a bare torrent link on X.",
         "isFake": false,
-        "sourceUrl": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mistral_AI"
       },
       {
-        "id": "llama-4-maverick",
-        "text": "Llama 4 Maverick has 17 billion active parameters and 128 experts.",
+        "id": "llm-open-weights-gpt-oss",
+        "text": "OpenAI released open-weight models called gpt-oss.",
         "isFake": false,
-        "sourceUrl": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+        "sourceUrl": "https://huggingface.co/openai/gpt-oss-120b"
       },
       {
-        "id": "llama-4-titan",
-        "text": "Llama 4 Maverick was distilled from a larger teacher model called Llama 4 Titan.",
+        "id": "llm-open-weights-llama-leak",
+        "text": "Meta's original LLaMA weights leaked via a post on Reddit.",
         "isFake": true,
-        "correction": "Maverick was distilled from Llama 4 Behemoth. There is no Llama 4 Titan."
+        "correction": "The leaked LLaMA weights spread from a torrent link posted on 4chan."
       }
     ]
   },
   {
-    "id": "transformer-blocks",
-    "theme": "Transformer building blocks",
+    "id": "agents-copilot-backstory",
+    "theme": "Copilot's backstory",
     "statements": [
       {
-        "id": "transformer-blocks-rope",
-        "text": "Rotary Position Embedding (RoPE) was introduced in the RoFormer paper.",
+        "id": "agents-copilot-backstory-free",
+        "text": "GitHub launched a free tier of Copilot built into VS Code.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2104.09864"
+        "sourceUrl": "https://github.blog/news-insights/product-news/github-copilot-in-vscode-free/"
       },
       {
-        "id": "transformer-blocks-alibi",
-        "text": "ALiBi, a way to encode token positions, stands for Attention with Linear Biases.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2108.12409"
-      },
-      {
-        "id": "transformer-blocks-gqa",
-        "text": "Grouped-query attention (GQA) was introduced by researchers at Meta.",
+        "id": "agents-copilot-backstory-gpt4",
+        "text": "GitHub Copilot was first powered by OpenAI's GPT-4.",
         "isFake": true,
-        "correction": "GQA was introduced by researchers at Google Research."
+        "correction": "Copilot launched on OpenAI Codex, a GPT-3 descendant; GPT-4 arrived later."
+      },
+      {
+        "id": "agents-copilot-backstory-issues",
+        "text": "You can assign a GitHub issue to Copilot and it opens a pull request.",
+        "isFake": false,
+        "sourceUrl": "https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent"
       }
     ]
   },
   {
-    "id": "ai-music",
-    "theme": "AI music models",
+    "id": "lang-go-origin",
+    "theme": "Go origin story",
     "statements": [
       {
-        "id": "ai-music-musiclm",
-        "text": "MusicLM, a model that makes music from text, is from Google.",
+        "id": "lang-go-origin-google",
+        "text": "Go was created at Google by Robert Griesemer, Rob Pike and Ken Thompson.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2301.11325"
+        "sourceUrl": "https://go.dev/doc/faq"
       },
       {
-        "id": "ai-music-jukebox",
-        "text": "Jukebox, a model that generates music with singing, is from OpenAI.",
+        "id": "lang-go-origin-gopher",
+        "text": "The Go gopher was designed by Renée French, who also drew the Plan 9 bunny.",
         "isFake": false,
-        "sourceUrl": "https://openai.com/index/jukebox/"
+        "sourceUrl": "https://go.dev/doc/faq"
       },
       {
-        "id": "ai-music-musicgen",
-        "text": "MusicGen, a model that makes music from text, is from Microsoft.",
+        "id": "lang-go-origin-java-build",
+        "text": "Go was dreamed up while Rob Pike waited on a slow Java build.",
         "isFake": true,
-        "correction": "MusicGen is from Meta, as part of its AudioCraft library."
+        "correction": "It was a 45-minute C++ build at Google."
       }
     ]
   },
   {
-    "id": "agent-benchmarks",
-    "theme": "Agent benchmarks",
+    "id": "news-famous-outages",
+    "theme": "Famous outages",
     "statements": [
       {
-        "id": "agent-benchmarks-swe-bench-verified",
-        "text": "SWE-bench Verified is a set of 500 SWE-bench problems checked by human software engineers.",
+        "id": "news-famous-outages-s3",
+        "text": "A single mistyped command once knocked Amazon S3 offline in us-east-1.",
         "isFake": false,
-        "sourceUrl": "https://openai.com/index/introducing-swe-bench-verified/"
+        "sourceUrl": "https://aws.amazon.com/message/41926/"
       },
       {
-        "id": "agent-benchmarks-tau-bench",
-        "text": "τ-bench (tau-bench), a benchmark for agents that use tools and talk to users, was made by Sierra.",
+        "id": "news-famous-outages-fastly",
+        "text": "One customer's config change set off a Fastly bug that took down big chunks of the web.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2406.12045"
+        "sourceUrl": "https://www.fastly.com/blog/summary-of-june-8-outage"
       },
       {
-        "id": "agent-benchmarks-gaia",
-        "text": "In the GAIA benchmark paper, GPT-4 with plugins scored higher than human respondents.",
+        "id": "news-famous-outages-facebook",
+        "text": "Facebook's big global outage was caused by an expired SSL certificate.",
         "isFake": true,
-        "correction": "In the GAIA paper, humans scored 92% and GPT-4 with plugins scored 15%."
+        "correction": "A faulty maintenance command cut Facebook's backbone network, so its DNS servers withdrew their BGP routes."
       }
     ]
   },
   {
-    "id": "famous-datasets",
-    "theme": "Famous datasets",
+    "id": "llm-chatbots-gone-wrong",
+    "theme": "Chatbots gone wrong",
     "statements": [
       {
-        "id": "famous-datasets-coco",
-        "text": "The COCO image dataset was first released under the name Microsoft COCO.",
+        "id": "llm-chatbots-gone-wrong-strawberry",
+        "text": "GPT-4o and Claude were caught saying \"strawberry\" has two r's.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/1405.0312"
+        "sourceUrl": "https://techcrunch.com/2024/08/27/why-ai-cant-spell-strawberry/"
       },
       {
-        "id": "famous-datasets-laion-5b",
-        "text": "LAION-5B was released with 5.85 billion image and text pairs.",
+        "id": "llm-chatbots-gone-wrong-tahoe",
+        "text": "A Chevy dealer's ChatGPT-powered bot agreed to sell a Tahoe for $1.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2210.08402"
+        "sourceUrl": "https://incidentdatabase.ai/cite/622/"
       },
       {
-        "id": "famous-datasets-imagenet",
-        "text": "ImageNet has more than 140 million images.",
+        "id": "llm-chatbots-gone-wrong-glue",
+        "text": "Google AI's glue-on-pizza tip came from an old joke on Wikipedia.",
         "isFake": true,
-        "correction": "ImageNet has more than 14 million images."
+        "correction": "It came from an 11-year-old joke comment on Reddit."
       }
     ]
   },
   {
-    "id": "mmlu-scores",
-    "theme": "MMLU scores",
+    "id": "agents-antigravity",
+    "theme": "Google's Antigravity",
     "statements": [
       {
-        "id": "mmlu-scores-gemini-ultra",
-        "text": "Google said Gemini Ultra was the first model to beat human experts on MMLU, with a score of 90.0%.",
+        "id": "agents-antigravity-browser",
+        "text": "Antigravity's agents can drive a browser to test the features they build.",
         "isFake": false,
-        "sourceUrl": "https://blog.google/technology/ai/google-gemini-ai/"
+        "sourceUrl": "https://antigravity.google/blog/introducing-google-antigravity"
       },
       {
-        "id": "mmlu-scores-gpt-4",
-        "text": "GPT-4 scored 86.4% on MMLU.",
+        "id": "agents-antigravity-free",
+        "text": "Google launched Antigravity as a free public preview for individuals.",
         "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2303.08774"
+        "sourceUrl": "https://antigravity.google/blog/introducing-google-antigravity"
       },
       {
-        "id": "mmlu-scores-claude-3-opus",
-        "text": "Claude 3 Opus scored 91.8% on MMLU.",
+        "id": "agents-antigravity-drive",
+        "text": "An Antigravity agent in Turbo mode wiped a user's entire Google Drive.",
         "isFake": true,
-        "correction": "Claude 3 Opus scored 86.8% on MMLU."
+        "correction": "It wiped the user's entire D: drive on their PC."
       }
     ]
   },
   {
-    "id": "robot-models",
-    "theme": "Robot models",
+    "id": "lang-svelte-vue",
+    "theme": "Svelte and Vue",
     "statements": [
       {
-        "id": "robot-models-rt-2",
-        "text": "RT-2 is a vision-language-action model for robots from Google DeepMind.",
-        "isFake": false,
-        "sourceUrl": "https://deepmind.google/discover/blog/rt-2-new-model-translates-vision-and-language-into-action/"
-      },
-      {
-        "id": "robot-models-pi-zero",
-        "text": "π0 (pi-zero) is a robot foundation model from Physical Intelligence.",
-        "isFake": false,
-        "sourceUrl": "https://www.physicalintelligence.company/blog/pi0"
-      },
-      {
-        "id": "robot-models-helix",
-        "text": "Helix, a model that controls humanoid robots, is made by Tesla.",
+        "id": "lang-svelte-vue-virtual-dom",
+        "text": "Svelte uses a virtual DOM to update the page, just like React.",
         "isFake": true,
-        "correction": "Helix is made by Figure AI."
+        "correction": "Svelte compiles components into code that updates the DOM directly, with no virtual DOM."
+      },
+      {
+        "id": "lang-svelte-vue-harris",
+        "text": "Svelte creator Rich Harris joined Vercel to work on Svelte full-time.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Svelte"
+      },
+      {
+        "id": "lang-svelte-vue-evan",
+        "text": "Evan You created Vue after using AngularJS while working at Google.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/Vue.js"
       }
     ]
   },
   {
-    "id": "agent-frameworks",
-    "theme": "Agent frameworks",
+    "id": "tools-sqlite-lore",
+    "theme": "SQLite oddities",
     "statements": [
       {
-        "id": "agent-frameworks-dspy",
-        "text": "DSPy, a framework for programming language models, comes from the Stanford NLP Group.",
+        "id": "tools-sqlite-lore-ethics",
+        "text": "SQLite's code of ethics is drawn from the Rule of St. Benedict.",
         "isFake": false,
-        "sourceUrl": "https://nlp.stanford.edu/"
+        "sourceUrl": "https://sqlite.org/codeofethics.html"
       },
       {
-        "id": "agent-frameworks-smolagents",
-        "text": "Hugging Face's smolagents library lets agents write their actions as code.",
+        "id": "tools-sqlite-lore-trillion",
+        "text": "SQLite estimates over one trillion of its databases are in active use.",
         "isFake": false,
-        "sourceUrl": "https://github.com/huggingface/smolagents"
+        "sourceUrl": "https://sqlite.org/mostdeployed.html"
       },
       {
-        "id": "agent-frameworks-autogen",
-        "text": "The AutoGen multi-agent framework was created by Google.",
+        "id": "tools-sqlite-lore-license",
+        "text": "SQLite is released under the GPL license.",
         "isFake": true,
-        "correction": "AutoGen was created by Microsoft, with researchers from Penn State and the University of Washington."
+        "correction": "SQLite's code is dedicated to the public domain."
       }
     ]
   },
   {
-    "id": "nn-history",
-    "theme": "Neural network history",
+    "id": "llm-claude-lore",
+    "theme": "Claude's strange days",
     "statements": [
       {
-        "id": "nn-history-alexnet",
-        "text": "AlexNet was trained on two GTX 580 GPUs.",
-        "isFake": false,
-        "sourceUrl": "https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf"
-      },
-      {
-        "id": "nn-history-backprop",
-        "text": "Rumelhart, Hinton and Williams described backpropagation in \"Learning representations by back-propagating errors\".",
-        "isFake": false,
-        "sourceUrl": "https://www.nature.com/articles/323533a0"
-      },
-      {
-        "id": "nn-history-lstm",
-        "text": "Long short-term memory (LSTM) networks were introduced by Yann LeCun.",
-        "isFake": true,
-        "correction": "LSTM was introduced by Sepp Hochreiter and Jürgen Schmidhuber."
-      }
-    ]
-  },
-  {
-    "id": "mistral-models",
-    "theme": "Mistral AI models",
-    "statements": [
-      {
-        "id": "mistral-models-magistral",
-        "text": "Magistral is Mistral AI's first reasoning model.",
-        "isFake": false,
-        "sourceUrl": "https://mistral.ai/news/magistral"
-      },
-      {
-        "id": "mistral-models-devstral",
-        "text": "Mistral built its Devstral coding model together with All Hands AI.",
-        "isFake": false,
-        "sourceUrl": "https://mistral.ai/news/devstral"
-      },
-      {
-        "id": "mistral-models-codestral",
-        "text": "Mistral's Codestral model was trained on code in about 20 programming languages.",
-        "isFake": true,
-        "correction": "Codestral was trained on more than 80 programming languages."
-      }
-    ]
-  },
-  {
-    "id": "image-models",
-    "theme": "Image generation models",
-    "statements": [
-      {
-        "id": "image-models-imagen",
-        "text": "Imagen, a text-to-image diffusion model, was created by the Google Research Brain Team.",
-        "isFake": false,
-        "sourceUrl": "https://imagen.research.google/"
-      },
-      {
-        "id": "image-models-stable-diffusion",
-        "text": "Stable Diffusion was built by the CompVis group with Stability AI and Runway.",
-        "isFake": false,
-        "sourceUrl": "https://github.com/CompVis/stable-diffusion"
-      },
-      {
-        "id": "image-models-flux",
-        "text": "The FLUX.1 image models are made by Stability AI.",
-        "isFake": true,
-        "correction": "FLUX.1 is made by Black Forest Labs."
-      }
-    ]
-  },
-  {
-    "id": "training-methods",
-    "theme": "Training methods",
-    "statements": [
-      {
-        "id": "training-methods-ppo",
-        "text": "Proximal Policy Optimization (PPO) was introduced by researchers at OpenAI.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/1707.06347"
-      },
-      {
-        "id": "training-methods-grpo",
-        "text": "Group Relative Policy Optimization (GRPO) was introduced in DeepSeek's DeepSeekMath paper.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2402.03300"
-      },
-      {
-        "id": "training-methods-dpo",
-        "text": "Direct Preference Optimization (DPO) was introduced by researchers at Google DeepMind.",
-        "isFake": true,
-        "correction": "DPO was introduced by researchers at Stanford University."
-      }
-    ]
-  },
-  {
-    "id": "human-exams",
-    "theme": "AI on human exams",
-    "statements": [
-      {
-        "id": "human-exams-gpt-4-bar",
-        "text": "OpenAI reported that GPT-4 passed a simulated bar exam with a score around the top 10% of test takers.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2303.08774"
-      },
-      {
-        "id": "human-exams-med-palm",
-        "text": "Google says its Med-PaLM was the first AI to reach the pass mark on US medical licensing exam style questions.",
-        "isFake": false,
-        "sourceUrl": "https://sites.research.google/med-palm/"
-      },
-      {
-        "id": "human-exams-alphacode",
-        "text": "DeepMind's original AlphaCode ranked in the top 5% of competitors in Codeforces contests.",
-        "isFake": true,
-        "correction": "The original AlphaCode ranked in about the top 54% of competitors, close to an average competitor."
-      }
-    ]
-  },
-  {
-    "id": "deepseek",
-    "theme": "DeepSeek models",
-    "statements": [
-      {
-        "id": "deepseek-r1-license",
-        "text": "DeepSeek-R1's code and model weights are licensed under the MIT License.",
-        "isFake": false,
-        "sourceUrl": "https://github.com/deepseek-ai/DeepSeek-R1"
-      },
-      {
-        "id": "deepseek-v3-gpu-hours",
-        "text": "DeepSeek-V3's full training took 2.788 million H800 GPU hours.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2412.19437"
-      },
-      {
-        "id": "deepseek-coder-v2",
-        "text": "DeepSeek-Coder-V2 supports only 86 programming languages.",
-        "isFake": true,
-        "correction": "DeepSeek-Coder-V2 supports 338 programming languages, up from 86."
-      }
-    ]
-  },
-  {
-    "id": "gpu-programming",
-    "theme": "GPU programming",
-    "statements": [
-      {
-        "id": "gpu-programming-triton",
-        "text": "OpenAI released Triton, an open-source Python-like language for writing GPU code.",
-        "isFake": false,
-        "sourceUrl": "https://openai.com/index/triton/"
-      },
-      {
-        "id": "gpu-programming-mojo",
-        "text": "Mojo is a programming language created by the AI company Modular.",
-        "isFake": false,
-        "sourceUrl": "https://mojolang.org/docs/faq/"
-      },
-      {
-        "id": "gpu-programming-rocm",
-        "text": "ROCm is NVIDIA's open-source software stack for GPU programming.",
-        "isFake": true,
-        "correction": "ROCm is AMD's open-source GPU software stack."
-      }
-    ]
-  },
-  {
-    "id": "multimodal",
-    "theme": "Multimodal models",
-    "statements": [
-      {
-        "id": "multimodal-gpt-4o-omni",
-        "text": "The \"o\" in GPT-4o stands for \"omni\".",
-        "isFake": false,
-        "sourceUrl": "https://openai.com/index/hello-gpt-4o/"
-      },
-      {
-        "id": "multimodal-llava",
-        "text": "LLaVA, a vision-language model, came from the University of Wisconsin–Madison, Microsoft Research and Columbia.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2304.08485"
-      },
-      {
-        "id": "multimodal-gpt-4o-latency",
-        "text": "OpenAI said GPT-4o can respond to audio in as little as 2.3 seconds.",
-        "isFake": true,
-        "correction": "GPT-4o can respond to audio in as little as 232 milliseconds."
-      }
-    ]
-  },
-  {
-    "id": "weather-models",
-    "theme": "Weather models",
-    "statements": [
-      {
-        "id": "weather-models-aurora",
-        "text": "Aurora, a foundation model for weather and the atmosphere, was built by Microsoft.",
-        "isFake": false,
-        "sourceUrl": "https://www.microsoft.com/en-us/research/project/aurora-forecasting/"
-      },
-      {
-        "id": "weather-models-pangu",
-        "text": "The Pangu-Weather forecasting model was built by Huawei Cloud.",
-        "isFake": false,
-        "sourceUrl": "https://www.nature.com/articles/s41586-023-06185-3"
-      },
-      {
-        "id": "weather-models-graphcast",
-        "text": "In DeepMind's tests, GraphCast was less accurate than ECMWF's HRES forecast on most of 1,380 test targets.",
-        "isFake": true,
-        "correction": "GraphCast was more accurate than HRES on 90% of the 1,380 test targets."
-      }
-    ]
-  },
-  {
-    "id": "chatbot-arena",
-    "theme": "Ranking chatbots",
-    "statements": [
-      {
-        "id": "chatbot-arena-lmsys",
-        "text": "The Chatbot Arena paper came from researchers at UC Berkeley, Stanford and UC San Diego.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2403.04132"
-      },
-      {
-        "id": "chatbot-arena-mt-bench",
-        "text": "MT-Bench has 80 multi-turn questions for testing chat assistants.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2306.05685"
-      },
-      {
-        "id": "chatbot-arena-anonymous",
-        "text": "In Chatbot Arena's battle mode, the names of the two models are shown before people vote.",
-        "isFake": true,
-        "correction": "In battle mode, the two models stay anonymous until after the vote."
-      }
-    ]
-  },
-  {
-    "id": "early-language-models",
-    "theme": "Before ChatGPT",
-    "statements": [
-      {
-        "id": "early-language-models-roberta",
-        "text": "RoBERTa, an improved version of BERT, came from Facebook AI.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/1907.11692"
-      },
-      {
-        "id": "early-language-models-xlnet",
-        "text": "XLNet was developed by researchers at Carnegie Mellon University and Google.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/1906.08237"
-      },
-      {
-        "id": "early-language-models-distilbert",
-        "text": "DistilBERT is 40% smaller than BERT and keeps 79% of its language understanding.",
-        "isFake": true,
-        "correction": "DistilBERT keeps 97% of BERT's language understanding."
-      }
-    ]
-  },
-  {
-    "id": "safety-frameworks",
-    "theme": "AI safety",
-    "statements": [
-      {
-        "id": "safety-frameworks-rsp",
-        "text": "Anthropic's first Responsible Scaling Policy defined AI Safety Levels, or ASLs.",
-        "isFake": false,
-        "sourceUrl": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
-      },
-      {
-        "id": "safety-frameworks-fsf",
-        "text": "Google DeepMind's Frontier Safety Framework introduced Critical Capability Levels.",
-        "isFake": false,
-        "sourceUrl": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"
-      },
-      {
-        "id": "safety-frameworks-aisi",
-        "text": "The UK's AI Security Institute was previously called the AI Standards Institute.",
-        "isFake": true,
-        "correction": "Before it was renamed, it was called the AI Safety Institute."
-      }
-    ]
-  },
-  {
-    "id": "claude-4",
-    "theme": "Claude 4 models",
-    "statements": [
-      {
-        "id": "claude-4-sonnet-45-osworld",
-        "text": "Claude Sonnet 4.5 scored 61.4% on the OSWorld computer-use benchmark.",
-        "isFake": false,
-        "sourceUrl": "https://www.anthropic.com/news/claude-sonnet-4-5"
-      },
-      {
-        "id": "claude-4-sonnet-45-hours",
-        "text": "Anthropic said Claude Sonnet 4.5 can keep focus on complex tasks for more than 30 hours.",
-        "isFake": false,
-        "sourceUrl": "https://www.anthropic.com/news/claude-sonnet-4-5"
-      },
-      {
-        "id": "claude-4-haiku-4",
-        "text": "Anthropic launched Claude Opus 4 and Claude Sonnet 4 together with Claude Haiku 4.",
-        "isFake": true,
-        "correction": "There is no Claude Haiku 4. Claude 4 launched as Opus 4 and Sonnet 4, and the next Haiku was Haiku 4.5."
-      }
-    ]
-  },
-  {
-    "id": "search-embeddings",
-    "theme": "Search and embeddings",
-    "statements": [
-      {
-        "id": "search-embeddings-faiss",
-        "text": "FAISS, a library for vector similarity search, was built by Meta's FAIR team.",
-        "isFake": false,
-        "sourceUrl": "https://github.com/facebookresearch/faiss"
-      },
-      {
-        "id": "search-embeddings-colbert",
-        "text": "ColBERT, a retrieval model built on BERT, came from Stanford University.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2004.12832"
-      },
-      {
-        "id": "search-embeddings-sbert",
-        "text": "Sentence-BERT was developed by researchers at Google.",
-        "isFake": true,
-        "correction": "Sentence-BERT was developed at the UKP Lab of TU Darmstadt."
-      }
-    ]
-  },
-  {
-    "id": "math-benchmarks",
-    "theme": "Math benchmarks",
-    "statements": [
-      {
-        "id": "math-benchmarks-frontiermath",
-        "text": "FrontierMath, a benchmark of very hard math problems, was created by Epoch AI.",
-        "isFake": false,
-        "sourceUrl": "https://epoch.ai/frontiermath"
-      },
-      {
-        "id": "math-benchmarks-gsm-symbolic",
-        "text": "GSM-Symbolic, a variant of the GSM8K math benchmark, was made by Apple researchers.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/pdf/2410.05229"
-      },
-      {
-        "id": "math-benchmarks-minif2f",
-        "text": "The miniF2F benchmark has 4,880 formal Olympiad-level math problems.",
-        "isFake": true,
-        "correction": "miniF2F has 488 problems."
-      }
-    ]
-  },
-  {
-    "id": "ai-dev-tools",
-    "theme": "AI software builders",
-    "statements": [
-      {
-        "id": "ai-dev-tools-devin",
-        "text": "Devin, an autonomous AI software engineer, is made by Cognition.",
-        "isFake": false,
-        "sourceUrl": "https://cognition.ai/blog/introducing-devin"
-      },
-      {
-        "id": "ai-dev-tools-cursor",
-        "text": "Cursor, the AI code editor, is made by a company called Anysphere.",
-        "isFake": false,
-        "sourceUrl": "https://cursor.com/terms-of-service"
-      },
-      {
-        "id": "ai-dev-tools-v0",
-        "text": "v0, the AI app builder, is made by Netlify.",
-        "isFake": true,
-        "correction": "v0 is made by Vercel."
-      }
-    ]
-  },
-  {
-    "id": "open-model-families",
-    "theme": "Open model families",
-    "statements": [
-      {
-        "id": "open-model-families-olmo",
-        "text": "OLMo, a fully open language model, is made by the Allen Institute for AI (Ai2).",
-        "isFake": false,
-        "sourceUrl": "https://allenai.org/olmo"
-      },
-      {
-        "id": "open-model-families-granite",
-        "text": "IBM makes the Granite family of open models.",
-        "isFake": false,
-        "sourceUrl": "https://www.ibm.com/granite"
-      },
-      {
-        "id": "open-model-families-nemotron",
-        "text": "The Nemotron family of models is made by AMD.",
-        "isFake": true,
-        "correction": "Nemotron is made by NVIDIA."
-      }
-    ]
-  },
-  {
-    "id": "qwen3",
-    "theme": "Qwen3",
-    "statements": [
-      {
-        "id": "qwen3-moe",
-        "text": "Qwen3-235B-A22B has 235 billion total parameters and 22 billion active parameters.",
-        "isFake": false,
-        "sourceUrl": "https://qwenlm.github.io/blog/qwen3/"
-      },
-      {
-        "id": "qwen3-languages",
-        "text": "Qwen3 launched with support for 119 languages and dialects.",
-        "isFake": false,
-        "sourceUrl": "https://qwenlm.github.io/blog/qwen3/"
-      },
-      {
-        "id": "qwen3-tokens",
-        "text": "Qwen3 was pretrained on about 3.6 trillion tokens.",
-        "isFake": true,
-        "correction": "Qwen3 was pretrained on about 36 trillion tokens."
-      }
-    ]
-  },
-  {
-    "id": "fast-inference",
-    "theme": "Making inference fast",
-    "statements": [
-      {
-        "id": "fast-inference-pagedattention",
-        "text": "PagedAttention, the attention algorithm behind vLLM, was inspired by virtual memory in operating systems.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2309.06180"
-      },
-      {
-        "id": "fast-inference-gptq",
-        "text": "GPTQ can compress the weights of GPT models down to 3 or 4 bits each.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2210.17323"
-      },
-      {
-        "id": "fast-inference-speculative-decoding",
-        "text": "Speculative decoding speeds up text generation, but it changes the model's outputs.",
-        "isFake": true,
-        "correction": "Speculative decoding speeds up generation without changing the model's outputs."
-      }
-    ]
-  },
-  {
-    "id": "interpretability",
-    "theme": "Looking inside models",
-    "statements": [
-      {
-        "id": "interpretability-golden-gate",
-        "text": "Anthropic made Golden Gate Claude by turning up a Golden Gate Bridge feature inside the model.",
+        "id": "llm-claude-lore-golden-gate",
+        "text": "Anthropic briefly released a Claude obsessed with the Golden Gate Bridge.",
         "isFake": false,
         "sourceUrl": "https://www.anthropic.com/news/golden-gate-claude"
       },
       {
-        "id": "interpretability-explain-neurons",
-        "text": "OpenAI used GPT-4 to write explanations for neurons in GPT-2.",
+        "id": "llm-claude-lore-blackmail",
+        "text": "In a simulated test, Claude Opus 4 blackmailed a boss to avoid being shut down.",
         "isFake": false,
-        "sourceUrl": "https://openai.com/index/language-models-can-explain-neurons-in-language-models/"
+        "sourceUrl": "https://www.anthropic.com/research/agentic-misalignment"
       },
       {
-        "id": "interpretability-gemma-scope",
-        "text": "Gemma Scope, a set of sparse autoencoders for Gemma 2, was released by Anthropic.",
+        "id": "llm-claude-lore-vend",
+        "text": "Claude ran a tiny shop in Anthropic's office and turned a tidy profit.",
         "isFake": true,
-        "correction": "Gemma Scope was released by Google DeepMind."
+        "correction": "In Project Vend the shop lost money, partly by selling tungsten cubes below cost."
       }
     ]
   },
   {
-    "id": "large-models",
-    "theme": "Very large models",
+    "id": "agents-lobster-agent",
+    "theme": "The lobster agent",
     "statements": [
       {
-        "id": "large-models-grok-1",
-        "text": "xAI's Grok-1 has 314 billion parameters.",
+        "id": "agents-lobster-agent-names",
+        "text": "The viral agent OpenClaw was previously named Clawdbot, then Moltbot.",
         "isFake": false,
-        "sourceUrl": "https://x.ai/news/grok-os"
+        "sourceUrl": "https://en.wikipedia.org/wiki/OpenClaw"
       },
       {
-        "id": "large-models-palm",
-        "text": "Google's PaLM model has 540 billion parameters.",
-        "isFake": false,
-        "sourceUrl": "https://research.google/blog/pathways-language-model-palm-scaling-to-540-billion-parameters-for-breakthrough-performance/"
-      },
-      {
-        "id": "large-models-falcon-180b",
-        "text": "Falcon 180B was trained on 35 trillion tokens.",
+        "id": "agents-lobster-agent-google",
+        "text": "Clawdbot was renamed after Google raised trademark concerns.",
         "isFake": true,
-        "correction": "Falcon 180B was trained on 3.5 trillion tokens."
+        "correction": "Anthropic raised the trademark concerns, because Clawd sounded too much like Claude."
+      },
+      {
+        "id": "agents-lobster-agent-openai",
+        "text": "Its creator Peter Steinberger went on to join OpenAI.",
+        "isFake": false,
+        "sourceUrl": "https://steipete.me/posts/2026/openclaw"
       }
     ]
   },
   {
-    "id": "ai-acronyms",
-    "theme": "More AI acronyms",
+    "id": "lang-js-quirks",
+    "theme": "JavaScript quirks",
     "statements": [
       {
-        "id": "ai-acronyms-llama",
-        "text": "LLaMA, the name of Meta's first Llama model, stood for Large Language Model Meta AI.",
+        "id": "lang-js-quirks-typeof-null",
+        "text": "In JavaScript, typeof null returns \"object\".",
         "isFake": false,
-        "sourceUrl": "https://ai.meta.com/blog/large-language-model-llama-meta-ai/"
+        "sourceUrl": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof"
       },
       {
-        "id": "ai-acronyms-lora",
-        "text": "LoRA stands for Low-Rank Adaptation.",
-        "isFake": false,
-        "sourceUrl": "https://arxiv.org/abs/2106.09685"
-      },
-      {
-        "id": "ai-acronyms-tpu",
-        "text": "The \"TPU\" in Google's TPU chips stands for Tensor Parallel Unit.",
+        "id": "lang-js-quirks-nan",
+        "text": "In JavaScript, NaN === NaN evaluates to true.",
         "isFake": true,
-        "correction": "TPU stands for Tensor Processing Unit."
+        "correction": "It's false: NaN is the only value that isn't equal to itself."
+      },
+      {
+        "id": "lang-js-quirks-float",
+        "text": "In JavaScript, 0.1 + 0.2 === 0.3 evaluates to false.",
+        "isFake": false,
+        "sourceUrl": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/EPSILON"
+      }
+    ]
+  },
+  {
+    "id": "tools-outages",
+    "theme": "When the cloud fell",
+    "statements": [
+      {
+        "id": "tools-outages-aws",
+        "text": "A huge AWS outage in us-east-1 traced back to a DNS bug in DynamoDB.",
+        "isFake": false,
+        "sourceUrl": "https://aws.amazon.com/message/101925/"
+      },
+      {
+        "id": "tools-outages-cloudflare",
+        "text": "Cloudflare's global outage that broke X and ChatGPT was caused by a DDoS attack.",
+        "isFake": true,
+        "correction": "A bot management file doubled in size and crashed its proxy; Cloudflare said no attack was involved."
+      },
+      {
+        "id": "tools-outages-gitlab",
+        "text": "GitLab lost hours of production data after an engineer wiped the wrong database server.",
+        "isFake": false,
+        "sourceUrl": "https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/"
+      }
+    ]
+  },
+  {
+    "id": "news-billion-dollar-buys",
+    "theme": "Billion-dollar buys",
+    "statements": [
+      {
+        "id": "news-billion-dollar-buys-instagram",
+        "text": "Facebook bought Instagram for about $1 billion.",
+        "isFake": false,
+        "sourceUrl": "https://about.fb.com/news/2012/04/facebook-to-acquire-instagram/"
+      },
+      {
+        "id": "news-billion-dollar-buys-youtube",
+        "text": "Google bought YouTube for $1.65 billion in stock.",
+        "isFake": false,
+        "sourceUrl": "https://en.wikipedia.org/wiki/YouTube"
+      },
+      {
+        "id": "news-billion-dollar-buys-whatsapp",
+        "text": "Google bought WhatsApp in a deal worth about $19 billion.",
+        "isFake": true,
+        "correction": "Facebook bought WhatsApp in a deal worth about $19 billion."
       }
     ]
   }

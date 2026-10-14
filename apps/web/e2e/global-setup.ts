@@ -15,7 +15,7 @@ export default async function globalSetup() {
   await admin.$executeRawUnsafe(`CREATE DATABASE "${DB_NAME}"`);
   await admin.$disconnect();
 
-  const env = { ...process.env, DATABASE_URL, DIRECT_URL: DATABASE_URL };
+  const env = { ...process.env, DATABASE_URL, DATABASE_URL_UNPOOLED: DATABASE_URL };
   const run = (...args: string[]) =>
     execFileSync("pnpm", args, { cwd: DB_DIR, env, stdio: "inherit" });
   run("exec", "prisma", "migrate", "deploy");

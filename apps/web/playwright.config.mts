@@ -10,7 +10,7 @@ import { BASE_URL, DATABASE_URL, PORT } from "./e2e/env";
 // Only when missing: regenerating under a running `next dev` makes it recompile.
 if (!existsSync(new URL("../../packages/db/prisma/generated", import.meta.url))) {
   execFileSync("pnpm", ["-F", "@kenpathlabs/db", "db:generate"], {
-    env: { ...process.env, DATABASE_URL, DIRECT_URL: DATABASE_URL },
+    env: { ...process.env, DATABASE_URL, DATABASE_URL_UNPOOLED: DATABASE_URL },
     stdio: "inherit",
   });
 }
@@ -42,7 +42,7 @@ export default defineConfig({
     env: {
       NEXT_DIST_DIR: ".next-e2e",
       DATABASE_URL,
-      DIRECT_URL: DATABASE_URL,
+      DATABASE_URL_UNPOOLED: DATABASE_URL,
       BETTER_AUTH_SECRET: randomBytes(32).toString("hex"),
       BETTER_AUTH_URL: BASE_URL,
       ALLOW_TEST_CLOCK: "true",

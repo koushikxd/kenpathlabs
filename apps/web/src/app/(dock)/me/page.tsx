@@ -1,5 +1,9 @@
+import type { Metadata } from "next";
+
 import { MeScreen } from "@/components/me-screen";
 import { requestSession } from "@/server/services";
+
+export const metadata: Metadata = { title: "Me" };
 
 export default async function MePage() {
   const session = await requestSession();

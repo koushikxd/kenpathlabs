@@ -2,9 +2,14 @@ import type { Metadata, Viewport } from "next";
 
 import "../index.css";
 
+const description = "Two truths and a hallucination. A daily game about tech, coding and AI.";
+
 export const metadata: Metadata = {
-  title: "Hallucinated",
-  description: "Two truths and a hallucination. A daily game about the AI era.",
+  title: { default: "Hallucinated", template: "%s · Hallucinated" },
+  description,
+  applicationName: "Hallucinated",
+  openGraph: { title: "Hallucinated", description, siteName: "Hallucinated", type: "website" },
+  twitter: { card: "summary", title: "Hallucinated", description },
 };
 
 export const viewport: Viewport = {

@@ -10,6 +10,7 @@
     }
   },
   "scripts": {
+    "build": "prisma generate",
     "check-types": "tsc --noEmit",
     "test": "vitest run",
     "db:push": "prisma db push",
@@ -18,6 +19,7 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "bun src/seed.ts",
     "db:seed:players": "bun src/seed-players.ts",
+    "db:seed:demo": "bun src/seed-demo.ts",
     "db:studio": "prisma studio",
     "db:start": "docker compose up -d",
     "db:watch": "docker compose up",
