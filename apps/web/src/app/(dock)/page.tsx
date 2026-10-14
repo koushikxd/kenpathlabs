@@ -33,7 +33,8 @@ export default function TodayPage() {
           {today.data.done ? (
             <DayDone
               done={today.data.done}
-              total={today.data.rounds.length}
+              rounds={today.data.rounds}
+              streak={today.data.streak}
               receivedAt={today.dataUpdatedAt}
               onNewDay={today.refetch}
             />

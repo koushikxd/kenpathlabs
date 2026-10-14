@@ -87,8 +87,34 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
   );
 }
 
-// One pill per round of the day: a green check if correct, a red cross if wrong, empty until
-// answered. The next round to play is outlined. Icons as well as colour, so it reads without colour.
+// A round's result: a green check if correct, a red cross if wrong, empty until answered.
+// Icons as well as colour, so it reads without colour.
+export function ResultPill({
+  correct,
+  className,
+}: {
+  correct: boolean | undefined;
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        "flex h-4 w-7 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ease-out motion-reduce:transition-none",
+        correct === undefined
+          ? "bg-muted"
+          : correct
+            ? "bg-success text-background"
+            : "bg-destructive text-background",
+        className,
+      )}
+    >
+      {correct === true && <Check className="size-3" strokeWidth={3} />}
+      {correct === false && <X className="size-3" strokeWidth={3} />}
+    </span>
+  );
+}
+
+// One pill per round of the day. The next round to play is outlined.
 export function Progress({ results }: { results: (boolean | undefined)[] }) {
   const correct = results.filter((r) => r === true).length;
   const wrong = results.filter((r) => r === false).length;
@@ -101,21 +127,11 @@ export function Progress({ results }: { results: (boolean | undefined)[] }) {
       className="flex gap-1"
     >
       {results.map((result, i) => (
-        <span
+        <ResultPill
           key={i}
-          className={cn(
-            "flex h-4 w-7 items-center justify-center rounded-full transition-colors duration-300 ease-out motion-reduce:transition-none",
-            result === undefined
-              ? "bg-muted"
-              : result
-                ? "bg-success text-background"
-                : "bg-destructive text-background",
-            i === next && "ring-1 ring-foreground/40",
-          )}
-        >
-          {result === true && <Check className="size-3" strokeWidth={3} />}
-          {result === false && <X className="size-3" strokeWidth={3} />}
-        </span>
+          correct={result}
+          className={cn(i === next && "ring-1 ring-foreground/40")}
+        />
       ))}
     </span>
   );

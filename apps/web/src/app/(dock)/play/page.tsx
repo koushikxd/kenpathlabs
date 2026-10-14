@@ -72,7 +72,8 @@ export default function PlayPage() {
           today.data.done && (
             <DayDone
               done={today.data.done}
-              total={rounds.length}
+              rounds={rounds}
+              streak={today.data.streak}
               receivedAt={today.dataUpdatedAt}
               onNewDay={today.refetch}
             />

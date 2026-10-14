@@ -41,7 +41,7 @@ const BADGES: { id: Badge; name: string; how: string; icon: LucideIcon }[] = [
 ];
 
 const SECTION = "flex flex-col gap-3";
-const HEADING = "text-xs font-medium text-muted-foreground";
+const HEADING = "eyebrow";
 
 export function PlayerHeader({
   name,
@@ -55,13 +55,24 @@ export function PlayerHeader({
   rankBadge: keyof typeof RANK_LABEL | null;
 }) {
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex flex-wrap items-center gap-2">
-        <h1 className="text-lg font-semibold text-balance">{name}</h1>
-        {isBot && <BotTag />}
-        <RankBadge badge={rankBadge} />
+    <div className="flex items-center gap-4">
+      {/* The Play orb in small: the player's initial on brand, behind scanlines. */}
+      <span
+        aria-hidden
+        className="scanlines grid size-14 shrink-0 place-items-center rounded-full bg-brand font-mono text-2xl font-semibold text-background uppercase shadow-[0_0_32px_-8px_var(--brand)] ring-4 ring-brand/15"
+      >
+        {name.charAt(0)}
+      </span>
+      <div className="flex min-w-0 flex-col gap-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <h1 className="text-xl font-semibold text-balance">{name}</h1>
+          {isBot && <BotTag />}
+          <RankBadge badge={rankBadge} />
+        </div>
+        {username && (
+          <p className="truncate font-mono text-xs text-muted-foreground">@{username}</p>
+        )}
       </div>
-      {username && <p className="text-xs text-muted-foreground">@{username}</p>}
     </div>
   );
 }
@@ -105,17 +116,25 @@ function Badges({ earned }: { earned: Badge[] }) {
         {BADGES.map(({ id, name, how, icon: Icon }) => {
           const isEarned = earned.includes(id);
           return (
-            <li key={id} className="flex flex-col gap-2 rounded-xl border border-border p-3">
+            <li
+              key={id}
+              className={cn(
+                "flex flex-col gap-2 rounded-xl border p-3",
+                isEarned ? "border-brand/40 bg-brand/5" : "border-dashed",
+              )}
+            >
               <div className="flex items-start justify-between gap-2">
                 <span
                   className={cn(
                     "flex size-8 items-center justify-center rounded-md",
-                    isEarned ? "bg-brand/15 text-brand" : "bg-muted text-muted-foreground",
+                    isEarned
+                      ? "bg-brand text-background shadow-[0_0_20px_-4px_var(--brand)]"
+                      : "bg-muted text-muted-foreground",
                   )}
                 >
                   <Icon aria-hidden className="size-4" />
                 </span>
-                {!isEarned && <span className="text-xs text-muted-foreground">Not yet</span>}
+                {!isEarned && <span className="eyebrow">Not yet</span>}
               </div>
               <div className="flex flex-col gap-0.5">
                 <span className={cn("text-sm font-medium", !isEarned && "text-muted-foreground")}>
@@ -143,14 +162,18 @@ function SeasonAwards({ awards }: { awards: Summary["seasonAwards"] }) {
             // SAFETY: the column is a string, but finalization only ever writes a RankBadge.
             const label = RANK_LABEL[award as keyof typeof RANK_LABEL];
             return (
-              <li key={seasonNumber} className="px-3 py-3 text-sm font-medium">
-                Season {seasonNumber} · {label}
+              <li
+                key={seasonNumber}
+                className="flex items-center gap-3 px-3 py-3 text-sm font-medium"
+              >
+                <span className="eyebrow">Season {seasonNumber}</span>
+                {label}
               </li>
             );
           })}
         </ul>
       ) : (
-        <p className="rounded-xl border border-border px-3 py-3 text-xs text-pretty text-muted-foreground">
+        <p className="rounded-xl border border-dashed px-3 py-3 text-xs text-pretty text-muted-foreground">
           No season awards yet. Finish a season in the top 10 to keep its badge.
         </p>
       )}

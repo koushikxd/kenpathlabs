@@ -19,7 +19,7 @@ const DATE = new Intl.DateTimeFormat("en-GB", {
 export function PointsLedger({ ledger }: { ledger: Entry[] }) {
   return (
     <section aria-labelledby="ledger-title" className="flex flex-col gap-3">
-      <h2 id="ledger-title" className="text-xs font-medium text-muted-foreground">
+      <h2 id="ledger-title" className="eyebrow">
         Recent points
       </h2>
       {ledger.length > 0 ? (
@@ -35,12 +35,14 @@ export function PointsLedger({ ledger }: { ledger: Entry[] }) {
                   {DATE.format(new Date(entry.createdAt))}
                 </span>
               </span>
-              <span className="font-mono text-sm font-semibold tabular-nums">+{entry.amount}</span>
+              <span className="font-mono text-sm font-semibold text-brand tabular-nums">
+                +{entry.amount}
+              </span>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="rounded-xl border border-border px-3 py-3 text-xs text-pretty text-muted-foreground">
+        <p className="rounded-xl border border-dashed px-3 py-3 text-xs text-pretty text-muted-foreground">
           No points yet. Answer today’s rounds to earn points.
         </p>
       )}

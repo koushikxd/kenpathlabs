@@ -40,20 +40,21 @@ export function MeScreen({ guest: guestFromSession }: { guest: boolean }) {
     <>
       {guest && (
         <>
-          <div className="flex flex-col gap-1">
-            <h1 className="text-lg font-semibold">Guest</h1>
-            <p className="text-xs text-pretty text-muted-foreground">
-              Sign up to keep your points and appear on the board.
-            </p>
-          </div>
+          <PlayerHeader name="Guest" username={null} rankBadge={null} />
+          <p className="-mt-2 text-xs text-pretty text-muted-foreground">
+            Sign up to keep your points and appear on the board.
+          </p>
           <AccountForms />
         </>
       )}
       {!guest && me.isPending && (
         <>
-          <div className="flex flex-col gap-1">
-            <Skeleton className="h-7 w-40 rounded-md" />
-            <Skeleton className="h-4 w-24 rounded-md" />
+          <div className="flex items-center gap-4">
+            <Skeleton className="size-14 rounded-full" />
+            <div className="flex flex-col gap-1">
+              <Skeleton className="h-7 w-40 rounded-md" />
+              <Skeleton className="h-4 w-24 rounded-md" />
+            </div>
           </div>
           <Skeleton className="h-8 w-48 rounded-md pointer-coarse:h-11" />
         </>

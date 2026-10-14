@@ -136,6 +136,42 @@ Deviations:
 - Running the suite rewrites the gitignored `apps/web/next-env.d.ts` to import from `.next-e2e`. The dev server rewrites it back on its next start. `pnpm check-types` passes with either.
 - The running dev server restarted itself once during this work (its PID changed), most likely on the `next.config.ts` or `tsconfig.json` edit. It kept serving on 3001 with no action.
 
+## Theme pass on Today, Board, Me and profiles (no issue)
+
+Shipped:
+
+- Two Tailwind utilities in `index.css`. `eyebrow` is the section label: mono, 11px, uppercase, `tracking-widest`, muted. `scanlines` is faint horizontal lines at 3% foreground. Every section heading uses `eyebrow`: the graph, badges, season awards, recent points, the day score, the board's season and the stat labels.
+- `StatRow` (Today's status and the profile stats): 24px mono values (was 18px), `eyebrow` labels, `divide-x` columns, `scanlines`.
+- `PlayerHeader`: a 56px brand avatar with the name's initial, `scanlines`, a brand glow and ring, like a small Play orb. The name is 20px and the `@username` is mono. Guests on Me use it too, as `Guest`, and the signed-in skeleton has a matching circle.
+- Board: the season is an `eyebrow` `h1` over a 30px mono time left, then the badge note on its own line. Ranks are two-digit mono (`01`), with first place in brand. Your row is `bg-brand/10` (was `/5`). A dashed `Badge line` row in brand marks the end of the top 10 when more rows follow. It is `aria-hidden`, because the header already states the rule.
+- Badges: an earned badge has a brand border and tint, with a solid brand icon tile that glows. An unearned one has a dashed border and an `eyebrow` `Not yet`. Empty states (season awards, recent points) use dashed borders. Ledger amounts are brand. Season award rows lead with an `eyebrow` season number.
+
+Decisions:
+
+- `eyebrow` and `scanlines` are `@utility` classes, not TS constants, so they compose like any Tailwind class and live next to the glitch CSS that started the look.
+- Dashed borders mean empty or not yet. Solid brand means earned or you.
+
+Deviations:
+
+- Verified with `playwright-cli` (Helium) against `next dev` at 430x932, before and after, on `/`, `/board`, `/me` (guest) and `/u/board926773130` (`.playwright-cli/theme/before.png` and `after.png`, gitignored). Light theme, a signed-in Me and a non-empty ledger were not checked.
+
+## Day result screen (no issue)
+
+Shipped:
+
+- `DayDone` takes `rounds` and `streak` (was `total`). It is `flex-1` and centred, like `PlayCard`. It has three parts: the score (a 72px mono `correct`, which glitches, over a muted `/5`) with a one-line verdict for each score from 0 to 5; a receipt, with one row per round (`ResultPill`, theme, `+10` or `0`), then `Perfect day` and `Streak bonus · n days` when they are above 0, then `Points earned`; and a 30px countdown.
+- `ResultPill` (`round-card.tsx`): one round's check, cross or empty pill. `Progress` and the receipt both use it.
+
+Decisions:
+
+- The receipt replaces the `Correct rounds` line, so the player sees which rounds they missed. Round points come from each `result.points`, so the rows add up to the server's `done.points.round`.
+- The receipt rows cascade in on the statements' timing (130ms, then 45ms per row). Like the score's glitch, this replays whenever `DayDone` mounts, Today included.
+- Verdict copy: `Fully hallucinated. Tomorrow is a new set.`, `The fakes won today.`, `The fakes had a good day.`, `More truth than fiction.`, `Sharp. One slipped past you.`, `Perfect day. Nothing got past you.`
+
+Deviations:
+
+- Verified with `playwright-cli` (Helium) against `next dev` at 515x978, as a fresh anonymous user who played all 5 rounds (2/5, +25). On `/play` the result fits the viewport. On Today it scrolls by about 100px below the stats and the graph (`.playwright-cli/done/`, gitignored). Light theme and the 5/5 `Perfect day` row were not checked.
+
 ## Game screen fills the viewport, results in the progress pills (no issue)
 
 Shipped:

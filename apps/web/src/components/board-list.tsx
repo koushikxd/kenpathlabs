@@ -1,6 +1,7 @@
 import { Skeleton } from "@kenpathlabs/ui/components/skeleton";
 import { cn } from "@kenpathlabs/ui/lib/utils";
 import Link from "next/link";
+import { Fragment } from "react";
 
 import type { RouterOutputs } from "@/utils/trpc";
 
@@ -10,12 +11,19 @@ type Row = RouterOutputs["board"]["season"]["rows"][number];
 
 const LIST = "divide-y divide-border overflow-hidden rounded-xl border border-border";
 const ROW = "flex items-center gap-3 px-3 py-3";
+// Places down to here keep their badge when the season ends.
+const BADGE_LINE = 10;
 
 function RowContent({ row }: { row: Row }) {
   return (
     <>
-      <span className="w-6 text-right font-mono text-xs text-muted-foreground tabular-nums">
-        {row.rank}
+      <span
+        className={cn(
+          "w-6 text-right font-mono text-xs tabular-nums",
+          row.rank === 1 ? "font-semibold text-brand" : "text-muted-foreground",
+        )}
+      >
+        {String(row.rank).padStart(2, "0")}
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
         <span className="flex items-center gap-1.5">
@@ -34,7 +42,7 @@ function RowContent({ row }: { row: Row }) {
 
 // A row without a username (an account made outside our sign-up form) has no profile to link to.
 export function BoardRow({ row, isMe = false }: { row: Row; isMe?: boolean }) {
-  const className = cn(ROW, isMe && "bg-brand/5");
+  const className = cn(ROW, isMe && "bg-brand/10");
   if (!row.username) {
     return (
       <div aria-current={isMe || undefined} className={className}>
@@ -59,10 +67,17 @@ export function BoardRow({ row, isMe = false }: { row: Row; isMe?: boolean }) {
 export function BoardList({ rows, myRank }: { rows: Row[]; myRank?: number }) {
   return (
     <ol className={LIST}>
-      {rows.map((row) => (
-        <li key={row.rank}>
-          <BoardRow row={row} isMe={row.rank === myRank} />
-        </li>
+      {rows.map((row, i) => (
+        <Fragment key={row.rank}>
+          <li>
+            <BoardRow row={row} isMe={row.rank === myRank} />
+          </li>
+          {row.rank <= BADGE_LINE && rows[i + 1]?.rank > BADGE_LINE && (
+            <li aria-hidden className="eyebrow border-dashed px-3 py-1.5 text-center text-brand">
+              Badge line
+            </li>
+          )}
+        </Fragment>
       ))}
     </ol>
   );

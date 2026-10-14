@@ -42,7 +42,7 @@ function Legend() {
 function Frame({ children }: { children: React.ReactNode }) {
   return (
     <section aria-labelledby="graph-title" className="flex flex-col gap-3">
-      <h2 id="graph-title" className="text-xs font-medium text-muted-foreground">
+      <h2 id="graph-title" className="eyebrow">
         Last 20 weeks
       </h2>
       {children}

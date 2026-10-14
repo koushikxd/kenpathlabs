@@ -69,7 +69,8 @@ export default function BoardPage() {
       {board.isPending && (
         <>
           <div className="flex flex-col gap-1">
-            <Skeleton className="h-7 w-24 rounded-md" />
+            <Skeleton className="h-4 w-20 rounded-md" />
+            <Skeleton className="h-9 w-40 rounded-md" />
             <Skeleton className="h-4 w-64 rounded-md" />
           </div>
           <BoardListSkeleton />
@@ -79,10 +80,13 @@ export default function BoardPage() {
       {board.isSuccess && (
         <>
           <div className="flex flex-col gap-1">
-            <h1 className="text-lg font-semibold">Season {board.data.season}</h1>
-            <p className="text-xs text-pretty text-muted-foreground tabular-nums">
-              {formatTimeLeft(Date.parse(board.data.endsAt) - Date.parse(board.data.serverTime))}{" "}
-              left · Top 10 keep their badge when the season ends
+            <h1 className="eyebrow">Season {board.data.season}</h1>
+            <p className="font-mono text-3xl font-semibold tabular-nums">
+              {formatTimeLeft(Date.parse(board.data.endsAt) - Date.parse(board.data.serverTime))}
+              <span className="text-base text-muted-foreground"> left</span>
+            </p>
+            <p className="text-xs text-pretty text-muted-foreground">
+              Top 10 keep their badge when the season ends.
             </p>
           </div>
           {board.data.rows.length > 0 ? (

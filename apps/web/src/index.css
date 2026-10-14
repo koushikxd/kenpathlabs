@@ -1,5 +1,19 @@
 @import "@kenpathlabs/ui/globals.css";
 
+/* The section label: a small mono caption, like a readout on an instrument. */
+@utility eyebrow {
+  @apply font-mono text-[11px] font-medium tracking-widest text-muted-foreground uppercase;
+}
+
+/* Faint horizontal lines, the screen texture behind panels and the player avatar. */
+@utility scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    color-mix(in oklch, var(--foreground) 3%, transparent) 3px 4px
+  );
+}
+
 /*
  * The reveal glitch, first made for the fake statement and now the app's signature for anything
  * wrong, broken or not real (`Glitch` in components/glitch.tsx). The text jitters while two tinted
