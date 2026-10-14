@@ -10,6 +10,8 @@
 
 # Testing
 /coverage
+/test-results/
+/.next-e2e/
 
 # Build outputs
 /.next/

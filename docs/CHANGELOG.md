@@ -14,6 +14,128 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## #25 E2E: board and season awards
+
+Shipped:
+
+- `apps/web/e2e/board.spec.ts`, three tests:
+  - An anonymous player with points sees the claim prompt and no row of their own.
+  - A signed-up player with 20 points is pinned, highlighted in the list with the same row text, and ranked between the bots on 30 and 15, with all 20 bots tagged.
+  - Past Monday 00:00 IST, the previous season's top 10 show `Season n · da goat` or `10x dev` on their profiles, 11th shows nothing, and the new season's board is empty.
+
+Decisions:
+
+- The season-end test closes season 2 (19 to 26 Oct), not season 1. Other specs stay in season 1 and keep adding points there while the suite runs, so season 1's final top 10 depends on test order. No other spec touches season 2, so the test inserts its standings through `db` (each bot's season 1 amount again, plus 500 for its own player) and can name the expected awards. It still closes season 1 as a side effect, like any test whose clock moves past it.
+- The clock jumps to Mon 26 Oct 00:02 IST, because finalization waits a minute past the season end (#12). At 00:00:30 the award checks fail, which confirms they depend on finalization.
+- Ranking among bots is checked by order (Mei Lin above, Jonas Berg below), not by rank number, because other specs' signed-up players share the board.
+- Pinned and list rows are told apart by `aria-current="true"`: the list row sits inside an `<li>` and the pinned one does not. The dock's current link uses `"page"`, so it never matches.
+- Signs up with #24's `signUp(page)`. The branch had its own `signUp(page, user)`, dropped when the branches merged.
+- Done when: the full suite, 15 tests on 4 workers with #22 to #25 merged, passed twice in a row (52.4s and 1.2m). Each test folder has `trace.zip` and a final screenshot.
+
+Deviations:
+
+- Verified: `board.spec.ts` passed alone and in the full suite. Its final screenshots show the claim prompt, the pinned row with 20 points, and the profile with `Season 2 · da goat`.
+
+## #24 E2E: sign-up keeps progress, sign-in merges, sign-out
+
+Shipped:
+
+- `apps/web/e2e/account.spec.ts`, three tests:
+  - Play anonymously, then sign up: points, graph and ledger on Me are unchanged, the attempts moved to the account, and the anonymous user is deleted.
+  - Sign in merges: the account keeps its own day A answer over the guest's, and the guest's day B is added (20 points, exactly two attempts).
+  - Sign out: a new anonymous user with 0 points. After signing back in, the account's Me and attempts are unchanged.
+- In `apps/web/e2e/helpers.ts`:
+  - `newPlayer(browser, now = NOW): Promise<Page>`: a second player in the same test. It opens a fresh context set up like the `page` fixture (clock, Slow 4G, dev overlays hidden), and Playwright traces and screenshots it too (`test-finished-2.png`).
+  - `sessionUser(page): Promise<{ id: string; isAnonymous: boolean }>`, read from `/api/auth/get-session`. Load a page first, because the first visit is what signs in.
+  - `type Account = { name; username; email; password }`.
+  - `signUp(page): Promise<Account>`: signs up through the form on Me as `e2e_<12 hex>` (also the name), `<username>@e2e.invalid`, password `correct-horse`, then waits for `Sign out`.
+  - `signIn(page, { email, password })`: switches Me's form to sign-in, submits, and waits for `Sign out`.
+  - `signOut(page)`: taps `Sign out` on Me and waits for the `Guest` heading.
+  - The `page` fixture's setup moved into a private `preparePage(page, now)`, which `newPlayer` also calls. The fixture behaves the same.
+
+Decisions:
+
+- Day A is the default clock (Wed 14 Oct) and day B is 15 Oct, both in season 1, so the spec never closes a season for the rest of a parallel run.
+- The account plays day A after signing up, so its day A answers are its own and not merged in.
+- "Unchanged" is checked by comparing the text of Me's `Stats`, `Last 20 weeks` and `Recent points` sections before and after, plus fixed values (points, the graph cell's screen-reader label) and the attempt rows in the DB.
+- With the merge in `packages/auth/src/merge.ts` turned into a no-op, the sign-up and sign-in specs failed on points (0 instead of 10, and 10 instead of 20), so they catch a broken merge.
+
+Deviations:
+
+- Verified: `account.spec.ts` passed alone (13 to 21s per test) and in the full suite. Its final screenshots show the signed-in Me screen with the expected points and graph cells. Not covered: a guest who plays after signing out, then signs in on a day the account already played. Spec 2 covers that rule.
+
+## #23 E2E: retries, finishing a day, streaks across days
+
+Shipped:
+
+- `retry.spec.ts`, `finish-day.spec.ts` and `across-days.spec.ts` in `apps/web/e2e/` (6 tests).
+- In `helpers.ts`:
+  - `seedPlayedDays(userId, days: string[])`: writes each day's 5 scheduled rounds (`roundPositions(day)`) as correct attempts. It writes no point entries, since streaks, freezes and the graph come from attempts alone.
+  - `status(page, label)`: a value in Today's status row, by its label (`"day streak"`, `"freezes"`, `"season"`).
+- `playDay(page, picks)` is local to `finish-day.spec.ts`. It answers rounds in order from `/play` and presses Next after each, so the last Next opens the day's score.
+
+Decisions:
+
+- Retry: a double tap sends only one request, because the UI disables every statement after the first tap (measured: 1 `game.answer` request). The server side is tested by replaying the captured request with `page.request.fetch(request)`, which reuses its URL, body and headers. The replay returns the same result, and the DB holds 1 attempt and one `round` +10 entry. Only round 1 is retried, not the 5th answer that writes the bonuses.
+- `page.request` sends the context's `x-test-now` header (checked: `game.today` through it returned the faked day), so direct API calls follow `setNow`.
+- Finishing a day is checked on `/play`'s `DayDone`:
+  - At 5/5 the rows are `Correct rounds +50`, `Perfect day +20`, `Streak bonus +5` and `Points earned +75`. The countdown reads `12:00:00` or `11:59:xx`, since the clock is at noon IST.
+  - Day 2 is played at 4/5 (`+40`, `+10`, `+50`), which also shows the Perfect day line is left out. Today shows streak 1 before day 2 and 2 after it.
+- Unfinished day: one round is answered at 23:58 on 14 Oct, then the clock moves to 00:01 on 15 Oct. "The old rounds score 0" is checked four ways:
+  - an answer to an old round gets a 400;
+  - the DB holds 1 attempt and one +10 entry, with no bonuses;
+  - the graph reads `Wed 14 Oct: 1 of 5 correct`;
+  - the streak is 0.
+
+  A round left on screen across midnight in a stale tab is still not covered, as #17 noted.
+
+- Missed days write their history with `seedPlayedDays` and move the clock only from 13 to 14 Oct. A freeze needs 7 finished days before the missed one, and season 1 starts on 12 Oct, so the freeze spec writes 6 to 12 Oct, before launch. History reads only attempts and writes no season rows, so that is safe. Every clock move stays within 13 to 15 Oct, so no test closes season 1.
+- Each spec was run once against a broken app to see it fail: with `MAX_FREEZES = 0` the freeze spec failed, and with `skipDuplicates` removed from the attempt insert the retry spec failed.
+- The branch's `userId(page)` helper was replaced by #24's `sessionUser(page).id` when the branches merged.
+
+Deviations:
+
+- Verified: the 6 specs passed alone (9 to 13s each). While the three issues ran their suites at the same time, one run failed `anonymous-play` and the 5/5 spec on a `toBeVisible`, cause not found. With the three issues merged and nothing else running, the full suite passed twice in a row. Every final screenshot was checked by eye.
+
+## #22 Playwright harness, anonymous play, reveal, resume
+
+Shipped:
+
+- `pnpm test:e2e` (root, runs `pnpm -F web test:e2e`) installs Playwright's Chromium if missing, then runs the suite in `apps/web/e2e/`. Arguments pass through as Playwright file filters: `pnpm test:e2e e2e/reveal.spec.ts` from the root, or `pnpm test:e2e reveal` from either the root or `apps/web`. Needs Docker (`pnpm db:start`) and Bun, nothing else: no `.env`, no dev server, no `db:generate` (the config generates the Prisma client when it is missing).
+- `apps/web/playwright.config.mts`: Pixel 5, `trace: "on"`, `screenshot: "on"`, `reducedMotion: "reduce"`, a 60s test timeout, `list` reporter. Artifacts go to `apps/web/test-results/<test>/` (`trace.zip` plus `test-finished-1.png`, or `test-failed-1.png`), cleared each run and gitignored. Open a trace with `pnpm -F web exec playwright show-trace test-results/<test>/trace.zip`.
+- Env vars, both optional: `E2E_PORT` (web server port, default `3100`) and `E2E_DB` (test database name, default `kenpathlabs_e2e`, must contain `e2e` because global setup drops it). Each worktree that runs the suite at the same time as another sets both, e.g. `E2E_PORT=3101 E2E_DB=kenpathlabs_e2e_23 pnpm test:e2e`. They all share the one Postgres container on 5432.
+- `apps/web/e2e/env.ts`: `PORT`, `BASE_URL`, `DB_NAME`, `DATABASE_URL`, `ADMIN_URL` (the `postgres` maintenance DB) and `NOW` (`"2026-10-14T12:00:00+05:30"`, the default server time: Wednesday of season 1, the third day since launch).
+- `apps/web/e2e/global-setup.ts`: drops and recreates the test database (`DROP DATABASE ... WITH (FORCE)` through a Prisma client on `ADMIN_URL`), runs `prisma migrate deploy`, `db:seed` and `db:seed:players NOW`, then requests `/` and `/play` once so `next dev` compiles them before the throttled tests.
+- `apps/web/e2e/helpers.ts`. Specs import `test` and `expect` from here, not from `@playwright/test`:
+  - `test`: Playwright's `test` with an option fixture `now: string` (default `NOW`, override per file with `test.use({ now })`). Its `page` fixture sets the clock, throttles the network over CDP and hides `next dev`'s indicator and the React Query devtools button, which cover the dock and the Next button. Each test gets a fresh context, so a fresh anonymous player.
+  - `setNow(page, when: string): Promise<void>`: sets `x-test-now` on every later request from the page's context. Any `Date`-parsable string. Reload or navigate to see the new day or season.
+  - `db: Database`: a Prisma client on the test database, for reading content and setting up state directly (history, accounts, point entries).
+  - `currentRound(page): Promise<{ fake: Statement; truths: Statement[] }>`: the DB rows of the round on screen in `/play`, found by its theme (themes are unique, checked).
+  - `answerRound(page, pick: "fake" | "truth"): Promise<void>`: taps the fake or the first truth and waits for the `Next` button. Does not press Next.
+- Specs: `anonymous-play.spec.ts`, `reveal.spec.ts`, `resume.spec.ts`.
+- `pnpm db:seed:players [date]` (`seed-players.ts`): an optional date argument seeds the bots' points in that date's season, with `createdAt` set to it. Without it, it behaves as before.
+- `next.config.ts`: `distDir` reads `NEXT_DIST_DIR` (default `.next`). `apps/web/tsconfig.json` includes `**/*.mts` and the `.next-e2e` type folders.
+
+Decisions:
+
+- The web server is `next dev` on its own port with `NEXT_DIST_DIR=.next-e2e`, started by the config (`reuseExistingServer: false`, so it never attaches to whatever holds the port). Next 16 locks `<distDir>/dev/lock`, so a second `next dev` in the same app dir exits while the dev server runs. A separate `distDir` has its own lock and its own Turbopack cache. A production build (`next build && next start`) is not an option: `x-test-now` is compiled out when `NODE_ENV` is `production`.
+- The server gets `DATABASE_URL`, `DIRECT_URL`, `BETTER_AUTH_URL`, `ALLOW_TEST_CLOCK=true` and a random `BETTER_AUTH_SECRET` per run from the config's `webServer.env`. varlock gives process env precedence over `apps/web/.env` (checked: the dev DB's user count and newest `createdAt` did not change over a run), and a clean checkout with no `.env` works.
+- The database is dropped by hand, not with `prisma migrate reset`: Prisma 6.19 refuses `migrate reset` when it detects an AI agent unless a consent env var is set, and the drop touches only the one named database.
+- Global setup runs after the web server has started (Playwright starts `webServer` before `globalSetup`). The server is checked by `port`, not a URL, so it opens no DB connection before the drop.
+- Bots are seeded at `NOW`, so they sit in the same season as the test clock whatever the real date. A test that moves into another season sees no bots there unless it inserts point entries through `db`.
+- Throttling is Lighthouse's Slow 4G (150ms, 1.6Mbps down, 750Kbps up) through CDP `Network.emulateNetworkConditions`, applied to the test's first page only. Chosen over #21's 562.5ms, 1.44Mbps profile because `next dev` serves unminified chunks (about 1MB transferred for `/`, measured). #21's profile was not tried.
+- `reducedMotion: "reduce"`: the app turns its entrances and the glitch off, so the final screenshot is the settled screen and clicks do not wait for animations. It also mutes sensory-ui. A spec about motion opts back in with `test.use({ reducedMotion: "no-preference" })`.
+- The `e2e/` folder has its own `package.json` with `"type": "module"`, and the config is `.mts`. The generated Prisma client uses `import.meta`, which fails once Playwright loads the files as CommonJS (`apps/web` has no `"type"`). A `.ts` config next to ESM spec files fails too.
+- Tests run in parallel across files (3 workers here). Players are isolated, but the database is shared within a run: season rows, awards and bots are global. A test faked into a later season finalizes the earlier one for every test after it (see #12).
+- The Today spec checks Today's progress (`0 correct, 0 wrong, 5 to play`), then taps Play and checks `Round 1/5` on `/play`, plus `isAnonymous: true` from `/api/auth/get-session`.
+- Verified: `pnpm test:e2e` passes (3 tests, about 16s wall including setup, each test 8 to 10s). It also passed in a fresh `git clone` with no `.env` and no generated client, run at the same time as the main checkout with `E2E_PORT=3200 E2E_DB=kenpathlabs_e2e_clone`: both passed, and each database ended with 3 anonymous players, 20 bots and 3 attempts. The dev server on 3001 kept serving throughout. Each test folder held a `trace.zip` and a final screenshot. A failing run (before the fixes) also left `test-failed-1.png` and a trace. Three concurrent runs were not tried.
+
+Deviations:
+
+- The issue says a fresh visit "lands on Today with round 1/5". Since the play screen moved to `/play` (no-issue entry above), Today shows the Play card and `Round 1/5` is on `/play`, so the spec taps Play first.
+- Running the suite rewrites the gitignored `apps/web/next-env.d.ts` to import from `.next-e2e`. The dev server rewrites it back on its next start. `pnpm check-types` passes with either.
+- The running dev server restarted itself once during this work (its PID changed), most likely on the `next.config.ts` or `tsconfig.json` edit. It kept serving on 3001 with no action.
+
 ## Game screen fills the viewport, results in the progress pills (no issue)
 
 Shipped:

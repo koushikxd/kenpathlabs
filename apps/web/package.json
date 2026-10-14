@@ -7,6 +7,7 @@
     "build": "next build",
     "check-types": "tsc --noEmit",
     "start": "next start",
+    "test:e2e": "playwright install chromium && playwright test",
     "env:generate": "varlock codegen"
   },
   "dependencies": {
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@kenpathlabs/config": "workspace:*",
+    "@playwright/test": "1.64.0",
     "@tailwindcss/postcss": "catalog:",
     "@tanstack/react-query-devtools": "^5.102.8",
     "@types/node": "catalog:",
