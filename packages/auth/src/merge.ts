@@ -1,11 +1,11 @@
-import type { Database } from "@kenpathlabs/db";
+import { type Database, dayPointEntries, lockUser } from "@kenpathlabs/db";
 
 // Moves whole days the target account has not played, so a day's bonuses stay with its answers.
 // Whatever stays behind is cascade-deleted with the anonymous user.
 export function mergeAnonymousProgress(db: Database, fromUserId: string, toUserId: string) {
   return db.$transaction(async (tx) => {
-    // The same lock game.answer takes, so an answer on another device cannot finish a day mid-merge.
-    await tx.$queryRaw`SELECT 1 FROM "user" WHERE id = ${toUserId} FOR UPDATE`;
+    // So an answer on another device cannot finish a day mid-merge.
+    await lockUser(tx, toUserId);
     const played = await tx.attempt.findMany({
       where: { userId: fromUserId },
       distinct: ["day"],
@@ -24,15 +24,8 @@ export function mergeAnonymousProgress(db: Database, fromUserId: string, toUserI
       where: { userId: fromUserId, day: { in: days } },
       data: { userId: toUserId },
     });
-    // round entries are keyed "<day>:<roundId>", perfect and streak entries by "<day>".
     await tx.pointEntry.updateMany({
-      where: {
-        userId: fromUserId,
-        OR: [
-          { reason: { in: ["perfect", "streak"] }, ref: { in: days } },
-          ...days.map((day) => ({ reason: "round", ref: { startsWith: `${day}:` } })),
-        ],
-      },
+      where: { userId: fromUserId, ...dayPointEntries(days) },
       data: { userId: toUserId },
     });
   });

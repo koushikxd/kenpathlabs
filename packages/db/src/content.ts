@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-const ROUNDS_PER_DAY = 5;
+// Relative import: @kenpathlabs/api depends on this package, so depending back on it is a cycle.
+import { ROUNDS_PER_DAY } from "../../api/src/game/schedule";
+
 const BANNED_WORD = /\b(best|latest|currently)\b/i;
 
 const statementSchema = z.object({

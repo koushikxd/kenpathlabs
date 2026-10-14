@@ -1,3 +1,4 @@
+import { dayPointEntries, lockUser } from "@kenpathlabs/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -58,13 +59,7 @@ export const gameRouter = router({
     let done = null;
     if (answered.size === ROUNDS_PER_DAY) {
       const entries = await ctx.db.pointEntry.findMany({
-        where: {
-          userId,
-          OR: [
-            { reason: { in: ["perfect", "streak"] }, ref: day },
-            { reason: "round", ref: { startsWith: `${day}:` } },
-          ],
-        },
+        where: { userId, ...dayPointEntries([day]) },
         select: { reason: true, amount: true },
       });
       const total = (reason: string) =>
@@ -119,22 +114,16 @@ export const gameRouter = router({
 
       const attempt = await ctx.db.$transaction(async (tx) => {
         // Serializes a user's answers, so exactly one of them sees the day's 5th attempt.
-        await tx.$queryRaw`SELECT 1 FROM "user" WHERE id = ${userId} FOR UPDATE`;
+        await lockUser(tx, userId);
         const key = { userId, day, roundId: round.id };
         const { count } = await tx.attempt.createMany({
           data: [{ ...key, statementId: picked.id, correct: picked.isFake, createdAt }],
           skipDuplicates: true,
         });
         if (count === 1) {
-          const entries = [];
+          const entries: { amount: number; reason: string; ref: string }[] = [];
           if (picked.isFake) {
-            entries.push({
-              userId,
-              amount: ROUND_POINTS,
-              reason: "round",
-              ref: `${day}:${round.id}`,
-              createdAt,
-            });
+            entries.push({ amount: ROUND_POINTS, reason: "round", ref: `${day}:${round.id}` });
           }
           const attempts = await tx.attempt.findMany({
             where: { userId },
@@ -143,20 +132,17 @@ export const gameRouter = router({
           const todays = attempts.filter((a) => a.day === day);
           if (todays.length === ROUNDS_PER_DAY) {
             if (todays.every((a) => a.correct)) {
-              entries.push({
-                userId,
-                amount: PERFECT_POINTS,
-                reason: "perfect",
-                ref: day,
-                createdAt,
-              });
+              entries.push({ amount: PERFECT_POINTS, reason: "perfect", ref: day });
             }
             // Today is finished, so the streak includes it.
             const streak = computeHistory(attempts, day).currentStreak;
             const amount = Math.min(STREAK_POINTS * streak, MAX_STREAK_POINTS);
-            entries.push({ userId, amount, reason: "streak", ref: day, createdAt });
+            entries.push({ amount, reason: "streak", ref: day });
           }
-          await tx.pointEntry.createMany({ data: entries, skipDuplicates: true });
+          await tx.pointEntry.createMany({
+            data: entries.map((entry) => ({ ...entry, userId, createdAt })),
+            skipDuplicates: true,
+          });
         }
         return tx.attempt.findUniqueOrThrow({ where: { userId_day_roundId: key } });
       });
