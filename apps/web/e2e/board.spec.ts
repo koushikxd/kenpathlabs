@@ -89,16 +89,16 @@ test("past Monday 00:00 IST the top 10 keep their award and the board starts fre
 
   const awards = page.getByRole("region", { name: "Season awards" });
   const expected = [
-    ["priya.ships", "Season 2 · 10x dev"],
-    ["lena.lambda", "Season 2 · 10x dev"],
-    [user.username, "Season 2 · da goat"],
+    ["priya.ships", "10x dev"],
+    ["lena.lambda", "10x dev"],
+    [user.username, "da goat"],
   ];
   await page.goto("/u/arjun_gradient");
   await expect(awards).toBeVisible();
   await expect(awards).not.toContainText("Season 2");
   for (const [username, award] of expected) {
     await page.goto(`/u/${username}`);
-    await expect(awards).toContainText(award);
+    await expect(awards.getByRole("listitem").filter({ hasText: "Season 2" })).toContainText(award);
   }
   await awards.scrollIntoViewIfNeeded();
 });

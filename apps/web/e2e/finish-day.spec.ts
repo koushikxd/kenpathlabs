@@ -13,6 +13,9 @@ async function playDay(page: Page, picks: ("fake" | "truth")[]) {
 }
 
 const dayDone = (page: Page) => page.getByRole("region", { name: "Today’s score" });
+// The receipt: one row per round (its theme and points), then the day's bonuses, then the total.
+const receipt = (page: Page) => dayDone(page).locator("dl > div");
+const theme = /\S/;
 
 test("finishing a day at 5/5 shows the score, the points by reason and the countdown", async ({
   page,
@@ -21,14 +24,20 @@ test("finishing a day at 5/5 shows the score, the points by reason and the count
   await playDay(page, ["fake", "fake", "fake", "fake", "fake"]);
 
   await expect(dayDone(page).getByText("5/5")).toBeVisible();
-  await expect(dayDone(page).locator("dl > div")).toHaveText([
-    "Correct rounds+50",
-    "Perfect day+20",
-    "Streak bonus+5",
-    "Points earned+75",
+  await expect(receipt(page).locator("dt")).toHaveText([
+    ...Array<RegExp>(5).fill(theme),
+    "Perfect day",
+    "Streak bonus · 1 day",
+    "Points earned",
+  ]);
+  await expect(receipt(page).locator("dd")).toHaveText([
+    ...Array<string>(5).fill("+10"),
+    "+20",
+    "+5",
+    "+75",
   ]);
   // The clock is fixed at noon IST, so the next set is 12 hours away.
-  await expect(dayDone(page)).toContainText(/New rounds in (12:00:00|11:59:\d\d)/);
+  await expect(dayDone(page)).toContainText(/New rounds in\s*(12:00:00|11:59:\d\d)/);
 });
 
 test("completing a second day in a row raises the streak to 2 and the bonus to +10", async ({
@@ -46,10 +55,16 @@ test("completing a second day in a row raises the streak to 2 and the bonus to +
   await playDay(page, ["fake", "fake", "fake", "fake", "truth"]);
 
   await expect(dayDone(page).getByText("4/5")).toBeVisible();
-  await expect(dayDone(page).locator("dl > div")).toHaveText([
-    "Correct rounds+40",
-    "Streak bonus+10",
-    "Points earned+50",
+  await expect(receipt(page).locator("dt")).toHaveText([
+    ...Array<RegExp>(5).fill(theme),
+    "Streak bonus · 2 days",
+    "Points earned",
+  ]);
+  await expect(receipt(page).locator("dd")).toHaveText([
+    ...Array<string>(4).fill("+10"),
+    "0",
+    "+10",
+    "+50",
   ]);
   await page.getByRole("link", { name: "Exit" }).click();
   await expect(status(page, "day streak")).toHaveText("2");
