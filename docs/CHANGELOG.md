@@ -14,6 +14,60 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## Game screen fills the viewport, results in the progress pills (no issue)
+
+Shipped:
+
+- `/play` fills the screen. Its root is `flex-1` and carries `data-game`, which the dock layout's `<main>` reads (`has-[[data-game]]:`) to swap the dock's 6rem bottom padding for 1.5rem, since the dock is hidden there. The figure sits in a `flex-1 min-h-32` slot as an absolutely placed `object-contain` image. It takes whatever height the round leaves, so the round sits at the bottom of the screen, and it shrinks when the reveal and Next need room.
+- `Progress` (`round-card.tsx`) shows each round's result: a solid `success` pill with a check, a solid `destructive` pill with a cross, or `muted` when unplayed. The next round to play is outlined (`ring-foreground/40`). It is `role="img"` with a label such as `1 correct, 1 wrong, 3 to play` (was `aria-hidden`). Today's `PlayCard` uses the same component.
+- Statements are 16px (`text-base`, was `text-sm`), the fake's correction is 14px (was 12px) and the round theme is the 18px title (`text-lg font-semibold`, was `text-sm font-medium`).
+
+Decisions:
+
+- Correct is `success` green, not `brand`: the segment matches the green check on "Your answer", and a correct/wrong pair reads at a glance as green and red. The icons carry the result for anyone who cannot tell the colours apart.
+- The figure absorbs spare height instead of growing: it is width-bound (360x200 at most 480px wide), so on tall screens the extra space frames it. When space runs short it scales down, to no less than 128px, before the page scrolls.
+- During a reveal the outline is already on the next round, which reads as "up next".
+
+Deviations:
+
+- Verified with `playwright-cli` (Helium) against `next dev` at 515x978, as a fresh anonymous user. Round 1 was answered wrong and round 2 right. Screenshots of each question, each reveal and Today's `Resume` (`.playwright-cli/space/`, gitignored). The page height equals the viewport in the question state, so nothing scrolls. Light theme and short phones were not checked.
+
+## Statement hover and the wrong-pick cross (no issue)
+
+Shipped:
+
+- `.cross-out` in `index.css`: an SVG of two `<line pathLength={1}>` strokes in `destructive` at 60%, drawn by `stroke-dashoffset`. `RevealedStatement` lays it across the picked card when the pick was wrong, so a wrong pick and the fake no longer look alike.
+
+Decisions:
+
+- Statement buttons are `cursor-pointer` (`disabled:cursor-default` while an answer saves). Tailwind v4 leaves buttons at `cursor: default`.
+- The hover was `bg-muted/40`, close to the `bg-muted` letter chip. It is now `bg-foreground/3` with `border-foreground/20`: a fainter fill, so the edge carries the hover. The pending button uses the same pair.
+- The cross draws over 300ms on the overlay-in curve, the second stroke 150ms after the first, so it lands inside the fake's 600ms glitch. It plays once, because the reveal mounts once. Under reduced motion it shows fully drawn. The lines are inset 12px and run corner to corner in percent units, so the stroke never scales with the card.
+
+Deviations:
+
+- `stroke-dashoffset` triggers paint, not just compositing. It runs once on a single card, so the cost is small.
+- Verified with `playwright-cli` (Helium) against `next dev` at 513x700, as a fresh anonymous user: the snapshot reports `cursor=pointer` on all three statements, there is a hover screenshot, and a wrong pick was paused at 100, 250 and 450ms and then finished (`.playwright-cli/round/`, gitignored). Light theme and reduced motion were not checked.
+
+## Play button hero (no issue)
+
+Shipped:
+
+- `PlayCard` is no longer a bordered card. It fills the space between the activity graph and the dock (`flex-1`) and centres a 144px brand orb with a filled play icon, a mono `PLAY` / `RESUME` label, the round line and `Progress`. The orb and the label are one `Link`, so either is the tap target. `Today's rounds` stays as an `sr-only` heading.
+- The dock layout's `<main>` is `min-h-dvh`, so a page child with `flex-1` can fill the screen. Other dock pages look the same.
+- `index.css`: `.glitch-loop` retimes `.glitch` text to loop. `.glitch-orb` gives a wrapper red (`destructive`) and cyan (`frozen`) circles behind its child face, and `.glitch-slice` is a copy of the face clipped to a band that tears sideways.
+
+Decisions:
+
+- The loop is the reveal glitch compressed into the first 15% of a 4s cycle, so a 600ms burst every 4s, starting 1s after mount. Same keyframe shapes, transform and opacity only, `steps(1, end)`. All of it is off under `prefers-reduced-motion`.
+- The orb's face is a child, not the orb's own background: the orb's transform makes it a stacking context, so `z-index: -1` ghosts would paint over its own background.
+- Hover scales the orb to 1.04 and press to 0.96 (`scale`, so it composes with the jitter's `transform`). The hover does not trigger a glitch.
+
+Deviations:
+
+- This breaks two earlier rules on purpose, at the user's request. The glitch was reserved for "wrong, broken or not real", and Today had no animation because it is seen many times a day. The Play button is now an ambient glitch loop on Today.
+- Verified with `playwright-cli` (Helium) against `next dev` at 525x970: the orb centres in the free space, and frames paused at 0, 90, 150 and 260ms into the burst show the fringes behind the face and the torn slice (`.playwright-cli/play-button/strip.png`, gitignored). Reduced motion and the `Resume` state were not checked in the browser.
+
 ## Play screen and round figures (no issue)
 
 Shipped:

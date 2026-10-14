@@ -13,7 +13,7 @@ type Round = RouterOutputs["game"]["today"]["rounds"][number];
 type Statement = Round["statements"][number];
 type Result = NonNullable<Round["result"]>;
 
-const STATEMENT = "flex w-full items-start gap-3 rounded-xl border p-4 text-left text-sm";
+const STATEMENT = "flex w-full items-start gap-3 rounded-xl border p-4 text-left text-base";
 const LABEL =
   "flex size-6 shrink-0 items-center justify-center rounded-md font-mono text-xs font-medium";
 
@@ -26,6 +26,7 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
     <div
       className={cn(
         STATEMENT,
+        "relative",
         isFake
           ? "border-destructive/40 bg-destructive/5"
           : isPick
@@ -44,7 +45,7 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
           {statement.text}
         </p>
         {isFake && (
-          <p className="animate-in text-xs/relaxed text-pretty duration-300 ease-out fade-in fill-mode-both slide-in-from-top-1 delay-300 motion-reduce:animate-none">
+          <p className="animate-in text-sm text-pretty duration-300 ease-out fade-in fill-mode-both slide-in-from-top-1 delay-300 motion-reduce:animate-none">
             {result.correction}
           </p>
         )}
@@ -73,22 +74,48 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
           )}
         </div>
       </div>
+      {isPick && !result.correct && (
+        <svg
+          aria-hidden
+          className="cross-out pointer-events-none absolute inset-3 size-[calc(100%-1.5rem)]"
+        >
+          <line x1="0" y1="0" x2="100%" y2="100%" pathLength={1} />
+          <line x1="100%" y1="0" x2="0" y2="100%" pathLength={1} />
+        </svg>
+      )}
     </div>
   );
 }
 
-// One segment per round of the day: brand if correct, dimmed if wrong, empty until answered.
+// One pill per round of the day: a green check if correct, a red cross if wrong, empty until
+// answered. The next round to play is outlined. Icons as well as colour, so it reads without colour.
 export function Progress({ results }: { results: (boolean | undefined)[] }) {
+  const correct = results.filter((r) => r === true).length;
+  const wrong = results.filter((r) => r === false).length;
+  const next = results.indexOf(undefined);
+
   return (
-    <span aria-hidden className="flex gap-1">
-      {results.map((correct, i) => (
+    <span
+      role="img"
+      aria-label={`${correct} correct, ${wrong} wrong, ${results.length - correct - wrong} to play`}
+      className="flex gap-1"
+    >
+      {results.map((result, i) => (
         <span
           key={i}
           className={cn(
-            "h-1 w-5 rounded-full transition-colors duration-300 ease-out motion-reduce:transition-none",
-            correct === undefined ? "bg-muted" : correct ? "bg-brand" : "bg-foreground/30",
+            "flex h-4 w-7 items-center justify-center rounded-full transition-colors duration-300 ease-out motion-reduce:transition-none",
+            result === undefined
+              ? "bg-muted"
+              : result
+                ? "bg-success text-background"
+                : "bg-destructive text-background",
+            i === next && "ring-1 ring-foreground/40",
           )}
-        />
+        >
+          {result === true && <Check className="size-3" strokeWidth={3} />}
+          {result === false && <X className="size-3" strokeWidth={3} />}
+        </span>
       ))}
     </span>
   );
@@ -137,7 +164,7 @@ export function RoundCard({
           </p>
           <Progress results={results} />
         </div>
-        <h2 id="round-theme" className="text-sm font-medium text-balance">
+        <h2 id="round-theme" className="text-lg font-semibold text-balance">
           {round.theme}
         </h2>
       </div>
@@ -174,8 +201,8 @@ export function RoundCard({
                   onClick={() => answer.mutate({ roundId: round.id, statementId: statement.id })}
                   className={cn(
                     STATEMENT,
-                    "border-border transition-[background-color,opacity,scale] duration-150 ease-out outline-none hover:bg-muted/40 focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.98] motion-reduce:transition-none",
-                    pending && "bg-muted/40",
+                    "cursor-pointer border-border transition-[background-color,border-color,opacity,scale] duration-150 ease-out outline-none hover:border-foreground/20 hover:bg-foreground/3 focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.98] disabled:cursor-default motion-reduce:transition-none",
+                    pending && "border-foreground/20 bg-foreground/3",
                     answer.isPending && !pending && "opacity-50",
                   )}
                 >
