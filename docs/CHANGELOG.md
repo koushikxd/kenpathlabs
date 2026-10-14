@@ -14,6 +14,36 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## Backend cleanup (no issue)
+
+Shipped:
+
+- In `@kenpathlabs/db` (`packages/db/src/index.ts`):
+  - `lockUser(tx, userId)`: the `SELECT ... FOR UPDATE` on the user row. `game.answer` and `mergeAnonymousProgress` both take it, so a user's answers and a merge into that user run one at a time. Anything else that writes a user's attempts or day bonuses should take it too.
+  - `dayPointEntries(days): Prisma.PointEntryWhereInput`: the point entries that belong to the given days (`round` entries by their `<day>:<roundId>` ref, `perfect` and `streak` by `<day>`). `game.today` uses it for the day's score and the merge uses it to move days. A change to the ref format must update it and the writer in `game.answer`.
+- `game.answer` builds bonus entries as `{ amount, reason, ref }` and adds `userId` and `createdAt` once when it writes them. Behaviour is unchanged.
+- `packages/db/src/content.ts` imports `ROUNDS_PER_DAY` from `api/src/game/schedule` by relative path (the same cycle workaround as `seed-players.ts`), instead of its own `5`.
+
+Deviations:
+
+- Removed `healthCheck` and `privateData` from `appRouter`. They were scaffold procedures and nothing called them.
+- Verified: `pnpm check-types`, `oxlint`, `oxfmt --check` and the unit tests (70) pass. The full E2E suite passes, 15 of 15 in 52.0s.
+
+## E2E specs follow the day result screen and theme pass (no issue)
+
+Shipped:
+
+- `finish-day.spec.ts` checks the receipt's `dt` and `dd` columns separately. The round rows' `dt` is any non-empty theme (themes depend on the day's content), and their `dd` is `+10` or `0`. Then come `Perfect day`, `Streak bonus · n day(s)` and `Points earned`. The countdown regex allows no space between `New rounds in` and the time, because the time is a block on its own line and the text runs together.
+- `board.spec.ts` finds the award row by `Season 2` and checks that it holds `10x dev` or `da goat`.
+
+Decisions:
+
+- The UI stays as it is. Specs follow the shipped screens: the receipt (since `7071dba`) and the season award rows, where `Season n` is an `eyebrow` label followed by the award, with no `·`.
+
+Deviations:
+
+- `PROJECT_SPEC.md` gives the award format as "Season 3 · da goat". The profile shows the same information, but without the `·`.
+
 ## #25 E2E: board and season awards
 
 Shipped:
