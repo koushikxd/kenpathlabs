@@ -12,16 +12,24 @@ const ITEMS = [
 
 export default function Dock() {
   const pathname = usePathname();
+  // The game screen has the whole viewport. The dock stays mounted and slides away, timed with
+  // the game screen's entrance.
+  const hidden = pathname === "/play";
+  const slide =
+    "transition-[translate,opacity] duration-300 ease-[cubic-bezier(0.165,0.84,0.44,1)] data-hidden:translate-y-full data-hidden:opacity-0 motion-reduce:transition-none";
 
   return (
     <>
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-x-0 bottom-0 h-[calc(6rem+env(safe-area-inset-bottom))] bg-linear-to-t from-background from-40% to-transparent"
+        data-hidden={hidden || undefined}
+        className={`pointer-events-none fixed inset-x-0 bottom-0 h-[calc(6rem+env(safe-area-inset-bottom))] bg-linear-to-t from-background from-40% to-transparent ${slide}`}
       />
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] flex justify-center"
+        inert={hidden}
+        data-hidden={hidden || undefined}
+        className={`fixed inset-x-0 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] flex justify-center ${slide}`}
       >
         <ul className="flex gap-1 rounded-full bg-popover p-1 ring-1 ring-foreground/10">
           {ITEMS.map(({ href, label, icon: Icon }) => (

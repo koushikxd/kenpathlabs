@@ -1,3 +1,7 @@
 {
-  "ignorePatterns": ["tools/oxlint/anti-slop/**", "apps/web/src/components/sensory-ui/**"]
+  "ignorePatterns": [
+    "tools/oxlint/anti-slop/**",
+    "apps/web/src/components/sensory-ui/**",
+    "tools/anatomy/kit/**"
+  ]
 }

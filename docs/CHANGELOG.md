@@ -14,6 +14,29 @@ Deviations: where this departs from the spec or architecture, and why.
 
 Leave out a heading that has nothing under it.
 
+## Play screen and round figures (no issue)
+
+Shipped:
+
+- `/play` (`app/(dock)/play/page.tsx`): the game screen. It holds the round loop that used to live on Today (`RoundCard`, `revealedId`, then `DayDone` once the day is done), plus an `Exit` link at the top (`replace`, to `/`). It sits in the `(dock)` group so it shares the query cache and session gate. `Dock` hides itself on `/play` (`data-hidden`, `inert`).
+- Today shows `PlayCard` (`components/play-card.tsx`) in place of the round: `Today's rounds`, the round progress bar (`Progress`, now exported from `round-card.tsx`) and a `Play` link to `/play`. Once any round is answered it reads `Resume` and `Round n of 5`. A finished day still shows `DayDone` on Today.
+- Ten isometric figures in `apps/web/public/anatomy/*.svg`, one above each round. Each maps an AI idea onto a machine: a tape token punch (tokenizers), a patch bay (attention), an accelerator module (chips), a context-window bench, a card catalog (retrieval), a loss-curve plotter (training), a coin sorter (mixture of experts), a calibration weight set (weights), a server rack (inference) and a polygraph (hallucination).
+- `tools/anatomy/`: one build script per figure in `figures/`, run all with `node tools/anatomy/build.mjs`. `common.mjs` fixes the 360x200 frame and writes each SVG plus a preview page in the gitignored `tools/anatomy/out/`. `kit/` is the anatomy skill's kit (MIT, `kit/LICENSE`), vendored unchanged and ignored by oxlint and oxfmt. To add a figure, add a script and its slug to `FIGURES` in `lib/anatomy.ts`.
+- `figureOf(firstRoundId, roundNumber)` (`lib/anatomy.ts`) picks the figure.
+
+Decisions:
+
+- Exit needs no save step: every answer is already saved by `game.answer`. Resume lands on the first unanswered round. Leaving after an answer but before `Next` skips that reveal.
+- The figure pick is seeded, not random: a hash of the day's first round id picks a starting figure, and each round steps on from it. The five rounds never repeat a figure, the pick changes daily, and a reload or resume shows the same one. A random pick would also differ between server and client render.
+- Figures are static SVG files shown with `<img alt="">`. They are decorative, they ship no JS, and the browser caches them. Each is 12 to 31KB gzip. Each SVG embeds the kit's dark styles and its own CSS idle loop (a translate or an LED blink, 4 to 8s, off under `prefers-reduced-motion`), because an `<img>` cannot see page CSS.
+- Motion follows `DESIGN.md`'s overlay-in curve (`cubic-bezier(0.165,0.84,0.44,1)`). `/play` enters over 300ms with a fade, a 95% scale and a short rise. The dock slides and fades out over the same 300ms on the same curve, and back in on Exit. The figure fades in per round (500ms), and the statement cascade is unchanged. Today has no entrance animation, because it is seen many times a day.
+
+Deviations:
+
+- The figures are the anatomy skill's "Figure" size cut down to 39 to 56 parts each, because they render at about 358px wide. Each passes the skill's line-end check (`line ends: 0`). The full depth audit was not run: the figures have no pipes, and painter's order was checked in screenshots at rest and mid-motion.
+- Known small faults: during the polygraph's paper feed, a trace start drifts up to about 6 units off its still pen. The token punch clips its leading tape piece with a hard edge mid-move.
+- Verified with `playwright-cli` against `next dev` at 393x851: Play opens `/play` with the dock hidden, answering round 1 and pressing Exit shows `Resume` and `Round 2 of 5`, and Resume opens round 2. The dock's translate and opacity were sampled through the transition. All ten figures were captured in the app's `<img>`, with the motion running.
+
 ## Native feel on phones (no issue)
 
 Shipped:

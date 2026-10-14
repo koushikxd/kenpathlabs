@@ -78,7 +78,7 @@ function RevealedStatement({ statement, result }: { statement: Statement; result
 }
 
 // One segment per round of the day: brand if correct, dimmed if wrong, empty until answered.
-function Progress({ results }: { results: (boolean | undefined)[] }) {
+export function Progress({ results }: { results: (boolean | undefined)[] }) {
   return (
     <span aria-hidden className="flex gap-1">
       {results.map((correct, i) => (

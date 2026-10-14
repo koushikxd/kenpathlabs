@@ -15,7 +15,8 @@
     ".roo/**",
     ".windsurf/**",
     "tools/oxlint/anti-slop/**",
-    "apps/web/src/components/sensory-ui/**"
+    "apps/web/src/components/sensory-ui/**",
+    "tools/anatomy/kit/**"
   ],
   "categories": {
     "correctness": "error"

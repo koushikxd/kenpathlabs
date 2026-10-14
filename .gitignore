@@ -56,3 +56,4 @@ coverage
 .cache
 tmp
 temp
+tools/anatomy/out
