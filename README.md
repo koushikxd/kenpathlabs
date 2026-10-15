@@ -131,6 +131,7 @@ docs/              spec, architecture, screenshots
 
 ## Docs
 
+- [docs/EXPLAINER.md](docs/EXPLAINER.md): what I built, the choices I made, and what I left out.
 - [docs/PROJECT_SPEC.md](docs/PROJECT_SPEC.md): the product. Rules for days, points, streaks, badges, seasons and accounts, every screen, and what is out of scope.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): the stack, data model, answer transaction, season finalization, guest accounts, testing and known gaps.
 - [DESIGN.md](DESIGN.md): design tokens and component rules.
