@@ -8,8 +8,7 @@ import { Fragment, useState } from "react";
 
 import { DayDone } from "@/components/day-done";
 import { LoadError } from "@/components/load-error";
-import Loader from "@/components/loader";
-import { RoundCard } from "@/components/round-card";
+import { RoundCard, RoundCardSkeleton } from "@/components/round-card";
 import { figureOf } from "@/lib/anatomy";
 import { trpc } from "@/utils/trpc";
 
@@ -43,7 +42,12 @@ export default function PlayPage() {
         <X data-icon="inline-start" />
         Exit
       </Link>
-      {today.isPending && <Loader />}
+      {today.isPending && (
+        <>
+          <div className="min-h-32 flex-1" />
+          <RoundCardSkeleton />
+        </>
+      )}
       {today.isError && <LoadError>Could not load today’s rounds.</LoadError>}
       {today.isSuccess &&
         (round ? (

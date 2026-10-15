@@ -1,11 +1,13 @@
+import { Skeleton } from "@kenpathlabs/ui/components/skeleton";
 import { Play } from "lucide-react";
 import Link from "next/link";
 
-import { Progress } from "./round-card";
+import { Progress, ProgressSkeleton } from "./round-card";
 
 const ORB =
   "grid place-items-center rounded-full bg-brand bg-[repeating-linear-gradient(0deg,transparent_0_3px,rgb(0_0_0/0.08)_3px_4px)] text-background";
 const ICON = "size-14 translate-x-1 fill-current";
+const HERO = "flex flex-1 flex-col items-center justify-center gap-4 py-4 text-center";
 
 // Today's way into /play. Answers are saved as they are made, so a started day resumes.
 // It fills the space left above the dock and centres the button in it.
@@ -14,10 +16,7 @@ export function PlayCard({ results }: { results: (boolean | undefined)[] }) {
   const label = answered ? "Resume" : "Play";
 
   return (
-    <section
-      aria-labelledby="play"
-      className="flex flex-1 flex-col items-center justify-center gap-4 py-4 text-center"
-    >
+    <section aria-labelledby="play" className={HERO}>
       <h2 id="play" className="sr-only">
         Today’s rounds
       </h2>
@@ -50,5 +49,18 @@ export function PlayCard({ results }: { results: (boolean | undefined)[] }) {
       </p>
       <Progress results={results} />
     </section>
+  );
+}
+
+export function PlayCardSkeleton() {
+  return (
+    <div aria-hidden className={HERO}>
+      <div className="flex flex-col items-center gap-5 p-2">
+        <Skeleton className="size-36 rounded-full ring-8 ring-muted/40" />
+        <Skeleton className="h-8 w-28" />
+      </div>
+      <Skeleton className="h-5 w-56" />
+      <ProgressSkeleton />
+    </div>
   );
 }

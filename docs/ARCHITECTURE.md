@@ -169,7 +169,7 @@ Concurrent requests race on the `Season` primary key, and only the winner writes
 
 ## Guests and accounts
 
-Every screen with the dock sits behind an `AnonymousSession` gate. The layout reads the session on the server. If there is none, the gate calls `signIn.anonymous()` once and renders the screen when it lands. The public profile is outside the gate, so a shared link creates no user.
+Every screen with the dock sits behind an `AnonymousSession` gate. The layout reads the session on the server. If there is none, the gate calls `signIn.anonymous()` once and holds every tRPC request in the client link until it lands. The screen renders its skeletons straight away, so a first visit never sees a blank spinner. If the sign-in fails, requests stay held and a toast offers a reload. The account forms on Me stay disabled until the session exists: signing up links the anonymous player, and a form in the server HTML must not submit natively before hydration. The public profile is outside the gate, so a shared link creates no user.
 
 Server code reads the session with refresh turned off, and the gate calls `getSession()` once from the browser per load instead. Better-Auth extends a session on read and sets the new cookie on that response. A server-side read throws that response away, so without this the cookie expired 7 days after sign-up, even for someone who played daily, and their guest progress was orphaned.
 
@@ -215,7 +215,7 @@ I audited a production build on an emulated Pixel 5 with 4x CPU throttling and s
 | `BETTER_AUTH_URL`       | `http://localhost:3000`  | the deploy URL  |
 | `ALLOW_TEST_CLOCK`      | `false` (E2E sets it)    | unset           |
 
-`neon env pull --file apps/web/.env.local` writes both database URLs (and `NEON_BRANCH`, unused), and Vercel's Neon integration sets the same names, which is why the direct one is `DATABASE_URL_UNPOOLED`. The app queries over the pooled URL through Neon's PgBouncer. Prisma uses the direct one for migrations, since PgBouncer in transaction mode breaks Prisma Migrate. I kept Prisma's own query engine rather than a driver adapter. `NEON_BRANCH` is declared non-sensitive because its value, "production", appears all over the client build and varlock's leak scan would otherwise fail the build.
+`neon env pull --file apps/web/.env.local` writes both database URLs (and `NEON_BRANCH`, unused), and Vercel's Neon integration sets the same names, which is why the direct one is `DATABASE_URL_UNPOOLED`. The app queries over the pooled URL through Neon's PgBouncer. Prisma uses the direct one for migrations, since PgBouncer in transaction mode breaks Prisma Migrate. Prisma runs without its Rust query engine (`engineType = "client"`) and talks to Postgres through `@prisma/adapter-pg`. `NEON_BRANCH` is declared non-sensitive because its value, "production", appears all over the client build and varlock's leak scan would otherwise fail the build.
 
 The schema lives in `apps/web/.env.schema`. varlock validates it and generates a typed `ENV` on `pnpm install`.
 
@@ -224,7 +224,7 @@ The schema lives in `apps/web/.env.schema`. varlock validates it and generates a
 Vercel builds `apps/web` (its Root Directory) with `turbo run build`.
 
 - The Prisma client is gitignored, so `@kenpathlabs/db`'s `build` script runs `prisma generate`, and `web`'s `^build` runs it first. That task is uncached in `turbo.json`: Vercel's remote cache restores only declared outputs, and a cache hit would leave the client missing.
-- Next's file tracing picks up the query engine from the hints in the generated client, so each DB route ships the engine for the platform that ran `prisma generate`.
+- There is no engine binary to bundle. With the binary, the first deploy failed every query: Turbopack rewrites `__dirname` to `/ROOT/...` and the generated client's other hint assumes the cwd is `packages/db`, so it never found `libquery_engine-rhel-openssl-3.0.x.so.node`. A local `next start` hides this, because the engine still sits at its build-time path.
 - Vercel picks pnpm 9 or 10 for a `lockfileVersion: 9.0` lockfile. pnpm then switches itself to the `packageManager` version (pnpm 11), which `allowBuilds` in `pnpm-workspace.yaml` needs.
 - Migrations do not run on deploy. I run `pnpm db:migrate:deploy` against Neon by hand before deploying a schema change.
 - `BETTER_AUTH_URL` is the production URL, so sign-in only works on the production deployment, not on previews.

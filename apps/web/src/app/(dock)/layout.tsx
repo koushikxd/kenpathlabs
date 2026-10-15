@@ -5,7 +5,7 @@ import { requestSession } from "@/server/services";
 
 // The session gate and the query client live here, not in the root layout, so /u/<username> renders
 // without a session, does not create an anonymous user, and ships no query or toast code.
-// The gate sits inside <main> so the dock is on screen while a first visit signs in.
+// The gate wraps the pages for its session-ready flag, which the account forms read.
 export default async function DockLayout({ children }: { children: React.ReactNode }) {
   const session = await requestSession();
   return (

@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ActivityGraph, ActivityGraphSkeleton } from "@/components/activity-graph";
 import { DayDone } from "@/components/day-done";
 import { LoadError } from "@/components/load-error";
-import { PlayCard } from "@/components/play-card";
+import { PlayCard, PlayCardSkeleton } from "@/components/play-card";
 import { TodayStatus, TodayStatusSkeleton } from "@/components/today-status";
 import { trpc } from "@/utils/trpc";
 
@@ -19,6 +19,7 @@ export default function TodayPage() {
         <>
           <TodayStatusSkeleton />
           <ActivityGraphSkeleton />
+          <PlayCardSkeleton />
         </>
       )}
       {today.isError && <LoadError>Could not load today’s rounds.</LoadError>}

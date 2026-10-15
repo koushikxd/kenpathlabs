@@ -1,8 +1,9 @@
+import { PrismaPg } from "@prisma/adapter-pg";
 import { type Prisma, PrismaClient } from "../prisma/generated/client";
 import type { DatabaseConfig } from "./config";
 
 export function createPrismaClient(env: DatabaseConfig) {
-  return new PrismaClient({ datasourceUrl: env.DATABASE_URL });
+  return new PrismaClient({ adapter: new PrismaPg({ connectionString: env.DATABASE_URL }) });
 }
 
 export type Database = ReturnType<typeof createPrismaClient>;

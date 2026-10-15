@@ -16,6 +16,7 @@ import { useState } from "react";
 import { signIn, signUp } from "@/lib/auth-client";
 import { useFeedback } from "@/lib/feedback";
 
+import { useSessionReady } from "./anonymous-session";
 import { Glitch } from "./glitch";
 
 type Mode = "sign-up" | "sign-in";
@@ -83,6 +84,7 @@ export function AccountForms() {
   const [mode, setMode] = useState<Mode>("sign-up");
   const [errors, setErrors] = useState<Errors>({});
   const [pending, setPending] = useState(false);
+  const ready = useSessionReady();
   const feedback = useFeedback();
   const isSignUp = mode === "sign-up";
 
@@ -126,7 +128,7 @@ export function AccountForms() {
         {isSignUp ? "Sign up" : "Sign in"}
       </h2>
       <form onSubmit={onSubmit}>
-        <FieldSet disabled={pending}>
+        <FieldSet disabled={pending || !ready}>
           <FieldGroup className="gap-4">
             {isSignUp && (
               <TextField

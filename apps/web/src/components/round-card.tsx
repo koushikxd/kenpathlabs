@@ -1,4 +1,6 @@
+import { ROUNDS_PER_DAY } from "@kenpathlabs/api/game/schedule";
 import { Button } from "@kenpathlabs/ui/components/button";
+import { Skeleton } from "@kenpathlabs/ui/components/skeleton";
 import { Spinner } from "@kenpathlabs/ui/components/spinner";
 import { cn } from "@kenpathlabs/ui/lib/utils";
 import { useMutation } from "@tanstack/react-query";
@@ -134,6 +136,43 @@ export function Progress({ results }: { results: (boolean | undefined)[] }) {
         />
       ))}
     </span>
+  );
+}
+
+export function ProgressSkeleton() {
+  return (
+    <span aria-hidden className="flex gap-1">
+      {Array.from({ length: ROUNDS_PER_DAY }, (_, i) => (
+        <Skeleton key={i} className="h-4 w-7 rounded-full" />
+      ))}
+    </span>
+  );
+}
+
+// Same boxes as RoundCard before an answer, so nothing shifts when the round lands.
+export function RoundCardSkeleton() {
+  return (
+    <div aria-hidden className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center justify-between gap-3">
+          <Skeleton className="h-4 w-20" />
+          <ProgressSkeleton />
+        </div>
+        <Skeleton className="h-7 w-48" />
+      </div>
+      <Skeleton className="h-4 w-56" />
+      <ul className="flex flex-col gap-2">
+        {Array.from({ length: 3 }, (_, i) => (
+          <li key={i} className={cn(STATEMENT, "border-border")}>
+            <Skeleton className="size-6 shrink-0" />
+            <span className="flex flex-1 flex-col gap-2 py-1">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-2/3" />
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
